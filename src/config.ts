@@ -41,31 +41,32 @@ export const SOCIAL = {
 export const OG_IMAGE = { en: 'og.png', sl: 'og-sl.png' }; // TODO: replace captures with designed share images
 
 /** Location line (services intro, footer, JSON-LD). Empty city renders as a visible TODO. */
-export const CITY = ''; // TODO: city, e.g. 'Ljubljana'
+export const CITY = 'Ljubljana'; // used in JSON-LD; the visible location line is copy in src/i18n
 export const TIME_ZONE = 'CET/CEST';
 
 /** "What happens next" strip: written spec and fixed quote arrive within this many working days. */
-export const QUOTE_WORKING_DAYS = ''; // TODO: e.g. '5'
+export const QUOTE_WORKING_DAYS = '5';
 
 /** Length of the free intro call, in minutes. */
 export const CALL_MINUTES = 30;
 
 /**
  * Legal entity for the footer imprint (ZEPT Art. 5) and the privacy notice
- * (GDPR Art. 13 controller). Empty values render as visible TODO markers.
+ * (GDPR Art. 13 controller). Not shown on the site while SHOW_IMPRINT is false.
+ * REQUIRED before the real launch: fill these and set SHOW_IMPRINT = true.
  */
+export const SHOW_IMPRINT = false; // TODO: true once the legal entity (s.p. or d.o.o.) is decided
 export const LEGAL = {
   companyName: '', // TODO: e.g. 'Lunaria, Kevin Cvetežar s.p.' or 'Lunaria d.o.o.'
   address: '', // TODO: registered address, e.g. 'Ulica 1, 1000 Ljubljana, Slovenia'
   registrationNo: '', // TODO: matična številka
   taxNo: '', // TODO: davčna številka / ID za DDV (e.g. 'SI12345678')
-  retention: '', // TODO: how long inquiries are kept, e.g. '12 months'
-  emailProvider: '', // TODO: who hosts the inbox, e.g. 'Google Workspace (Google Ireland Ltd.)'
-  privacyUpdated: '', // TODO: date of the privacy notice, e.g. '2026-11-01'
+  emailProvider: '', // optional: who hosts the inbox, e.g. 'Google Workspace (Google Ireland Ltd.)'; '' = generic wording
+  privacyUpdated: '2026-10-08', // ISO date of the privacy notice; shown formatted per language
 };
 
 /** Show the price guide in the FAQ (figures live in src/i18n/*.ts → faq.pricing). */
-export const SHOW_PRICING = false; // TODO: set true once the price ranges are decided
+export const SHOW_PRICING = false; // owner decision: no published prices, fixed quote after the free call
 
 /**
  * Analytics hook. The page calls window.track(event, props) on:

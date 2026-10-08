@@ -57,7 +57,7 @@ export const sl: Dict = {
   services: {
     title: 'Kaj razvijemo za vas',
     intro: 'Zahteve, oblikovanje, mobilne aplikacije, zaledje in programska oprema po meri pri eni ekipi, zato se med agencijami nič ne izgubi.',
-    location: 'Sedež imamo v Sloveniji ({city}, {tz}). Naš delovni dan se v celoti prekriva z Združenim kraljestvom in EU, z vzhodno obalo ZDA pa v jutranjih urah.',
+    location: 'Delamo iz Ljubljane ({tz}). Naš delovni dan se v celoti prekriva z Združenim kraljestvom in EU, z vzhodno obalo ZDA pa v jutranjih urah.',
     items: [
       {
         title: 'Mobilne aplikacije',
@@ -160,7 +160,7 @@ export const sl: Dict = {
     items: [
       {
         q: 'Koliko stane projekt?',
-        a: 'Vsak projekt dobi fiksno ponudbo po brezplačnem uvodnem pogovoru. Celotno ceno poznate, še preden začnemo, brez odprtega obračunavanja po urah.',
+        a: 'Vsak projekt dobi svojo fiksno ponudbo, ki vam jo pošljemo po brezplačnem posvetu, ko razumemo obseg dela. Celotno ceno poznate, še preden začnemo, brez odprtega obračunavanja po urah.',
       },
       {
         q: 'Koliko časa traja?',
@@ -252,11 +252,15 @@ export const sl: Dict = {
     metaTitle: `Obvestilo o zasebnosti | ${SITE_NAME}`,
     metaDescription: `Kako ${SITE_NAME} obdeluje osebne podatke, ki nam jih pošljete prek obrazca ali po e-pošti. Brez piškotkov in sledenja.`,
     updated: 'Zadnja posodobitev:',
+    defaults: {
+      retention: 'največ 12 mesecev po zadnjem stiku, razen če pogodba zahteva dlje',
+      emailProvider: 'zunanji ponudnik e-pošte',
+    },
     back: 'Nazaj na domačo stran',
     sections: [
       {
         h: 'Kdo je odgovoren za vaše podatke',
-        p: ['Upravljavec vaših osebnih podatkov je {company}, {address}. E-pošta: {email}.'],
+        p: ['Z vašimi osebnimi podatki ravna ekipa {name}. Glede njih nam lahko kadar koli pišete na {email}.'],
       },
       {
         h: 'Katere podatke zbiramo',
@@ -281,7 +285,7 @@ export const sl: Dict = {
       },
       {
         h: 'Kako dolgo jih hranimo',
-        p: ['Povpraševanja hranimo {retention}. Če začnemo sodelovati, postanejo podatki del projektne dokumentacije in jih hranimo, kolikor zahteva zakon.'],
+        p: ['Povpraševanja hranimo {retention}. Če začnemo sodelovati, postanejo podatki del projektne dokumentacije in jih hranimo, kolikor zahtevata pogodba in zakon.'],
       },
       {
         h: 'Vaše pravice',

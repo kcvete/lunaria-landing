@@ -1,17 +1,12 @@
-import { CITY, TIME_ZONE, QUOTE_WORKING_DAYS, CALL_MINUTES, CONTACT_EMAIL, LEGAL } from '../config';
+import { TIME_ZONE, QUOTE_WORKING_DAYS, CALL_MINUTES, CONTACT_EMAIL } from '../config';
 import { orTodo } from './todo';
 
 /** Values for the {tokens} used in the i18n strings. Missing ones render as [TODO: …]. */
 export const tokens: Record<string, string> = {
-  city: orTodo(CITY, 'city'),
   tz: TIME_ZONE,
   days: orTodo(QUOTE_WORKING_DAYS, 'N'),
   minutes: String(CALL_MINUTES),
   email: CONTACT_EMAIL,
-  company: orTodo(LEGAL.companyName, 'company name'),
-  address: orTodo(LEGAL.address, 'address'),
-  retention: orTodo(LEGAL.retention, 'retention period'),
-  emailProvider: orTodo(LEGAL.emailProvider, 'email provider'),
 };
 
 /** Replace {token} placeholders in a copy string. */

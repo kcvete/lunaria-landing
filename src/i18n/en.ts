@@ -5,7 +5,7 @@ import { SITE_NAME } from '../config';
  * (see `Dict` in ./index.ts) — add a key here and TypeScript will ask for it in sl.ts.
  *
  * Tokens in {braces} are filled from src/config.ts at render time (see lib/fill.ts):
- * {city} {tz} {days} {minutes} {email}. Missing config values show as [TODO].
+ * {tz} {days} {minutes} {email} (privacy: {name} {retention} {emailProvider}).
  */
 
 /** Who the studio is for. Owners: change this one string to retarget the hero. */
@@ -59,7 +59,7 @@ export const en = {
   services: {
     title: 'What we build for you',
     intro: 'Requirements, design, mobile apps, backends and custom software from one team, so nothing gets lost between agencies.',
-    location: 'Based in Slovenia ({city}, {tz}). Our working day overlaps fully with the UK and the EU, and with mornings on the US East Coast.',
+    location: 'Based in Ljubljana, Slovenia ({tz}). Our working day overlaps fully with the UK and the EU, and with mornings on the US East Coast.',
     items: [
       {
         title: 'Mobile apps',
@@ -162,7 +162,7 @@ export const en = {
     items: [
       {
         q: 'How much does a project cost?',
-        a: 'Every project gets a fixed quote after a free scoping call. You know the full price before any work begins, with no open-ended hourly billing.',
+        a: 'Every project gets its own fixed quote, sent after the free consultation call once we understand the scope. You know the full price before any work begins, with no open-ended hourly billing.',
       },
       {
         q: 'How long does it take?',
@@ -255,11 +255,16 @@ export const en = {
     metaTitle: `Privacy notice | ${SITE_NAME}`,
     metaDescription: `How ${SITE_NAME} handles the personal data you send through the contact form or by email. No cookies, no tracking.`,
     updated: 'Last updated:',
+    /** Retention policy, and the email-host wording used while LEGAL.emailProvider is empty. */
+    defaults: {
+      retention: 'for up to 12 months after our last contact, unless a contract requires longer',
+      emailProvider: 'an external email provider',
+    },
     back: 'Back to the home page',
     sections: [
       {
         h: 'Who is responsible for your data',
-        p: ['The controller of your personal data is {company}, {address}. Email: {email}.'],
+        p: ['Your personal data is handled by the {name} team. You can reach us about it at any time at {email}.'],
       },
       {
         h: 'What we collect',
@@ -284,7 +289,7 @@ export const en = {
       },
       {
         h: 'How long we keep it',
-        p: ['We keep inquiries for {retention}. If we start working together, your data becomes part of the project records and is kept as long as the law requires.'],
+        p: ['We keep inquiries {retention}. If we start working together, your data becomes part of the project records and is kept as long as the contract and the law require.'],
       },
       {
         h: 'Your rights',

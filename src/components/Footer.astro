@@ -1,5 +1,5 @@
 ---
-import { SITE_NAME, CONTACT_EMAIL, SOCIAL, LEGAL } from '../config';
+import { SITE_NAME, CONTACT_EMAIL, SOCIAL, LEGAL, SHOW_IMPRINT } from '../config';
 import { routes, type Lang, type Dict, type RouteKey } from '../i18n';
 import LogoMark from './LogoMark.astro';
 import LangSwitch from './LangSwitch.astro';
@@ -46,6 +46,7 @@ const imprint = [
     </div>
   </div>
   <div class="container">
+    {SHOW_IMPRINT && (
     <section class="imprint" aria-label={t.footer.imprint}>
       <dl>
         {
@@ -62,6 +63,7 @@ const imprint = [
         </div>
       </dl>
     </section>
+    )}
     <p class="legal">© {year} {SITE_NAME}. {t.footer.rights} {t.footer.noCookies}</p>
   </div>
 </footer>

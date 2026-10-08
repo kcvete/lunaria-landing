@@ -147,10 +147,10 @@ Every placeholder is listed here. In code they are marked `TODO`
 - [ ] `CONTACT_EMAIL`: real inbox. Currently `hello@lunaria.example`.
 - [ ] `BOOKING_URL`: Cal.com/Calendly link. Empty, so every "Book a free consultation" button scrolls to the contact form (and the contact section shows no booking button).
 - [ ] `FORM_ACTION`: form backend (Formspree, Basin, own endpoint). Empty, so the form opens the visitor's email app with the message filled in and shows a "your email app should be open" state. With an endpoint the form posts via fetch, shows a thank-you state (plus a booking button when `BOOKING_URL` is set) and uses a `_gotcha` honeypot.
-- [ ] `CITY`: shown in the Services location line and JSON-LD (renders as `[TODO: city]`).
-- [ ] `QUOTE_WORKING_DAYS`: the "written spec and fixed quote within N working days" promise in the contact steps (renders as `[TODO: N]`).
-- [ ] `LEGAL`: company name and legal form (s.p./d.o.o.), address, matična številka, davčna številka/ID za DDV for the footer imprint (ZEPT Art. 5); retention period, email provider and date for the privacy notice (GDPR Art. 13). Each renders as `[TODO]` until filled. Have the privacy notice reviewed once the entity exists.
-- [ ] `SHOW_PRICING`: set to `true` after replacing every `€TODO` in `faq.pricing` (EN and SL).
+- [x] `CITY`: Ljubljana (JSON-LD). The visible location line is copy in `services.location` (EN/SL).
+- [x] `QUOTE_WORKING_DAYS`: 5 ("written spec and fixed quote within 5 working days").
+- [ ] **Required before the real launch:** `LEGAL` + `SHOW_IMPRINT`. Fill company name and legal form (s.p./d.o.o.), address, matična številka and davčna številka/ID za DDV, then set `SHOW_IMPRINT = true` to show the footer imprint (ZEPT Art. 5). The privacy notice currently names "the Lunaria team" as controller; GDPR Art. 13 needs the legal entity named there too (edit `privacy.sections[0]` in both languages). Optionally set `LEGAL.emailProvider`. Have the notice reviewed once the entity exists. Owner decision (2026-10): hidden until the entity is decided.
+- [x] `SHOW_PRICING`: stays `false` (owner decision: no published prices; every project gets a fixed quote after the free call). The `faq.pricing` structure is kept for later.
 - [ ] Analytics (optional): wire a cookieless tool by defining `window.track` in `Base.astro`. The page already emits `booking_click` and `form_submit`. Update the privacy notice and the "no analytics" sentences if you do.
 - [ ] `SOCIAL.github` / `SOCIAL.linkedin`: optional studio profiles (hidden while empty).
 - [ ] `OG_IMAGE`: replace `public/og.png` and `public/og-sl.png` (currently 1200×630 captures of each hero) with designed share images.
@@ -168,7 +168,6 @@ Every placeholder is listed here. In code they are marked `TODO`
 
 **Copy (`src/i18n/en.ts`, `src/i18n/sl.ts`)**
 - [ ] Confirm the job titles ("Backend engineer, co-founder", "Mobile engineer, co-founder", "Business process analyst", "Graphic designer") and whether Zane and Aneja should also be listed as co-founders.
-- [ ] Pricing FAQ: decide the price ranges (structure ready in `faq.pricing`, hidden by `SHOW_PRICING`).
 - [ ] Audience: confirm "startups and growing businesses" (`audience` constant at the top of `en.ts` / `sl.ts`).
 - [ ] AI data handling: confirm the sentence "Your code and data are never used to train AI models" matches the terms of the AI tools you use.
 - [ ] Testimonials: add real, attributed quotes to `src/data/testimonials.ts` (the section stays hidden while empty).
