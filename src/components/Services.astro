@@ -1,0 +1,84 @@
+---
+import type { Dict } from '../i18n';
+interface Props {
+  t: Dict;
+}
+const { t } = Astro.props;
+const s = t.services;
+---
+
+<section id="services" class="services" aria-labelledby="services-title">
+  <div class="container">
+    <div class="head">
+      <h2 id="services-title">{s.title}</h2>
+      <p class="lede">{s.intro}</p>
+    </div>
+    <ul class="rows">
+      {
+        s.items.map((item) => (
+          <li class="row">
+            <h3>{item.title}</h3>
+            <div class="detail">
+              <p>{item.text}</p>
+              <p class="stack">{item.stack.join(', ')}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .services {
+    padding-block: var(--space-section);
+  }
+  .head {
+    display: grid;
+    gap: 1.25rem;
+    margin-bottom: clamp(2.5rem, 2rem + 3vw, 4.5rem);
+  }
+  .rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--rule);
+  }
+  .row {
+    display: grid;
+    gap: 1rem;
+    padding-block: clamp(1.75rem, 1.4rem + 1.5vw, 2.75rem);
+    border-bottom: 1px solid var(--rule);
+  }
+  h3 {
+    font-size: var(--step-3);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    max-width: 14ch;
+  }
+  .detail {
+    display: grid;
+    gap: 1rem;
+    max-width: 36rem;
+    color: var(--text-2);
+  }
+  .stack {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--moon);
+  }
+  @media (min-width: 54rem) {
+    .head {
+      grid-template-columns: 5fr 7fr;
+      align-items: end;
+      gap: 3rem;
+    }
+    .row {
+      grid-template-columns: 5fr 7fr;
+      gap: 3rem;
+      align-items: start;
+    }
+  }
+</style>

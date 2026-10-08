@@ -1,0 +1,122 @@
+---
+import type { Dict } from '../i18n';
+import Moon from './Moon.astro';
+interface Props {
+  t: Dict;
+}
+const { t } = Astro.props;
+const p = t.process;
+// new moon → waxing crescent → first quarter → full moon
+const phases = [0, 0.22, 0.5, 1];
+---
+
+<section id="process" class="process" aria-labelledby="process-title">
+  <div class="container">
+    <div class="head">
+      <h2 id="process-title">{p.title}</h2>
+      <p class="lede">{p.intro}</p>
+    </div>
+    <ol class="track">
+      {
+        p.steps.map((s, i) => (
+          <li class="step">
+            <Moon lit={phases[i] ?? 1} size={56} ring={i === 0} class="phase" />
+            <h3>{s.name}</h3>
+            <p class="when">{s.when}</p>
+            <p class="text">{s.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .process {
+    padding-block: var(--space-section);
+  }
+  .head {
+    display: grid;
+    gap: 1.25rem;
+    max-width: 40rem;
+    margin-bottom: clamp(3rem, 2rem + 3vw, 5rem);
+  }
+  .track {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    position: relative;
+  }
+  .step {
+    position: relative;
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    column-gap: 1.5rem;
+    padding-bottom: 2.75rem;
+  }
+  .step > :not(:global(.phase)) {
+    grid-column: 2;
+  }
+  .step :global(.phase) {
+    grid-row: 1 / span 3;
+    color: var(--text-2);
+    position: relative;
+    z-index: 1;
+  }
+  /* the orbit line joining the phases */
+  .step:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 27.5px;
+    top: 64px;
+    bottom: 8px;
+    width: 1px;
+    background: var(--rule);
+  }
+  h3 {
+    padding-top: 0.6rem;
+    align-self: end;
+  }
+  .when {
+    margin-top: 0.3rem;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--moon);
+  }
+  .text {
+    margin-top: 0.75rem;
+    color: var(--text-2);
+    max-width: 30ch;
+  }
+
+  @media (min-width: 58rem) {
+    .track {
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: auto auto auto 1fr;
+      column-gap: 2.5rem;
+    }
+    .step {
+      grid-row: span 4;
+      grid-template-columns: 1fr;
+      grid-template-rows: subgrid;
+      padding-bottom: 0;
+    }
+    .step > :not(:global(.phase)) {
+      grid-column: 1;
+    }
+    .step :global(.phase) {
+      grid-row: auto;
+      margin-bottom: 1.5rem;
+    }
+    .step:not(:last-child)::before {
+      left: 72px;
+      right: -1.75rem;
+      top: 28px;
+      bottom: auto;
+      width: auto;
+      height: 1px;
+    }
+  }
+</style>

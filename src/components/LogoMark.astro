@@ -1,0 +1,10 @@
+---
+/** Wordmark crescent: a thin waxing crescent of the real disc. */
+import Moon from './Moon.astro';
+interface Props {
+  size?: number;
+}
+const { size = 22 } = Astro.props;
+---
+
+<Moon lit={0.2} size={size} />

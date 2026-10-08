@@ -1,0 +1,123 @@
+---
+import { BOOKING_HREF, bookingIsExternal } from '../config';
+import type { Dict } from '../i18n';
+import Moon from './Moon.astro';
+
+interface Props {
+  t: Dict;
+}
+const { t } = Astro.props;
+const h = t.hero;
+const ext = bookingIsExternal ? { target: '_blank', rel: 'noopener' } : {};
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="container grid">
+    <div class="copy">
+      <h1 id="hero-title">{h.title}</h1>
+      <p class="sub rise" style="--d:120ms">{h.sub}</p>
+      <div class="ctas rise" style="--d:220ms">
+        <a class="btn" href={BOOKING_HREF} {...ext}>{h.ctaPrimary}</a>
+        <a class="link" href="#work">{h.ctaSecondary}</a>
+      </div>
+      <p class="trust rise" style="--d:300ms">{h.trust}</p>
+    </div>
+    <div class="sky" aria-hidden="true">
+      <div class="halo"></div>
+      <Moon lit={0.82} size="100%" class="hero-moon" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(2rem, 1rem + 5vw, 6rem) var(--space-section);
+  }
+  .grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .sky {
+    position: relative;
+    order: -1;
+    justify-self: end;
+    width: clamp(7.5rem, 34vw, 12rem);
+    aspect-ratio: 1;
+    margin: 0 clamp(-3rem, -6vw, -1rem) -1.5rem 0;
+  }
+  .halo {
+    position: absolute;
+    inset: -30%;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, oklch(0.88 0.055 88 / 0.1), transparent);
+  }
+  .sky :global(.hero-moon) {
+    position: relative;
+    animation: moonrise 1.6s var(--ease) both;
+  }
+  h1 {
+    font-size: var(--step-4);
+    letter-spacing: -0.04em;
+    line-height: 0.98;
+    max-width: 13ch;
+    animation: settle 0.9s var(--ease) both;
+  }
+  .sub {
+    margin-top: 1.75rem;
+    max-width: 36rem;
+    font-size: var(--step-1);
+    line-height: 1.62;
+    color: var(--text-2);
+  }
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.75rem;
+    margin-top: 2.25rem;
+  }
+  .trust {
+    margin-top: 1.25rem;
+    font-size: var(--step--1);
+    color: var(--muted);
+    max-width: 34rem;
+  }
+  .rise {
+    animation: rise 0.8s var(--ease) var(--d, 0ms) both;
+  }
+
+  @keyframes settle {
+    from {
+      transform: translateY(14px);
+    }
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+  @keyframes moonrise {
+    from {
+      opacity: 0;
+      transform: translateY(40px) rotate(-8deg);
+    }
+  }
+
+  @media (min-width: 54rem) {
+    .grid {
+      grid-template-columns: 7fr 5fr;
+      align-items: center;
+      gap: 2rem;
+    }
+    .sky {
+      order: 0;
+      width: 100%;
+      max-width: 30rem;
+      margin: 0 -4rem 0 0;
+      justify-self: end;
+    }
+  }
+</style>

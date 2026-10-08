@@ -1,0 +1,66 @@
+---
+/**
+ * Rendered once per page: the textured lunar disc as an SVG <symbol>, reused by
+ * every <Moon /> (hero, process phases, wordmark). Maria are placed roughly where
+ * they sit on the near side of the real Moon; the surface grain is a single
+ * feTurbulence filter.
+ */
+---
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="moon-grain" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="4" seed="7" result="n"></feTurbulence>
+      <feColorMatrix
+        in="n"
+        type="matrix"
+        values="0 0 0 0 0.32  0 0 0 0 0.31  0 0 0 0 0.29  0 0 0 -1.6 1.05"
+      ></feColorMatrix>
+    </filter>
+    <filter id="moon-mare-edge" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.09" numOctaves="3" seed="3" result="w"></feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="w" scale="9" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+    </filter>
+    <filter id="moon-terminator" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="1.4"></feGaussianBlur>
+    </filter>
+    <radialGradient id="moon-mare">
+      <stop offset="0" stop-color="#77736a" stop-opacity="0.5"></stop>
+      <stop offset="0.55" stop-color="#77736a" stop-opacity="0.42"></stop>
+      <stop offset="1" stop-color="#77736a" stop-opacity="0"></stop>
+    </radialGradient>
+    <radialGradient id="moon-limb" cx="0.46" cy="0.44" r="0.56">
+      <stop offset="0.62" stop-color="#1b2236" stop-opacity="0"></stop>
+      <stop offset="1" stop-color="#1b2236" stop-opacity="0.45"></stop>
+    </radialGradient>
+    <radialGradient id="moon-ray">
+      <stop offset="0" stop-color="#fbf8ee" stop-opacity="0.9"></stop>
+      <stop offset="1" stop-color="#fbf8ee" stop-opacity="0"></stop>
+    </radialGradient>
+    <clipPath id="moon-clip"><circle cx="50" cy="50" r="48"></circle></clipPath>
+
+    <symbol id="moon-disc" viewBox="0 0 100 100">
+      <g clip-path="url(#moon-clip)">
+        <circle cx="50" cy="50" r="48" fill="#d8d2c2"></circle>
+        <rect width="100" height="100" filter="url(#moon-grain)" opacity="0.55"></rect>
+        <!-- Maria, roughly as on the near side: Procellarum, Imbrium, Serenitatis,
+             Tranquillitatis, Crisium, Nubium/Cognitum, Fecunditatis, Nectaris -->
+        <g filter="url(#moon-mare-edge)">
+          <ellipse cx="24" cy="50" rx="13" ry="22" fill="url(#moon-mare)" transform="rotate(-12 24 50)"></ellipse>
+          <ellipse cx="31" cy="38" rx="10" ry="12" fill="url(#moon-mare)"></ellipse>
+          <ellipse cx="41" cy="29" rx="13" ry="9" fill="url(#moon-mare)" transform="rotate(-18 41 29)"></ellipse>
+          <ellipse cx="57" cy="32" rx="8" ry="7.5" fill="url(#moon-mare)"></ellipse>
+          <ellipse cx="62" cy="45" rx="9" ry="7" fill="url(#moon-mare)" transform="rotate(25 62 45)"></ellipse>
+          <ellipse cx="68" cy="50" rx="6" ry="5" fill="url(#moon-mare)"></ellipse>
+          <ellipse cx="81" cy="37" rx="5" ry="4" fill="url(#moon-mare)"></ellipse>
+          <ellipse cx="38" cy="64" rx="9" ry="6" fill="url(#moon-mare)" transform="rotate(15 38 64)"></ellipse>
+          <ellipse cx="75" cy="58" rx="4.5" ry="7.5" fill="url(#moon-mare)" transform="rotate(-15 75 58)"></ellipse>
+          <ellipse cx="64" cy="62" rx="4" ry="4" fill="url(#moon-mare)"></ellipse>
+        </g>
+        <circle cx="43" cy="82" r="3.2" fill="url(#moon-ray)"></circle>
+        <circle cx="33" cy="52" r="1.8" fill="url(#moon-ray)"></circle>
+        <circle cx="50" cy="50" r="48" fill="url(#moon-limb)"></circle>
+      </g>
+    </symbol>
+  </defs>
+</svg>

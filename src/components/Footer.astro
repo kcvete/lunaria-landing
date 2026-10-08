@@ -1,0 +1,85 @@
+---
+import { SITE_NAME, CONTACT_EMAIL, SOCIAL } from '../config';
+import { languages, type Lang, type Dict } from '../i18n';
+import LogoMark from './LogoMark.astro';
+import LangSwitch from './LangSwitch.astro';
+interface Props {
+  lang: Lang;
+  t: Dict;
+}
+const { lang, t } = Astro.props;
+const year = new Date().getFullYear();
+const socials = Object.entries(SOCIAL).filter(([, href]) => href);
+---
+
+<footer class="site-footer">
+  <div class="container inner">
+    <div>
+      <a class="brand" href={languages[lang].path} aria-label={t.a11y.home}>
+        <LogoMark size={20} />
+        <span>{SITE_NAME}</span>
+      </a>
+      <p class="tagline">{t.footer.tagline}</p>
+    </div>
+    <div class="meta">
+      <a class="plain" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+      {
+        socials.map(([name, href]) => (
+          <a class="plain" href={href} target="_blank" rel="noopener">
+            {name}
+          </a>
+        ))
+      }
+      <LangSwitch lang={lang} label={t.footer.language} />
+    </div>
+  </div>
+  <div class="container">
+    <p class="legal">© {year} {SITE_NAME}. {t.footer.rights}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding-block: 3.5rem 2rem;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .inner {
+    display: grid;
+    gap: 2rem;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.25rem;
+    letter-spacing: -0.03em;
+    text-decoration: none;
+  }
+  .tagline {
+    margin-top: 0.6rem;
+    color: var(--muted);
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.75rem;
+  }
+  .plain {
+    color: var(--text-2);
+    overflow-wrap: anywhere;
+  }
+  .legal {
+    margin-top: 2.5rem;
+    font-size: var(--step--1);
+    color: var(--muted);
+  }
+  @media (min-width: 48rem) {
+    .inner {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+    }
+  }
+</style>

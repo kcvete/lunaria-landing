@@ -1,0 +1,185 @@
+---
+import { BOOKING_HREF, bookingIsExternal, CONTACT_EMAIL, FORM_ACTION, SITE_NAME } from '../config';
+import type { Dict } from '../i18n';
+interface Props {
+  t: Dict;
+}
+const { t } = Astro.props;
+const c = t.contact;
+const f = c.fields;
+const ext = bookingIsExternal ? { target: '_blank', rel: 'noopener' } : {};
+// Until FORM_ACTION is set, the form submits through the visitor's mail app.
+const usesMailto = !FORM_ACTION;
+const action = FORM_ACTION || `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`${SITE_NAME}: project inquiry`)}`;
+---
+
+<section id="contact" class="contact" aria-labelledby="contact-title">
+  <div class="container">
+    <h2 id="contact-title">{c.title}</h2>
+    <div class="split">
+      <div class="pitch">
+        <p class="lede">{c.sub}</p>
+        <a class="btn" href={BOOKING_HREF} {...ext}>{c.ctaBook}</a>
+        <p class="email">
+          {c.orEmail} <a class="link" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+        </p>
+      </div>
+
+      <form class="form" action={action} method="post" enctype={usesMailto ? 'text/plain' : undefined} aria-labelledby="form-title">
+        <h3 id="form-title">{c.formTitle}</h3>
+        <div class="pair">
+          <div class="field">
+            <label for="f-name">{f.name}</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label for="f-email">{f.email}</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" required />
+          </div>
+        </div>
+        <div class="pair">
+          <div class="field">
+            <label for="f-type">{f.projectType}</label>
+            <select id="f-type" name="project_type">
+              <option value="">{f.choose}</option>
+              {c.projectTypes.map((o) => <option>{o}</option>)}
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-budget">{f.budget}</label>
+            <select id="f-budget" name="budget">
+              <option value="">{f.choose}</option>
+              {c.budgets.map((o) => <option>{o}</option>)}
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-message">{f.message}</label>
+          <textarea id="f-message" name="message" rows="5" placeholder={f.messagePlaceholder} required></textarea>
+        </div>
+        <div class="submit-row">
+          <button class="btn" type="submit">{c.submit}</button>
+          {usesMailto && <p class="note">{c.mailtoNote}</p>}
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    padding-block: var(--space-section);
+  }
+  h2 {
+    font-size: var(--step-4);
+    letter-spacing: -0.045em;
+    line-height: 0.95;
+    max-width: 11ch;
+  }
+  .split {
+    display: grid;
+    gap: 3rem;
+    margin-top: clamp(2rem, 1.5rem + 2vw, 3rem);
+  }
+  .pitch {
+    display: grid;
+    gap: 1.75rem;
+    justify-items: start;
+    align-content: start;
+  }
+  .email {
+    color: var(--muted);
+    overflow-wrap: anywhere;
+  }
+  .form {
+    display: grid;
+    gap: 1.25rem;
+    padding: clamp(1.25rem, 0.8rem + 2vw, 2.25rem);
+    background: var(--night-1);
+    border-radius: 10px;
+  }
+  .form h3 {
+    font-size: var(--step-1);
+  }
+  .pair {
+    display: grid;
+    gap: 1.25rem;
+  }
+  .field {
+    display: grid;
+    gap: 0.45rem;
+    min-width: 0;
+  }
+  label {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--text-2);
+  }
+  input,
+  select,
+  textarea {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.7rem 0.85rem;
+    font: inherit;
+    font-size: 1rem;
+    color: var(--text);
+    background: var(--night-0);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+  }
+  select {
+    appearance: none;
+    padding-right: 2.25rem;
+    background-image:
+      linear-gradient(45deg, transparent 50%, var(--moon) 50%),
+      linear-gradient(135deg, var(--moon) 50%, transparent 50%);
+    background-position:
+      calc(100% - 1.15rem) 52%,
+      calc(100% - 0.8rem) 52%;
+    background-size: 0.35rem 0.35rem;
+    background-repeat: no-repeat;
+  }
+  select option {
+    background: var(--night-1);
+  }
+  textarea {
+    min-height: 8.5rem;
+    resize: vertical;
+  }
+  ::placeholder {
+    color: var(--muted);
+    opacity: 1;
+  }
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid var(--moon);
+    outline-offset: 0;
+    border-color: transparent;
+  }
+  .submit-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.25rem;
+    margin-top: 0.25rem;
+  }
+  .note {
+    font-size: var(--step--1);
+    color: var(--muted);
+    flex: 1 1 14rem;
+  }
+  @media (min-width: 36rem) {
+    .pair {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (min-width: 58rem) {
+    .split {
+      grid-template-columns: 4fr 7fr;
+      gap: clamp(3rem, 1rem + 5vw, 6rem);
+    }
+  }
+</style>

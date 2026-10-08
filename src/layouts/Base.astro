@@ -1,0 +1,90 @@
+---
+import '../styles/global.css';
+import { SITE_NAME, SITE_URL, CONTACT_EMAIL, OG_IMAGE } from '../config';
+import { languages, defaultLang, useTranslations, type Lang } from '../i18n';
+import { Font } from 'astro:assets';
+import MoonDefs from '../components/MoonDefs.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const site = Astro.site ?? new URL(SITE_URL);
+const canonical = new URL(languages[lang].path, site).href;
+const ogImage = new URL(OG_IMAGE, site).href;
+const alternates = (Object.keys(languages) as Lang[]).map((code) => ({
+  code,
+  href: new URL(languages[code].path, site).href,
+}));
+const otherOgLocales = (Object.keys(languages) as Lang[])
+  .filter((code) => code !== lang)
+  .map((code) => useTranslations(code).meta.ogLocale);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE_NAME,
+  url: new URL('/', site).href,
+  email: CONTACT_EMAIL,
+  description: t.meta.description,
+  address: { '@type': 'PostalAddress', addressCountry: 'SI' },
+  areaServed: 'EU',
+};
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{t.meta.title}</title>
+    <meta name="description" content={t.meta.description} />
+    <meta name="theme-color" content="#0d1424" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="canonical" href={canonical} />
+    {alternates.map((a) => <link rel="alternate" hreflang={a.code} href={a.href} />)}
+    <link rel="alternate" hreflang="x-default" href={new URL(languages[defaultLang].path, site).href} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={t.meta.title} />
+    <meta property="og:description" content={t.meta.description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={t.meta.ogLocale} />
+    {otherOgLocales.map((l) => <meta property="og:locale:alternate" content={l} />)}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={t.meta.title} />
+    <meta name="twitter:description" content={t.meta.description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <Font cssVariable="--font-display" preload={[{ subset: 'latin', weight: '600' }]} />
+    <Font cssVariable="--font-text" preload={[{ subset: 'latin', weight: '400' }]} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <noscript>
+      <style>
+        .menu-toggle { display: none !important; }
+        .site-header .panel { display: grid !important; position: static !important; }
+        .site-header .bar { flex-wrap: wrap; }
+      </style>
+    </noscript>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t.a11y.skip}</a>
+    <MoonDefs />
+    <slot />
+    <script is:inline>
+      // Keep the current section when switching language (#work -> /sl/#work).
+      document.querySelectorAll('[data-lang-link]').forEach((a) =>
+        a.addEventListener('click', () => location.hash && (a.href = a.pathname + location.hash)),
+      );
+    </script>
+  </body>
+</html>

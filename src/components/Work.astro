@@ -1,0 +1,221 @@
+---
+import type { Dict, Lang } from '../i18n';
+import { featuredProjects } from '../data/projects';
+import { BOOKING_HREF, bookingIsExternal } from '../config';
+import Moon from './Moon.astro';
+
+interface Props {
+  lang: Lang;
+  t: Dict;
+}
+const { lang, t } = Astro.props;
+const w = t.work;
+const ext = bookingIsExternal ? { target: '_blank', rel: 'noopener' } : {};
+---
+
+<section id="work" class="work" aria-labelledby="work-title">
+  <div class="container">
+    <div class="head">
+      <h2 id="work-title">{w.title}</h2>
+      <p class="lede">{w.intro}</p>
+    </div>
+
+    <ul class="mosaic">
+      {
+        featuredProjects.map((p, i) => (
+          <li class:list={['project', i === 0 && 'project--lead']}>
+            <div class="visual">
+              {p.image ? (
+                <img src={p.image} alt="" width="1200" height="750" loading="lazy" decoding="async" />
+              ) : (
+                <div class="placeholder" aria-hidden="true">
+                  <span class="initial">{p.name}</span>
+                  <Moon lit={p.placeholderPhase} size="34%" class="ph-moon" />
+                </div>
+              )}
+            </div>
+            <div class="body">
+              <p class="status">{w.status[p.status]}</p>
+              <h3>{p.name}</h3>
+              <p class="summary">{p.summary[lang]}</p>
+              <dl class="facts">
+                <div>
+                  <dt>{w.platformsLabel}</dt>
+                  <dd>{p.platforms[lang].join(', ')}</dd>
+                </div>
+                <div>
+                  <dt>{w.stackLabel}</dt>
+                  <dd>{p.stack.join(', ')}</dd>
+                </div>
+              </dl>
+              {p.links.length ? (
+                <p class="links">
+                  {p.links.map((l) => (
+                    <a class="link" href={l.href} target="_blank" rel="noopener">
+                      {w.linkLabels[l.kind]}
+                      <span class="visually-hidden"> ({t.a11y.externalLink})</span>
+                    </a>
+                  ))}
+                </p>
+              ) : (
+                <p class="soon">{w.linksSoon}</p>
+              )}
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="next">
+      <div>
+        <h3>{w.more.title}</h3>
+        <p>{w.more.text}</p>
+      </div>
+      <a class="btn" href={BOOKING_HREF} {...ext}>{w.more.cta}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .work {
+    padding-block: var(--space-section);
+  }
+  .head {
+    display: grid;
+    gap: 1.25rem;
+    margin-bottom: clamp(2.5rem, 2rem + 3vw, 4.5rem);
+    max-width: 44rem;
+  }
+  .mosaic {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: clamp(3rem, 2rem + 3vw, 4rem);
+  }
+  .project {
+    display: grid;
+    gap: 1.5rem;
+    align-content: start;
+  }
+  .visual {
+    aspect-ratio: 16 / 10;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--night-1);
+    outline: 1px solid var(--rule-soft);
+    outline-offset: -1px;
+  }
+  .visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .placeholder {
+    position: relative;
+    background: url('/stars.svg') 30% 40% / 380px 380px;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    padding: clamp(1rem, 0.6rem + 2vw, 2rem);
+  }
+  .initial {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2.6rem, 1.5rem + 5vw, 5rem);
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    color: var(--rule);
+  }
+  .placeholder :global(.ph-moon) {
+    position: absolute;
+    top: 14%;
+    right: 9%;
+  }
+  .body {
+    display: grid;
+    gap: 0.75rem;
+    max-width: 38rem;
+  }
+  .status {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--moon);
+  }
+  h3 {
+    font-size: var(--step-2);
+  }
+  .summary {
+    color: var(--text-2);
+  }
+  .facts {
+    display: grid;
+    gap: 0.4rem;
+    margin: 0.5rem 0 0;
+    font-size: 0.95rem;
+  }
+  .facts div {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr;
+    gap: 1rem;
+  }
+  dt {
+    font-family: var(--font-display);
+    font-weight: 500;
+    color: var(--muted);
+  }
+  dd {
+    margin: 0;
+    color: var(--text);
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+  }
+  .soon {
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+
+  .next {
+    display: grid;
+    gap: 1.5rem;
+    justify-items: start;
+    margin-top: clamp(3.5rem, 2.5rem + 4vw, 6rem);
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+  }
+  .next h3 {
+    font-size: var(--step-3);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+  }
+  .next p {
+    margin-top: 0.75rem;
+    max-width: 34rem;
+    color: var(--text-2);
+  }
+
+  @media (min-width: 54rem) {
+    .mosaic {
+      grid-template-columns: 7fr 5fr;
+      column-gap: clamp(2rem, 1rem + 3vw, 4rem);
+    }
+    /* the second project starts lower: an offset, not a grid of equal tiles */
+    .project:nth-child(2) {
+      margin-top: clamp(4rem, 2rem + 6vw, 8rem);
+    }
+    .project:nth-child(n + 3) {
+      grid-column: 1 / -1;
+      grid-template-columns: 7fr 5fr;
+    }
+    .next {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+    }
+  }
+</style>
