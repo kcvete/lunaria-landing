@@ -81,6 +81,7 @@ export const sl: Dict = {
     intro: 'Naši lastni izdelki, razviti od začetka do konca z enakimi tehnologijami in postopkom kot za stranke. Delo za stranke ostaja zaupno, razen če se strinjate, da ga pokažemo.',
     status: {
       'in-development': 'V razvoju',
+      'early-access': 'Zgodnji dostop',
       beta: 'V beta različici',
       live: 'Na voljo',
     },
@@ -88,7 +89,7 @@ export const sl: Dict = {
     stackLabel: 'Tehnologije',
     linksSoon: 'Povezave do trgovin ob izidu.',
     linkLabels: {
-      site: 'Spletna stran',
+      site: 'Obiščite spletno stran',
       demo: 'Preizkusite v živo',
       appStore: 'App Store',
       playStore: 'Google Play',

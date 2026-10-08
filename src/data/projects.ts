@@ -1,6 +1,7 @@
 import type { ImageMetadata } from 'astro';
 import type { Lang } from '../i18n';
 import productTrimmerShot from '../assets/work/product-trimmer.jpg';
+import parrotShot from '../assets/work/parrot.jpg';
 
 /**
  * Showcase projects. Add a project by appending an object to `projects`.
@@ -14,7 +15,7 @@ import productTrimmerShot from '../assets/work/product-trimmer.jpg';
  * a moon phase) is used.
  */
 
-export type ProjectStatus = 'in-development' | 'beta' | 'live';
+export type ProjectStatus = 'in-development' | 'early-access' | 'beta' | 'live';
 export type ProjectLinkKind = 'site' | 'demo' | 'appStore' | 'playStore' | 'github';
 
 export interface Project {
@@ -35,6 +36,27 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: 'parrot',
+    name: 'Parrot',
+    featured: true,
+    status: 'early-access', // coming soon to Google Play; early access by email (parrotapp.dev, 2026-10)
+    summary: {
+      en: 'Read it. Hear it. Never lose your place. Parrot is a reader for your own ebooks and audiobooks: it highlights each sentence as the narrator reads and keeps your place in sync between the ebook and the audiobook. Works with Storyteller and Audiobookshelf servers.',
+      sl: 'Berite, poslušajte in nikoli ne izgubite mesta. Parrot je bralnik za vaše lastne e-knjige in zvočne knjige: med branjem pripovedovalca označi vsak stavek in usklajuje mesto med e-knjigo in zvočno knjigo. Deluje s strežniki Storyteller in Audiobookshelf.',
+    },
+    platforms: {
+      en: ['Android phones, tablets and e-ink readers', 'iPhone version in the works'],
+      sl: ['Telefoni, tablice in bralniki z e-črnilom (Android)', 'različica za iPhone je v pripravi'],
+    },
+    stack: ['Kotlin Multiplatform', 'Compose Multiplatform', 'Ktor', 'SQLDelight'],
+    links: [
+      { kind: 'site', href: 'https://parrotapp.dev/' },
+      { kind: 'github', href: 'https://github.com/RetRo99/Parrot' },
+    ], // TODO: add the Google Play link when published
+    placeholderPhase: 0.32,
+    image: parrotShot, // frame from the app tour video on parrotapp.dev
+  },
+  {
     id: 'product-trimmer',
     name: 'Product Trimmer',
     featured: true,
@@ -51,21 +73,6 @@ export const projects: Project[] = [
     ],
     placeholderPhase: 0.15,
     image: productTrimmerShot, // captured from the live demo
-  },
-  {
-    id: 'parrot',
-    name: 'Parrot',
-    featured: true,
-    status: 'in-development', // TODO: confirm status
-    summary: {
-      en: 'Ebooks and audiobooks in one reader: a cross-platform client for self-hosted Storyteller servers with synced read-aloud highlighting, an audiobook player, reading stats, multi-server support and an e-ink mode.',
-      sl: 'E-knjige in zvočne knjige v enem bralniku: večplatformni odjemalec za samogostujoče strežnike Storyteller s sinhroniziranim označevanjem besedila med branjem na glas, predvajalnikom zvočnih knjig, statistiko branja, podporo za več strežnikov in načinom za e-črnilo.',
-    },
-    platforms: { en: ['Android', 'iOS'], sl: ['Android', 'iOS'] },
-    stack: ['Kotlin Multiplatform', 'Compose Multiplatform', 'Ktor', 'SQLDelight'],
-    links: [{ kind: 'github', href: 'https://github.com/RetRo99/Parrot' }], // TODO: add App Store / Google Play links when published
-    placeholderPhase: 0.32,
-    // image: parrotShot, // TODO: real screenshot in src/assets/work/
   },
   {
     id: 'bardy',

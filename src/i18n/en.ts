@@ -83,6 +83,7 @@ export const en = {
     intro: 'Our own products, built end to end with the same stack and process we use for clients. Client work stays confidential unless you agree to show it.',
     status: {
       'in-development': 'In development',
+      'early-access': 'Early access',
       beta: 'In beta',
       live: 'Live',
     },
@@ -90,7 +91,7 @@ export const en = {
     stackLabel: 'Built with',
     linksSoon: 'Store links once it launches.',
     linkLabels: {
-      site: 'Website',
+      site: 'Visit website',
       demo: 'Try it live',
       appStore: 'App Store',
       playStore: 'Google Play',
