@@ -1,0 +1,25 @@
+---
+/**
+ * The page's single call to action. Same label (t.cta) and same destination
+ * everywhere: BOOKING_URL when set, otherwise the contact section.
+ */
+import { BOOKING_URL, bookingIsExternal } from '../config';
+import { routes, useTranslations, type Lang, type RouteKey } from '../i18n';
+import { withBase } from '../lib/url';
+
+interface Props {
+  lang: Lang;
+  route?: RouteKey;
+  /** Where on the page this instance sits, for analytics (hero, nav, work, contact). */
+  location: string;
+  small?: boolean;
+}
+const { lang, route = 'home', location, small = false } = Astro.props;
+const t = useTranslations(lang);
+const href = BOOKING_URL || (route === 'home' ? '#contact' : `${withBase(routes.home[lang])}#contact`);
+const ext = bookingIsExternal ? { target: '_blank', rel: 'noopener' } : {};
+---
+
+<a class:list={['btn', small && 'btn--sm']} href={href} data-track="booking_click" data-track-location={location} {...ext}>
+  {t.cta}
+</a>

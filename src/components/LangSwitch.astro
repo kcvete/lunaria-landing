@@ -1,11 +1,13 @@
 ---
-import { languages, type Lang } from '../i18n';
+import { languages, routes, type Lang, type RouteKey } from '../i18n';
 import { withBase } from '../lib/url';
 interface Props {
   lang: Lang;
   label: string;
+  /** The current page, so each language link points at its counterpart. */
+  route?: RouteKey;
 }
-const { lang, label } = Astro.props;
+const { lang, label, route = 'home' } = Astro.props;
 const entries = Object.entries(languages) as [Lang, (typeof languages)[Lang]][];
 ---
 
@@ -14,7 +16,7 @@ const entries = Object.entries(languages) as [Lang, (typeof languages)[Lang]][];
     entries.map(([code, l], i) => (
       <>
         {i > 0 && <span class="sep" aria-hidden="true">/</span>}
-        <a href={withBase(l.path)} hreflang={code} lang={code} data-lang-link aria-current={code === lang ? 'page' : undefined}>
+        <a href={withBase(routes[route][code])} hreflang={code} lang={code} data-lang-link aria-current={code === lang ? 'page' : undefined}>
           <span aria-hidden="true">{l.short}</span>
           <span class="visually-hidden">{l.label}</span>
         </a>

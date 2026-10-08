@@ -4,13 +4,19 @@ import type { Dict } from './index';
 /**
  * Slovenian copy. Written for Slovenian readers (formal "vi", warm tone),
  * not translated word for word. Must match the shape of en.ts.
+ * Tokens in {braces} are filled from src/config.ts at render time.
  */
+
+/** Komu je studio namenjen. Lastniki: spremenite ta niz, da ciljate drugo občinstvo. */
+const audience = 'zagonska in rastoča podjetja';
+
 export const sl: Dict = {
   meta: {
-    title: `${SITE_NAME}: razvoj programske opreme, mobilnih aplikacij in zalednih sistemov`,
+    title: `Razvoj mobilnih aplikacij in zaledja | ${SITE_NAME}, Slovenija`,
     description:
-      `${SITE_NAME} je studio za razvoj programske opreme iz Slovenije. Razvijamo aplikacije za iOS in Android v Kotlin Multiplatform, zaledne sisteme in API-je v Node.js in NestJS ter programsko opremo po meri z integracijami umetne inteligence. Analiza zahtev in oblikovanje v hiši, fiksne ponudbe, tedenske predstavitve.`,
+      'Studio za razvoj programske opreme: aplikacije za iOS in Android v Kotlin Multiplatform, zaledje v Node.js in rešitve po meri. Fiksne ponudbe.',
     ogLocale: 'sl_SI',
+    ogAlt: `${SITE_NAME}: mobilne aplikacije in zaledni sistemi za ${audience}.`,
   },
   a11y: {
     skip: 'Preskoči na vsebino',
@@ -20,6 +26,7 @@ export const sl: Dict = {
     langNav: 'Jezik',
     externalLink: 'odpre se v novem zavihku',
     home: `${SITE_NAME}, domača stran`,
+    required: 'obvezno',
   },
   nav: {
     services: 'Storitve',
@@ -27,38 +34,44 @@ export const sl: Dict = {
     process: 'Potek dela',
     team: 'Ekipa',
     faq: 'Vprašanja',
-    cta: 'Brezplačen posvet',
   },
+  cta: 'Rezervirajte brezplačen posvet',
   hero: {
-    title: 'Razvijamo mobilne aplikacije in zaledne sisteme za vaše podjetje.',
+    audience,
+    title: `Mobilne aplikacije in zaledni sistemi za ${audience}.`,
     sub: `${SITE_NAME} je studio za razvoj programske opreme iz Slovenije: dva inženirja, poslovna analitičarka in oblikovalka. Fiksne ponudbe in koda, ki je vaša.`,
     servicesLabel: 'Kaj razvijamo',
     services: [
-      { name: 'Mobilne aplikacije', detail: 'iOS in Android iz ene kode v Kotlin Multiplatform' },
-      { name: 'Zaledje in API-ji', detail: 'Node.js, NestJS in PostgreSQL na GCP ali DigitalOcean' },
-      { name: 'Programska oprema po meri', detail: 'Spletne aplikacije, interna orodja in integracije umetne inteligence' },
+      { name: 'Mobilne aplikacije', detail: 'Aplikaciji za iOS in Android iz ene skupne kode' },
+      { name: 'Zaledje in API-ji', detail: 'Strežniki, baze podatkov in oblak, na katerih teče vaš izdelek' },
+      { name: 'Programska oprema po meri', detail: 'Spletne aplikacije, interna orodja in funkcije z umetno inteligenco' },
     ],
-    ctaPrimary: 'Rezervirajte brezplačen posvet',
-    ctaSecondary: 'Pošljite povpraševanje',
-    trust: 'Posvet je brezplačen in nezavezujoč. Odgovorimo v 24 urah.',
+    ctaSecondary: 'Oglejte si projekte',
+    trust: 'Brezplačen {minutes}-minutni pogovor, brez obveznosti. Odgovorimo v enem delovnem dnevu.',
+    proof: {
+      lead: 'Preizkusite naše delo v živo:',
+      linkText: 'Product Trimmer',
+      rest: 'z umetno inteligenco izreže izdelke s fotografij, kar v vašem brskalniku.',
+    },
   },
   services: {
-    title: 'Storitve',
-    intro: 'Analiza zahtev, oblikovanje, mobilni razvoj, zaledje in programska oprema po meri pri eni ekipi, zato se med agencijami nič ne izgubi. Delamo iz Slovenije, s strankami po vsej EU.',
+    title: 'Kaj razvijemo za vas',
+    intro: 'Zahteve, oblikovanje, mobilne aplikacije, zaledje in programska oprema po meri pri eni ekipi, zato se med agencijami nič ne izgubi.',
+    location: 'Sedež imamo v Sloveniji ({city}, {tz}). Naš delovni dan se v celoti prekriva z Združenim kraljestvom in EU, z vzhodno obalo ZDA pa v jutranjih urah.',
     items: [
       {
         title: 'Mobilne aplikacije',
-        text: 'Domorodni aplikaciji za iOS in Android iz ene kode v Kotlin Multiplatform, zato vsaka nova funkcija pride na obe platformi hkrati. Vmesnik v Compose Multiplatform ali Jetpack Compose. Poskrbimo tudi za sinhronizacijo brez povezave, plačila in objavo v App Store in Google Play.',
+        text: 'Iz ene kode nastaneta nativni aplikaciji za iOS in Android. Nove funkcije pridejo na obe platformi hkrati. Uredimo tudi plačila, delovanje brez povezave in objavo v trgovinah.',
         stack: ['Kotlin Multiplatform', 'Compose Multiplatform', 'Jetpack Compose', 'Ktor', 'SQLDelight'],
       },
       {
         title: 'Zaledje in API-ji',
-        text: 'API-ji, podatkovni tokovi in oblačna infrastruktura, ki delujejo tudi, ko število uporabnikov raste. Povežemo storitve za plačila, e-pošto, analitiko in CRM, od katerih je odvisen vaš izdelek, in prevzamemo ter stabiliziramo obstoječe zaledje.',
+        text: 'Razvijemo API-je, baze podatkov in oblačno okolje, na katerih teče vaš izdelek, tako da zdržijo tudi rast. Povežemo plačila, e-pošto in vaš CRM ter popravimo ali prevzamemo zaledje, ki ga že imate.',
         stack: ['Node.js', 'TypeScript', 'NestJS', 'PostgreSQL', 'GCP', 'DigitalOcean'],
       },
       {
         title: 'Programska oprema po meri in umetna inteligenca',
-        text: 'Spletne aplikacije in interna orodja, prilagojena načinu dela vaše ekipe, funkcije z velikimi jezikovnimi modeli v obstoječih izdelkih in avtomatizacija ponavljajočega se ročnega dela.',
+        text: 'Spletne aplikacije in interna orodja, ki se prilagodijo vašemu načinu dela. Obstoječim izdelkom dodamo funkcije umetne inteligence in avtomatiziramo dolgočasno ročno delo.',
         stack: ['Spletne aplikacije', 'Interna orodja', 'Integracija LLM', 'Avtomatizacija'],
       },
     ],
@@ -76,20 +89,23 @@ export const sl: Dict = {
     linksSoon: 'Povezave do trgovin ob izidu.',
     linkLabels: {
       site: 'Spletna stran',
-      demo: 'Preizkusite',
+      demo: 'Preizkusite v živo',
       appStore: 'App Store',
       playStore: 'Google Play',
       github: 'Izvorna koda',
     },
+    screenshotAlt: 'Posnetek zaslona:',
     more: {
       title: 'Naslednji je lahko vaš projekt.',
-      text: 'Potrebujete aplikacijo, API ali oboje? Pošljite kratek opis in odgovorili vam bomo, kako bi ga razvili, skupaj z okvirnim načrtom.',
-      cta: 'Začnimo projekt',
+      text: 'Potrebujete aplikacijo, API ali oboje? Povejte nam več na brezplačnem pogovoru in povedali vam bomo, kako bi ga razvili.',
     },
+  },
+  testimonials: {
+    title: 'Kaj pravijo stranke',
   },
   ai: {
     title: 'Umetna inteligenca nas pospeši, ne nadomesti.',
-    intro: 'Orodja umetne inteligence uporabljamo vsak dan, da delo opravimo hitreje. Tole to pomeni za vaš projekt.',
+    intro: 'Orodja umetne inteligence uporabljamo vsak dan, da delo opravimo hitreje. Kaj to pomeni za vaš projekt:',
     points: [
       {
         title: 'Hitreje pri rutinskem delu',
@@ -100,8 +116,8 @@ export const sl: Dict = {
         text: 'Nič ne gre v kodo, dokler je eden od naših inženirjev ne prebere, razume in zanjo prevzame odgovornost. Generirana koda nikoli ne gre naravnost v produkcijo.',
       },
       {
-        title: 'Koda, ki je vaša in jo lahko predate',
-        text: 'Dobite dokumentirano, testirano kodo produkcijske kakovosti v svojih repozitorijih, berljivo za vsakega razvijalca, ki ga zaposlite za nami.',
+        title: 'Vaša koda ostane vaša',
+        text: 'Vaše kode in podatkov nikoli ne uporabljamo za učenje modelov umetne inteligence. Koda je v vaših repozitorijih, dokumentirana in testirana, zato jo lahko prevzame vsak razvijalec, ki ga zaposlite za nami.',
       },
     ],
   },
@@ -121,7 +137,7 @@ export const sl: Dict = {
     members: {
       kevin: {
         role: 'Zaledni inženir, soustanovitelj',
-        bio: 'Približno osem let razvija zaledne sisteme v Node.js, TypeScriptu in NestJS: API-je, podatkovne tokove in oblačno infrastrukturo za izdelke z veliko uporabniki.',
+        bio: 'Približno osem let razvija zaledne sisteme v Node.js, TypeScriptu in NestJS: API-je, podatkovne tokove in oblačno infrastrukturo za izdelke v produkciji.',
       },
       rok: {
         role: 'Mobilni inženir, soustanovitelj',
@@ -140,7 +156,7 @@ export const sl: Dict = {
     photoAlt: 'Portret:',
   },
   faq: {
-    title: 'Pogosta vprašanja',
+    title: 'Cena, roki in lastništvo',
     items: [
       {
         q: 'Koliko stane projekt?',
@@ -167,30 +183,113 @@ export const sl: Dict = {
         a: 'Lahko. Začnemo s kratkim pregledom kode in infrastrukture, odkrito povemo, kaj smo našli, in predlagamo načrt za stabilizacijo in nadaljnji razvoj.',
       },
     ],
+    pricing: {
+      lead: 'Za okvirno predstavo, običajni projekti se začnejo pri:',
+      items: [
+        { label: 'Projekt zaledja ali API-ja', from: 'od TODO €' },
+        { label: 'Aplikacija za iOS in Android z zaledjem', from: 'od TODO €' },
+        { label: 'Stalna podpora', from: 'od TODO € na mesec' },
+      ],
+    },
   },
   contact: {
     title: 'Imate idejo? Zgradimo jo.',
-    sub: 'Rezervirajte brezplačen posvet ali pošljite kratek opis projekta. V 24 urah vam odgovorimo z naslednjimi koraki.',
-    ctaBook: 'Rezervirajte brezplačen posvet',
+    sub: 'Rezervirajte brezplačen posvet ali nam prek obrazca pošljite kratek opis. Odgovori vam človek, ne avtomat.',
+    nextTitle: 'Kaj se zgodi, ko nam pišete',
+    next: [
+      { title: 'Odgovorimo v enem delovnem dnevu', text: 'Pravi odgovor ekipe, ne samodejno sporočilo, s predlogi terminov za pogovor.' },
+      { title: '{minutes}-minutni pogovor', text: 'Z enim od naših inženirjev in poslovno analitičarko. Pogovorimo se o ciljih, uporabnikih, rokih in proračunu.' },
+      { title: 'Pisna specifikacija in fiksna ponudba', text: 'V {days} delovnih dneh. Odločite se brez obveznosti.' },
+    ],
     orEmail: 'Vam je ljubša e-pošta? Pišite na',
     formTitle: 'Povejte nam o svojem projektu',
+    requiredNote: 'Polja, označena z *, so obvezna.',
     fields: {
       name: 'Ime',
       email: 'E-pošta',
+      emailHint: 'Uporabimo jo samo za odgovor vam.',
       projectType: 'Kaj potrebujete?',
       budget: 'Okvirni proračun',
+      budgetHint: 'Neobvezno. Razpon nam pomaga predlagati pravi obseg.',
       message: 'Sporočilo',
-      messagePlaceholder: 'Kaj bi radi zgradili in ali imate kakšen rok?',
-      choose: 'Izberite',
+      messageHint: 'Dovolj je nekaj vrstic: kaj bi radi zgradili, za koga in do kdaj.',
+      messagePlaceholder: 'Na primer: aplikacija za iOS in Android za rezervacijo terminov, s skrbniško ploščo. Radi bi jo objavili spomladi.',
+      choose: 'Izberite (neobvezno)',
     },
     projectTypes: ['Mobilno aplikacijo', 'Zaledje ali API', 'Spletno aplikacijo ali interno orodje', 'Funkcijo z umetno inteligenco', 'Pomoč pri obstoječem projektu', 'Še ne vem'],
     budgets: ['Do 10.000 €', '10.000 do 25.000 €', '25.000 do 50.000 €', 'Nad 50.000 €', 'Še ne vem'],
     submit: 'Pošljite sporočilo',
-    mailtoNote: 'Odpre se vaš e-poštni program z že izpolnjenim sporočilom.',
+    privacy: 'Vaše podatke uporabimo samo za odgovor na vaše povpraševanje.',
+    privacyLink: 'Obvestilo o zasebnosti',
+    noscript: 'Obrazec za odpiranje e-poštnega programa potrebuje JavaScript. Pišete nam lahko tudi neposredno na {email}.',
+    sent: {
+      mailtoTitle: 'Zdaj bi se moral odpreti vaš e-poštni program',
+      mailtoText: 'Sporočilo je že izpolnjeno. Tam pritisnite Pošlji in odgovorili vam bomo v enem delovnem dnevu.',
+      mailtoFallback: 'Se ni nič odprlo? Pišite nam na {email}.',
+      title: 'Hvala, vaše sporočilo je na poti',
+      text: 'Odgovorili vam bomo v enem delovnem dnevu.',
+      bookPrompt: 'Ne želite čakati?',
+      error: 'Nekaj je šlo narobe in sporočilo ni bilo poslano. Pišite nam na {email}.',
+    },
   },
   footer: {
     tagline: 'Narejeno v Sloveniji, pod luno.',
     rights: 'Vse pravice pridržane.',
-    language: 'Jezik',
+    language: 'Jezik (noga strani)',
+    imprint: 'Podatki o podjetju',
+    imprintLabels: {
+      company: 'Podjetje',
+      address: 'Naslov',
+      registrationNo: 'Matična številka',
+      taxNo: 'Davčna številka / ID za DDV',
+      email: 'E-pošta',
+    },
+    privacy: 'Obvestilo o zasebnosti',
+    noCookies: 'Spletna stran ne uporablja piškotkov.',
+  },
+  privacy: {
+    title: 'Obvestilo o zasebnosti',
+    metaTitle: `Obvestilo o zasebnosti | ${SITE_NAME}`,
+    metaDescription: `Kako ${SITE_NAME} obdeluje osebne podatke, ki nam jih pošljete prek obrazca ali po e-pošti. Brez piškotkov in sledenja.`,
+    updated: 'Zadnja posodobitev:',
+    back: 'Nazaj na domačo stran',
+    sections: [
+      {
+        h: 'Kdo je odgovoren za vaše podatke',
+        p: ['Upravljavec vaših osebnih podatkov je {company}, {address}. E-pošta: {email}.'],
+      },
+      {
+        h: 'Katere podatke zbiramo',
+        p: [
+          'Samo tiste, ki nam jih pošljete prek obrazca ali po e-pošti: ime, e-poštni naslov, vrsto projekta, neobvezni razpon proračuna in vaše sporočilo.',
+          'Ta spletna stran ne nastavlja piškotkov in ne uporablja analitike ali skript za sledenje.',
+        ],
+      },
+      {
+        h: 'Zakaj jih uporabljamo in na kateri pravni podlagi',
+        p: [
+          'Vaše podatke uporabimo za odgovor na povpraševanje in, če jo želite, za pripravo ponudbe. Pravna podlaga je točka (b) prvega odstavka 6. člena GDPR (ukrepi na vašo zahtevo pred sklenitvijo pogodbe), pri splošnih vprašanjih pa točka (f) prvega odstavka 6. člena GDPR (naš zakoniti interes, da odgovorimo na prejeta sporočila).',
+          'Podatkov ne uporabljamo za e-novice ali oglaševanje ter jih ne prodajamo in ne delimo.',
+        ],
+      },
+      {
+        h: 'Kdo jih obdeluje za nas',
+        p: [
+          'Našo e-pošto gosti {emailProvider}. Spletna stran gostuje na GitHub Pages (GitHub, Inc.), ki lahko za delovanje in varnost strani beleži tehnične podatke, na primer naslove IP.',
+          'Če je ponudnik zunaj EU, prenos urejajo standardne pogodbene klavzule Evropske komisije ali sklep o ustreznosti.',
+        ],
+      },
+      {
+        h: 'Kako dolgo jih hranimo',
+        p: ['Povpraševanja hranimo {retention}. Če začnemo sodelovati, postanejo podatki del projektne dokumentacije in jih hranimo, kolikor zahteva zakon.'],
+      },
+      {
+        h: 'Vaše pravice',
+        p: [
+          'Kadar koli lahko zahtevate dostop do svojih podatkov, njihov popravek ali izbris, omejitev obdelave, ugovor obdelavi ali prenos podatkov. Pišite na {email}.',
+          'Pritožbo lahko vložite tudi pri Informacijskem pooblaščencu, Dunajska cesta 22, 1000 Ljubljana, www.ip-rs.si.',
+        ],
+      },
+    ],
   },
 };

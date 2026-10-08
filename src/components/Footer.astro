@@ -1,22 +1,32 @@
 ---
-import { SITE_NAME, CONTACT_EMAIL, SOCIAL } from '../config';
-import { languages, type Lang, type Dict } from '../i18n';
+import { SITE_NAME, CONTACT_EMAIL, SOCIAL, LEGAL } from '../config';
+import { routes, type Lang, type Dict, type RouteKey } from '../i18n';
 import LogoMark from './LogoMark.astro';
 import LangSwitch from './LangSwitch.astro';
 import { withBase } from '../lib/url';
+import { orTodo } from '../lib/todo';
 interface Props {
   lang: Lang;
   t: Dict;
+  route?: RouteKey;
 }
-const { lang, t } = Astro.props;
+const { lang, t, route = 'home' } = Astro.props;
 const year = new Date().getFullYear();
 const socials = Object.entries(SOCIAL).filter(([, href]) => href);
+const L = t.footer.imprintLabels;
+// Company details required by ZEPT Art. 5. Missing values show as [TODO].
+const imprint = [
+  { label: L.company, value: orTodo(LEGAL.companyName) },
+  { label: L.address, value: orTodo(LEGAL.address) },
+  { label: L.registrationNo, value: orTodo(LEGAL.registrationNo) },
+  { label: L.taxNo, value: orTodo(LEGAL.taxNo) },
+];
 ---
 
 <footer class="site-footer">
   <div class="container inner">
     <div>
-      <a class="brand" href={withBase(languages[lang].path)} aria-label={t.a11y.home}>
+      <a class="brand" href={withBase(routes.home[lang])} aria-label={t.a11y.home}>
         <LogoMark size={20} />
         <span>{SITE_NAME}</span>
       </a>
@@ -31,11 +41,28 @@ const socials = Object.entries(SOCIAL).filter(([, href]) => href);
           </a>
         ))
       }
-      <LangSwitch lang={lang} label={t.footer.language} />
+      <a class="plain" href={withBase(routes.privacy[lang])}>{t.footer.privacy}</a>
+      <LangSwitch lang={lang} label={t.footer.language} route={route} />
     </div>
   </div>
   <div class="container">
-    <p class="legal">© {year} {SITE_NAME}. {t.footer.rights}</p>
+    <section class="imprint" aria-label={t.footer.imprint}>
+      <dl>
+        {
+          imprint.map((row) => (
+            <div>
+              <dt>{row.label}</dt>
+              <dd>{row.value}</dd>
+            </div>
+          ))
+        }
+        <div>
+          <dt>{L.email}</dt>
+          <dd><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></dd>
+        </div>
+      </dl>
+    </section>
+    <p class="legal">© {year} {SITE_NAME}. {t.footer.rights} {t.footer.noCookies}</p>
   </div>
 </footer>
 
@@ -69,13 +96,51 @@ const socials = Object.entries(SOCIAL).filter(([, href]) => href);
     gap: 0.75rem 1.75rem;
   }
   .plain {
+    display: inline-block;
+    padding-block: 0.4rem;
+    color: var(--text-2);
+    overflow-wrap: anywhere;
+  }
+  .imprint {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule-soft);
+  }
+  dl {
+    margin: 0;
+    display: grid;
+    gap: 0.75rem 2rem;
+    font-size: var(--step--1);
+  }
+  dl div {
+    display: grid;
+    gap: 0.1rem;
+  }
+  dt {
+    font-family: var(--font-display);
+    font-weight: 500;
+    color: var(--muted);
+  }
+  dd {
+    margin: 0;
     color: var(--text-2);
     overflow-wrap: anywhere;
   }
   .legal {
-    margin-top: 2.5rem;
+    margin-top: 1.5rem;
     font-size: var(--step--1);
     color: var(--muted);
+  }
+  @media (min-width: 40rem) {
+    dl {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 64rem) {
+    dl {
+      grid-template-columns: repeat(5, auto);
+      justify-content: start;
+    }
   }
   @media (min-width: 48rem) {
     .inner {

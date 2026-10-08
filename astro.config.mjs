@@ -1,18 +1,40 @@
 // @ts-check
 import { defineConfig, fontProviders } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 import { SITE_URL } from './src/config.ts';
 
 // Hosting: GitHub Pages project site at https://kcvete.github.io/lunaria-landing/.
 // With a custom domain, build with BASE_PATH='' (and SITE_URL=https://your.domain).
 const base = process.env.BASE_PATH ?? '/lunaria-landing';
+const site = process.env.SITE_URL || SITE_URL;
+
+// Pages whose slug differs per language: sitemap alternates are added by hand.
+const pairs = [['privacy/', 'sl/zasebnost/']];
+const prefix = new URL((base || '/').replace(/\/?$/, '/'), site).href;
 
 export default defineConfig({
-  site: process.env.SITE_URL || SITE_URL,
+  site,
   base: base || '/',
   output: 'static',
   trailingSlash: 'ignore',
   // The whole stylesheet is small, so inline it: no render-blocking CSS request.
   build: { inlineStylesheets: 'always' },
+  integrations: [
+    sitemap({
+      i18n: { defaultLocale: 'en', locales: { en: 'en', sl: 'sl' } },
+      serialize(item) {
+        for (const [en, sl] of pairs) {
+          if (item.url === prefix + en || item.url === prefix + sl) {
+            item.links = [
+              { url: prefix + en, lang: 'en' },
+              { url: prefix + sl, lang: 'sl' },
+            ];
+          }
+        }
+        return item;
+      },
+    }),
+  ],
   // https://docs.astro.build/en/guides/internationalization/
   i18n: {
     locales: ['en', 'sl'],

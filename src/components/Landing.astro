@@ -9,6 +9,7 @@ import Process from './Process.astro';
 import Team from './Team.astro';
 import Faq from './Faq.astro';
 import Contact from './Contact.astro';
+import Testimonials from './Testimonials.astro';
 import Footer from './Footer.astro';
 import { useTranslations, type Lang } from '../i18n';
 
@@ -22,14 +23,15 @@ const t = useTranslations(lang);
 <Base lang={lang}>
   <Nav lang={lang} t={t} />
   <main id="main" tabindex="-1">
-    <Hero t={t} />
-    <Services t={t} />
+    <Hero lang={lang} t={t} />
     <Work lang={lang} t={t} />
+    <Testimonials lang={lang} t={t} />
+    <Services t={t} />
     <AiApproach t={t} />
     <Process t={t} />
     <Team t={t} />
     <Faq t={t} />
-    <Contact t={t} />
+    <Contact lang={lang} t={t} />
   </main>
   <Footer lang={lang} t={t} />
 </Base>

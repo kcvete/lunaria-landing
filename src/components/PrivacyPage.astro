@@ -1,0 +1,73 @@
+---
+/** GDPR Art. 13 notice for the contact form. Copy: privacy.* in src/i18n; data: LEGAL in src/config.ts. */
+import Base from '../layouts/Base.astro';
+import Nav from './Nav.astro';
+import Footer from './Footer.astro';
+import { useTranslations, routes, type Lang } from '../i18n';
+import { LEGAL } from '../config';
+import { fill } from '../lib/fill';
+import { orTodo } from '../lib/todo';
+import { withBase } from '../lib/url';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const p = t.privacy;
+---
+
+<Base lang={lang} route="privacy" title={p.metaTitle} description={p.metaDescription}>
+  <Nav lang={lang} t={t} route="privacy" />
+  <main id="main" tabindex="-1" class="privacy">
+    <div class="container prose">
+      <h1>{p.title}</h1>
+      <p class="updated">{p.updated} {orTodo(LEGAL.privacyUpdated, 'date')}</p>
+      {
+        p.sections.map((s) => (
+          <section>
+            <h2>{s.h}</h2>
+            {s.p.map((para) => <p>{fill(para)}</p>)}
+          </section>
+        ))
+      }
+      <p class="back"><a class="link" href={withBase(routes.home[lang])}>{p.back}</a></p>
+    </div>
+  </main>
+  <Footer lang={lang} t={t} route="privacy" />
+</Base>
+
+<style>
+  .privacy {
+    padding-block: clamp(3rem, 2rem + 4vw, 6rem) var(--space-section);
+  }
+  .prose {
+    max-width: 46rem;
+  }
+  h1 {
+    font-size: var(--step-3);
+  }
+  .updated {
+    margin-top: 0.75rem;
+    color: var(--muted);
+    font-size: var(--step--1);
+  }
+  section {
+    margin-top: 2.5rem;
+  }
+  h2 {
+    font-size: var(--step-1);
+    letter-spacing: -0.01em;
+    margin-bottom: 0.75rem;
+  }
+  section p + p {
+    margin-top: 0.75rem;
+  }
+  p {
+    color: var(--text-2);
+    overflow-wrap: anywhere;
+  }
+  .back {
+    margin-top: 3rem;
+  }
+</style>

@@ -1,28 +1,31 @@
 ---
-import { SITE_NAME, BOOKING_HREF, bookingIsExternal } from '../config';
-import { languages, type Lang, type Dict } from '../i18n';
+import { SITE_NAME } from '../config';
+import { routes, type Lang, type Dict, type RouteKey } from '../i18n';
 import LogoMark from './LogoMark.astro';
 import LangSwitch from './LangSwitch.astro';
+import Cta from './Cta.astro';
 import { withBase } from '../lib/url';
 
 interface Props {
   lang: Lang;
   t: Dict;
+  route?: RouteKey;
 }
-const { lang, t } = Astro.props;
+const { lang, t, route = 'home' } = Astro.props;
+// On sub-pages the section links point back to the home page.
+const home = route === 'home' ? '' : withBase(routes.home[lang]);
 const links = [
-  { href: '#services', label: t.nav.services },
-  { href: '#work', label: t.nav.work },
-  { href: '#process', label: t.nav.process },
-  { href: '#team', label: t.nav.team },
-  { href: '#faq', label: t.nav.faq },
+  { href: `${home}#work`, label: t.nav.work },
+  { href: `${home}#services`, label: t.nav.services },
+  { href: `${home}#process`, label: t.nav.process },
+  { href: `${home}#team`, label: t.nav.team },
+  { href: `${home}#faq`, label: t.nav.faq },
 ];
-const ext = bookingIsExternal ? { target: '_blank', rel: 'noopener' } : {};
 ---
 
 <header class="site-header" data-nav>
   <div class="container bar">
-    <a class="brand" href={withBase(languages[lang].path)} aria-label={t.a11y.home}>
+    <a class="brand" href={withBase(routes.home[lang])} aria-label={t.a11y.home}>
       <LogoMark />
       <span class="wordmark">{SITE_NAME}</span>
     </a>
@@ -46,8 +49,8 @@ const ext = bookingIsExternal ? { target: '_blank', rel: 'noopener' } : {};
         </ul>
       </nav>
       <div class="actions">
-        <LangSwitch lang={lang} label={t.a11y.langNav} />
-        <a class="btn btn--sm" href={BOOKING_HREF} {...ext}>{t.nav.cta}</a>
+        <LangSwitch lang={lang} label={t.a11y.langNav} route={route} />
+        <Cta lang={lang} route={route} location="nav" small />
       </div>
     </div>
   </div>
@@ -173,7 +176,7 @@ const ext = bookingIsExternal ? { target: '_blank', rel: 'noopener' } : {};
     justify-content: space-between;
   }
 
-  @media (min-width: 62rem) {
+  @media (min-width: 72rem) {
     .menu-toggle {
       display: none;
     }

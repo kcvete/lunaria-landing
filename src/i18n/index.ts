@@ -8,6 +8,13 @@ export const languages = {
 } as const;
 
 export type Lang = keyof typeof languages;
+
+/** Every page and its path per language (relative to the site base). */
+export const routes = {
+  home: { en: '', sl: 'sl/' },
+  privacy: { en: 'privacy/', sl: 'sl/zasebnost/' },
+} as const satisfies Record<string, Record<Lang, string>>;
+export type RouteKey = keyof typeof routes;
 export type Dict = typeof en;
 
 export const defaultLang: Lang = 'en';

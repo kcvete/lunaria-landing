@@ -1,16 +1,22 @@
 ---
-import { BOOKING_HREF, bookingIsExternal, CONTACT_EMAIL, FORM_ACTION, SITE_NAME } from '../config';
-import type { Dict } from '../i18n';
+import { BOOKING_URL, CONTACT_EMAIL, FORM_ACTION, SITE_NAME } from '../config';
+import { routes, type Dict, type Lang } from '../i18n';
+import Cta from './Cta.astro';
+import { fill, splitEmail } from '../lib/fill';
+import { withBase } from '../lib/url';
 interface Props {
+  lang: Lang;
   t: Dict;
 }
-const { t } = Astro.props;
+const { lang, t } = Astro.props;
 const c = t.contact;
 const f = c.fields;
-const ext = bookingIsExternal ? { target: '_blank', rel: 'noopener' } : {};
-// Until FORM_ACTION is set, the form submits through the visitor's mail app.
-const usesMailto = !FORM_ACTION;
-const action = FORM_ACTION || `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`${SITE_NAME}: project inquiry`)}`;
+// Without FORM_ACTION the form opens the visitor's email app (built in JS, so the
+// form itself never posts to an insecure mailto: action). With an endpoint it posts
+// via fetch and shows the thank-you state in place.
+const mode = FORM_ACTION ? 'endpoint' : 'mailto';
+const subject = `${SITE_NAME}: project inquiry`;
+const mail = (text: string) => splitEmail(text);
 ---
 
 <section id="contact" class="contact" aria-labelledby="contact-title">
@@ -19,52 +25,166 @@ const action = FORM_ACTION || `mailto:${CONTACT_EMAIL}?subject=${encodeURICompon
     <div class="split">
       <div class="pitch">
         <p class="lede">{c.sub}</p>
-        <a class="btn" href={BOOKING_HREF} {...ext}>{c.ctaBook}</a>
+        {BOOKING_URL && <Cta lang={lang} location="contact" />}
+
+        <div class="next">
+          <h3>{c.nextTitle}</h3>
+          <ol>
+            {
+              c.next.map((step) => (
+                <li>
+                  <span class="step-title">{fill(step.title)}</span>
+                  <span class="step-text">{fill(step.text)}</span>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+
         <p class="email">
           {c.orEmail} <a class="link" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
         </p>
       </div>
 
-      <form class="form" action={action} method="post" enctype={usesMailto ? 'text/plain' : undefined} aria-labelledby="form-title">
-        <h3 id="form-title">{c.formTitle}</h3>
-        <div class="pair">
+      <div class="form-wrap">
+        <form
+          class="form"
+          action={FORM_ACTION || undefined}
+          method={FORM_ACTION ? 'post' : undefined}
+          aria-labelledby="form-title"
+          data-contact-form
+          data-mode={mode}
+          data-to={CONTACT_EMAIL}
+          data-subject={subject}
+        >
+          <h3 id="form-title">{c.formTitle}</h3>
+          <p class="hint">{c.requiredNote}</p>
+
           <div class="field">
-            <label for="f-name">{f.name}</label>
-            <input id="f-name" name="name" type="text" autocomplete="name" required />
+            <label for="f-name">{f.name} <span class="req" aria-hidden="true">*</span></label>
+            <input id="f-name" name="name" type="text" autocomplete="name" required data-label={f.name} />
           </div>
           <div class="field">
-            <label for="f-email">{f.email}</label>
-            <input id="f-email" name="email" type="email" autocomplete="email" required />
+            <label for="f-email">{f.email} <span class="req" aria-hidden="true">*</span></label>
+            <input id="f-email" name="email" type="email" autocomplete="email" required aria-describedby="f-email-hint" data-label={f.email} />
+            <p class="hint" id="f-email-hint">{f.emailHint}</p>
           </div>
-        </div>
-        <div class="pair">
           <div class="field">
             <label for="f-type">{f.projectType}</label>
-            <select id="f-type" name="project_type">
+            <select id="f-type" name="project_type" data-label={f.projectType}>
               <option value="">{f.choose}</option>
               {c.projectTypes.map((o) => <option>{o}</option>)}
             </select>
           </div>
           <div class="field">
             <label for="f-budget">{f.budget}</label>
-            <select id="f-budget" name="budget">
+            <select id="f-budget" name="budget" aria-describedby="f-budget-hint" data-label={f.budget}>
               <option value="">{f.choose}</option>
               {c.budgets.map((o) => <option>{o}</option>)}
             </select>
+            <p class="hint" id="f-budget-hint">{f.budgetHint}</p>
           </div>
+          <div class="field">
+            <label for="f-message">{f.message} <span class="req" aria-hidden="true">*</span></label>
+            <textarea
+              id="f-message"
+              name="message"
+              rows="5"
+              placeholder={f.messagePlaceholder}
+              required
+              aria-describedby="f-message-hint"
+              data-label={f.message}></textarea>
+            <p class="hint" id="f-message-hint">{f.messageHint}</p>
+          </div>
+          {
+            mode === 'endpoint' && (
+              <div class="hp" aria-hidden="true">
+                <label for="f-website">Website</label>
+                <input id="f-website" name="_gotcha" type="text" tabindex="-1" autocomplete="off" />
+              </div>
+            )
+          }
+          <div class="submit-row">
+            <button class="btn" type="submit">{c.submit}</button>
+          </div>
+          <p class="privacy">
+            {c.privacy} <a href={withBase(routes.privacy[lang])}>{c.privacyLink}</a>
+          </p>
+          {
+            mode === 'mailto' && (
+              <noscript>
+                <p class="hint">
+                  {mail(c.noscript)[0]}
+                  <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+                  {mail(c.noscript)[1]}
+                </p>
+              </noscript>
+            )
+          }
+        </form>
+
+        <div class="status" role="status" tabindex="-1" hidden data-form-status>
+          <div data-state="mailto" hidden>
+            <p class="status-title">{c.sent.mailtoTitle}</p>
+            <p>{c.sent.mailtoText}</p>
+            <p>
+              {mail(c.sent.mailtoFallback)[0]}<a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>{mail(c.sent.mailtoFallback)[1]}
+            </p>
+          </div>
+          <div data-state="sent" hidden>
+            <p class="status-title">{c.sent.title}</p>
+            <p>{c.sent.text}</p>
+          </div>
+          <div data-state="error" hidden>
+            <p class="status-title">{mail(c.sent.error)[0]}<a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>{mail(c.sent.error)[1]}</p>
+          </div>
+          {
+            BOOKING_URL && (
+              <p class="status-book">
+                {c.sent.bookPrompt} <Cta lang={lang} location="thank-you" small />
+              </p>
+            )
+          }
         </div>
-        <div class="field">
-          <label for="f-message">{f.message}</label>
-          <textarea id="f-message" name="message" rows="5" placeholder={f.messagePlaceholder} required></textarea>
-        </div>
-        <div class="submit-row">
-          <button class="btn" type="submit">{c.submit}</button>
-          {usesMailto && <p class="note">{c.mailtoNote}</p>}
-        </div>
-      </form>
+      </div>
     </div>
   </div>
 </section>
+
+<script is:inline>
+  (() => {
+    const f = document.querySelector('[data-contact-form]');
+    const box = document.querySelector('[data-form-status]');
+    if (!f || !box) return;
+    const show = (state) => {
+      box.querySelectorAll('[data-state]').forEach((el) => (el.hidden = el.dataset.state !== state));
+      box.hidden = false;
+      box.focus();
+    };
+    f.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(f);
+      window.track && window.track('form_submit', { mode: f.dataset.mode });
+      if (f.dataset.mode === 'mailto') {
+        const body = [...data]
+          .filter(([, v]) => v)
+          .map(([k, v]) => `${f.elements[k].dataset.label || k}: ${v}`)
+          .join('\n\n');
+        location.href = `mailto:${f.dataset.to}?subject=${encodeURIComponent(f.dataset.subject)}&body=${encodeURIComponent(body)}`;
+        return show('mailto');
+      }
+      if (data.get('_gotcha')) return show('sent');
+      try {
+        const r = await fetch(f.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+        if (!r.ok) throw r;
+        f.reset();
+        show('sent');
+      } catch {
+        show('error');
+      }
+    });
+  })();
+</script>
 
 <style>
   .contact {
@@ -87,9 +207,53 @@ const action = FORM_ACTION || `mailto:${CONTACT_EMAIL}?subject=${encodeURICompon
     justify-items: start;
     align-content: start;
   }
+  .next {
+    width: 100%;
+  }
+  .next h3 {
+    font-size: var(--step-1);
+    margin-bottom: 1rem;
+  }
+  ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: next;
+    border-top: 1px solid var(--rule);
+  }
+  ol li {
+    counter-increment: next;
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    column-gap: 0.75rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  ol li::before {
+    content: counter(next);
+    grid-row: span 2;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.25rem;
+    line-height: 1.3;
+    color: var(--moon);
+  }
+  .step-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+  .step-text {
+    color: var(--text-2);
+    font-size: 0.97rem;
+    line-height: 1.55;
+  }
   .email {
     color: var(--muted);
     overflow-wrap: anywhere;
+  }
+
+  .form-wrap {
+    position: relative;
   }
   .form {
     display: grid;
@@ -101,20 +265,27 @@ const action = FORM_ACTION || `mailto:${CONTACT_EMAIL}?subject=${encodeURICompon
   .form h3 {
     font-size: var(--step-1);
   }
-  .pair {
-    display: grid;
-    gap: 1.25rem;
+  .form > .hint {
+    margin-top: -0.75rem;
   }
   .field {
     display: grid;
-    gap: 0.45rem;
+    gap: 0.4rem;
     min-width: 0;
   }
   label {
     font-family: var(--font-display);
     font-weight: 500;
     font-size: 0.95rem;
-    color: var(--text-2);
+    color: var(--text);
+  }
+  .req {
+    color: var(--moon);
+  }
+  .hint {
+    font-size: var(--step--1);
+    line-height: 1.45;
+    color: var(--muted);
   }
   input,
   select,
@@ -126,7 +297,8 @@ const action = FORM_ACTION || `mailto:${CONTACT_EMAIL}?subject=${encodeURICompon
     font-size: 1rem;
     color: var(--text);
     background: var(--night-0);
-    border: 1px solid var(--rule);
+    /* ≥ 3:1 against both the field and the form panel (WCAG 1.4.11) */
+    border: 1px solid var(--field-border);
     border-radius: 4px;
   }
   select {
@@ -159,26 +331,64 @@ const action = FORM_ACTION || `mailto:${CONTACT_EMAIL}?subject=${encodeURICompon
     outline-offset: 0;
     border-color: transparent;
   }
+  input:user-invalid,
+  textarea:user-invalid {
+    border-color: oklch(0.72 0.14 30);
+  }
+  .hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
   .submit-row {
+    margin-top: 0.25rem;
+  }
+  .privacy {
+    font-size: var(--step--1);
+    color: var(--muted);
+  }
+  .privacy a,
+  .hint a,
+  .status a {
+    color: var(--text);
+    text-decoration-color: var(--moon);
+  }
+
+  .status {
+    margin-top: 1rem;
+    padding: 1.25rem 1.5rem;
+    border-radius: 10px;
+    background: var(--night-2);
+    border: 1px solid var(--moon);
+    display: grid;
+    gap: 0.5rem;
+    overflow-wrap: anywhere;
+  }
+  .status[hidden],
+  .status [hidden] {
+    display: none;
+  }
+  .status div {
+    display: grid;
+    gap: 0.4rem;
+  }
+  .status-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--step-1);
+  }
+  .status-book {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 1rem 1.25rem;
-    margin-top: 0.25rem;
-  }
-  .note {
-    font-size: var(--step--1);
-    color: var(--muted);
-    flex: 1 1 14rem;
-  }
-  @media (min-width: 36rem) {
-    .pair {
-      grid-template-columns: 1fr 1fr;
-    }
+    gap: 0.75rem 1rem;
+    margin-top: 0.5rem;
   }
   @media (min-width: 58rem) {
     .split {
-      grid-template-columns: 4fr 7fr;
+      grid-template-columns: 5fr 7fr;
       gap: clamp(3rem, 1rem + 5vw, 6rem);
     }
   }

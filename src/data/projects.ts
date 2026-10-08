@@ -1,13 +1,17 @@
+import type { ImageMetadata } from 'astro';
 import type { Lang } from '../i18n';
+import productTrimmerShot from '../assets/work/product-trimmer.jpg';
 
 /**
  * Showcase projects. Add a project by appending an object to `projects`.
- * Only `featured: true` projects are rendered (in array order), followed by the
- * "Your project could be next" card.
+ * Only `featured: true` projects are rendered (in array order; the first gets the
+ * large slot), followed by the "Your project could be next" block. Link a repo only
+ * if it is public.
  *
- * Screenshots: drop an image into /public/work/ (e.g. /public/work/parrot.webp,
- * ~1200x750, 16:10) and set `image: 'work/parrot.webp'` (path relative to /public). Without `image`, a
- * generated placeholder (project name + a moon phase) is used.
+ * Screenshots: put an image in src/assets/work/ (~1200×750, 16:10), import it at the
+ * top of this file and set `image: thatImport`. Astro turns it into responsive
+ * AVIF/WebP at build time. Without `image`, a generated placeholder (project name +
+ * a moon phase) is used.
  */
 
 export type ProjectStatus = 'in-development' | 'beta' | 'live';
@@ -25,11 +29,29 @@ export interface Project {
   links: { kind: ProjectLinkKind; href: string }[];
   /** Moon phase (0 new, 0.5 half, 1 full) drawn on the placeholder art until a screenshot exists. */
   placeholderPhase: number;
-  /** Optional real screenshot, path relative to /public (e.g. 'work/parrot.webp'). */
-  image?: string;
+  /** Optional screenshot, imported from src/assets/work/. */
+  image?: ImageMetadata;
 }
 
 export const projects: Project[] = [
+  {
+    id: 'product-trimmer',
+    name: 'Product Trimmer',
+    featured: true,
+    status: 'live',
+    summary: {
+      en: 'Draw around a product in a photo and get a clean, full-resolution cutout on white or transparent. The AI model runs entirely in your browser, so your images never leave your device.',
+      sl: 'Izdelek na fotografiji obkrožite in dobite čist izrez v polni ločljivosti, na beli ali prozorni podlagi. Model umetne inteligence teče v celoti v vašem brskalniku, zato slike nikoli ne zapustijo vaše naprave.',
+    },
+    platforms: { en: ['Web (runs in the browser)'], sl: ['Splet (deluje v brskalniku)'] },
+    stack: ['Transformers.js', 'WebGPU', 'WASM', 'BiRefNet', 'U²-Net'],
+    links: [
+      { kind: 'demo', href: 'https://kcvete.github.io/product-trimmer/' },
+      { kind: 'github', href: 'https://github.com/kcvete/product-trimmer' },
+    ],
+    placeholderPhase: 0.15,
+    image: productTrimmerShot, // captured from the live demo
+  },
   {
     id: 'parrot',
     name: 'Parrot',
@@ -41,9 +63,9 @@ export const projects: Project[] = [
     },
     platforms: { en: ['Android', 'iOS'], sl: ['Android', 'iOS'] },
     stack: ['Kotlin Multiplatform', 'Compose Multiplatform', 'Ktor', 'SQLDelight'],
-    links: [], // TODO: App Store / Google Play links when published
+    links: [{ kind: 'github', href: 'https://github.com/RetRo99/Parrot' }], // TODO: add App Store / Google Play links when published
     placeholderPhase: 0.32,
-    // image: 'work/parrot.webp', // TODO: real screenshot
+    // image: parrotShot, // TODO: real screenshot in src/assets/work/
   },
   {
     id: 'bardy',
@@ -56,9 +78,9 @@ export const projects: Project[] = [
     },
     platforms: { en: ['Mobile app', 'Web admin panel', 'Backend'], sl: ['Mobilna aplikacija', 'Spletna skrbniška plošča', 'Zaledje'] }, // TODO: confirm platforms (Android/iOS?)
     stack: ['Kotlin', 'React', 'NestJS', 'LLMs'],
-    links: [], // TODO: store links / website
+    links: [], // TODO: store links / website (repo kcvete/ai-bardly is private, so no source link)
     placeholderPhase: 0.62,
-    // image: 'work/bardy.webp', // TODO: real screenshot
+    // image: bardyShot, // TODO: real screenshot in src/assets/work/
   },
   {
     id: 'hestia',
@@ -73,20 +95,6 @@ export const projects: Project[] = [
     stack: ['FastAPI', 'SvelteKit', 'SQLite FTS5'],
     links: [], // TODO: links
     placeholderPhase: 0.9,
-  },
-  {
-    id: 'product-trimmer',
-    name: 'Product Trimmer',
-    featured: false,
-    status: 'live',
-    summary: {
-      en: 'Lasso a product in a photo and get a clean cutout — 100% in-browser machine learning (BiRefNet on WebGPU), so images never leave your device.',
-      sl: 'Izdelek na fotografiji obkrožite z lasom in dobite čist izrez — strojno učenje v celoti v brskalniku (BiRefNet na WebGPU), zato slike nikoli ne zapustijo vaše naprave.',
-    },
-    platforms: { en: ['Web (runs in the browser)'], sl: ['Splet (deluje v brskalniku)'] },
-    stack: ['WebGPU', 'BiRefNet'],
-    links: [{ kind: 'demo', href: 'https://kcvete.github.io/product-trimmer/' }],
-    placeholderPhase: 0.15,
   },
 ];
 

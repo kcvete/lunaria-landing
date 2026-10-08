@@ -1,9 +1,9 @@
 ---
 import type { Dict, Lang } from '../i18n';
 import { featuredProjects } from '../data/projects';
-import { BOOKING_HREF, bookingIsExternal } from '../config';
 import CodeMoon from './CodeMoon.astro';
-import { withBase } from '../lib/url';
+import Cta from './Cta.astro';
+import { Picture } from 'astro:assets';
 
 interface Props {
   lang: Lang;
@@ -11,7 +11,6 @@ interface Props {
 }
 const { lang, t } = Astro.props;
 const w = t.work;
-const ext = bookingIsExternal ? { target: '_blank', rel: 'noopener' } : {};
 ---
 
 <section id="work" class="work" aria-labelledby="work-title">
@@ -27,7 +26,15 @@ const ext = bookingIsExternal ? { target: '_blank', rel: 'noopener' } : {};
           <li class:list={['project', i === 0 && 'project--lead']}>
             <div class="visual">
               {p.image ? (
-                <img src={withBase(p.image)} alt="" width="1200" height="750" loading="lazy" decoding="async" />
+                <Picture
+                  src={p.image}
+                  formats={['avif', 'webp']}
+                  widths={[480, 800, 1200]}
+                  sizes="(min-width: 54rem) 55vw, 100vw"
+                  alt={`${w.screenshotAlt} ${p.name}`}
+                  loading="lazy"
+                  decoding="async"
+                />
               ) : (
                 <div class="placeholder" aria-hidden="true">
                   <span class="initial">{p.name}</span>
@@ -49,7 +56,7 @@ const ext = bookingIsExternal ? { target: '_blank', rel: 'noopener' } : {};
                   <dd>{p.stack.join(', ')}</dd>
                 </div>
               </dl>
-              {p.links.length ? (
+              {p.links.length > 0 && (
                 <p class="links">
                   {p.links.map((l) => (
                     <a class="link" href={l.href} target="_blank" rel="noopener">
@@ -58,7 +65,8 @@ const ext = bookingIsExternal ? { target: '_blank', rel: 'noopener' } : {};
                     </a>
                   ))}
                 </p>
-              ) : (
+              )}
+              {p.status !== 'live' && !p.links.some((l) => l.kind === 'appStore' || l.kind === 'playStore') && (
                 <p class="soon">{w.linksSoon}</p>
               )}
             </div>
@@ -72,7 +80,7 @@ const ext = bookingIsExternal ? { target: '_blank', rel: 'noopener' } : {};
         <h3>{w.more.title}</h3>
         <p>{w.more.text}</p>
       </div>
-      <a class="btn" href={BOOKING_HREF} {...ext}>{w.more.cta}</a>
+      <Cta lang={lang} location="work" />
     </div>
   </div>
 </section>
@@ -107,7 +115,11 @@ const ext = bookingIsExternal ? { target: '_blank', rel: 'noopener' } : {};
     outline: 1px solid var(--rule-soft);
     outline-offset: -1px;
   }
-  .visual img {
+  .visual :global(picture) {
+    display: block;
+    height: 100%;
+  }
+  .visual :global(img) {
     width: 100%;
     height: 100%;
     object-fit: cover;

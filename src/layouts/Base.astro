@@ -1,38 +1,75 @@
 ---
 import '../styles/global.css';
-import { SITE_NAME, SITE_URL, CONTACT_EMAIL, OG_IMAGE, PREVIEW_NOINDEX } from '../config';
+import { SITE_NAME, SITE_URL, CONTACT_EMAIL, OG_IMAGE, PREVIEW_NOINDEX, CITY, LEGAL, SOCIAL } from '../config';
 import { withBase } from '../lib/url';
-import { languages, defaultLang, useTranslations, type Lang } from '../i18n';
+import { languages, routes, defaultLang, useTranslations, type Lang, type RouteKey } from '../i18n';
+import { team } from '../data/team';
 import { Font } from 'astro:assets';
 
 interface Props {
   lang: Lang;
+  route?: RouteKey;
+  title?: string;
+  description?: string;
 }
-const { lang } = Astro.props;
+const { lang, route = 'home' } = Astro.props;
 const t = useTranslations(lang);
+const title = Astro.props.title ?? t.meta.title;
+const description = Astro.props.description ?? t.meta.description;
 const site = Astro.site ?? new URL(SITE_URL);
 // Absolute URLs (canonical, hreflang, OG) include the base path.
 const abs = (path: string) => new URL(withBase(path), site).href;
-const canonical = abs(languages[lang].path);
-const ogImage = abs(OG_IMAGE);
-const alternates = (Object.keys(languages) as Lang[]).map((code) => ({
-  code,
-  href: abs(languages[code].path),
-}));
-const otherOgLocales = (Object.keys(languages) as Lang[])
-  .filter((code) => code !== lang)
-  .map((code) => useTranslations(code).meta.ogLocale);
+const langs = Object.keys(languages) as Lang[];
+const canonical = abs(routes[route][lang]);
+const ogImage = abs(OG_IMAGE[lang]);
+const alternates = langs.map((code) => ({ code, href: abs(routes[route][code]) }));
+const otherOgLocales = langs.filter((code) => code !== lang).map((code) => useTranslations(code).meta.ogLocale);
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: SITE_NAME,
-  url: abs(''),
-  email: CONTACT_EMAIL,
-  description: t.meta.description,
-  address: { '@type': 'PostalAddress', addressCountry: 'SI' },
-  areaServed: 'EU',
-};
+// Structured data: the studio as a ProfessionalService, plus each team member as a Person.
+const orgId = `${abs('')}#studio`;
+const sameAs = (links: Record<string, string | undefined>) => Object.values(links).filter(Boolean) as string[];
+const jsonLd =
+  route === 'home'
+    ? {
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'ProfessionalService',
+            '@id': orgId,
+            name: SITE_NAME,
+            ...(LEGAL.companyName ? { legalName: LEGAL.companyName } : {}),
+            ...(LEGAL.taxNo ? { vatID: LEGAL.taxNo } : {}),
+            url: canonical,
+            logo: abs('favicon.svg'),
+            image: ogImage,
+            email: CONTACT_EMAIL,
+            description,
+            address: {
+              '@type': 'PostalAddress',
+              addressCountry: 'SI',
+              ...(CITY ? { addressLocality: CITY } : {}),
+              ...(LEGAL.address ? { streetAddress: LEGAL.address } : {}),
+            },
+            areaServed: [
+              { '@type': 'Place', name: 'European Union' },
+              { '@type': 'Country', name: 'United Kingdom' },
+            ],
+            knowsLanguage: ['en', 'sl'],
+            ...(sameAs(SOCIAL).length ? { sameAs: sameAs(SOCIAL) } : {}),
+            employee: team.map((m) => ({ '@id': `${abs('')}#${m.id}` })),
+          },
+          ...team.map((m) => ({
+            '@type': 'Person',
+            '@id': `${abs('')}#${m.id}`,
+            name: m.name,
+            jobTitle: t.team.members[m.id].role,
+            worksFor: { '@id': orgId },
+            ...(m.photo ? { image: abs(m.photo) } : {}),
+            ...(sameAs(m.links).length ? { sameAs: sameAs(m.links) } : {}),
+          })),
+        ],
+      }
+    : null;
 ---
 
 <!doctype html>
@@ -40,36 +77,39 @@ const jsonLd = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{t.meta.title}</title>
-    <meta name="description" content={t.meta.description} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
     <meta name="theme-color" content="#0d1424" />
     <meta name="color-scheme" content="dark" />
     {PREVIEW_NOINDEX && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonical} />
     {alternates.map((a) => <link rel="alternate" hreflang={a.code} href={a.href} />)}
-    <link rel="alternate" hreflang="x-default" href={abs(languages[defaultLang].path)} />
+    <link rel="alternate" hreflang="x-default" href={abs(routes[route][defaultLang])} />
+    <link rel="sitemap" href={withBase('sitemap-index.xml')} />
 
     <link rel="icon" href={withBase('favicon.svg')} type="image/svg+xml" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={SITE_NAME} />
-    <meta property="og:title" content={t.meta.title} />
-    <meta property="og:description" content={t.meta.description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={t.meta.ogAlt} />
     <meta property="og:locale" content={t.meta.ogLocale} />
     {otherOgLocales.map((l) => <meta property="og:locale:alternate" content={l} />)}
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={t.meta.title} />
-    <meta name="twitter:description" content={t.meta.description} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={t.meta.ogAlt} />
 
     <Font cssVariable="--font-display" preload={[{ subset: 'latin', weight: '600' }]} />
     <Font cssVariable="--font-text" preload={[{ subset: 'latin', weight: '400' }]} />
 
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
 
     <noscript>
       <style>
@@ -83,6 +123,13 @@ const jsonLd = {
     <a class="skip-link" href="#main">{t.a11y.skip}</a>
     <slot />
     <script is:inline>
+      // Analytics hook (see ANALYTICS_EVENTS in src/config.ts). A no-op until a
+      // cookieless tool is wired in; elements with data-track report their event.
+      window.track = window.track || function () {};
+      document.addEventListener('click', (e) => {
+        const el = e.target.closest && e.target.closest('[data-track]');
+        if (el) window.track(el.dataset.track, { location: el.dataset.trackLocation });
+      });
       // Keep the current section when switching language (#work -> /sl/#work).
       document.querySelectorAll('[data-lang-link]').forEach((a) =>
         a.addEventListener('click', () => location.hash && (a.href = a.pathname + location.hash)),

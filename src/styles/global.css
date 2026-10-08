@@ -9,6 +9,7 @@
   --night-2: oklch(0.245 0.038 var(--hue)); /* inputs, raised */
   --rule: oklch(0.34 0.035 var(--hue));
   --rule-soft: oklch(0.27 0.032 var(--hue));
+  --field-border: oklch(0.62 0.03 var(--hue)); /* form fields: ≥ 3:1 on --night-0 and --night-1 */
 
   --text: oklch(0.94 0.012 85); /* moonlit paper, never #fff */
   --text-2: oklch(0.83 0.018 var(--hue));

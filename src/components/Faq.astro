@@ -1,5 +1,6 @@
 ---
 import type { Dict } from '../i18n';
+import { SHOW_PRICING } from '../config';
 interface Props {
   t: Dict;
 }
@@ -12,13 +13,27 @@ const f = t.faq;
     <h2 id="faq-title">{f.title}</h2>
     <div class="list">
       {
-        f.items.map((item) => (
+        f.items.map((item, i) => (
           <details>
             <summary>
               <span class="q">{item.q}</span>
               <span class="icon" aria-hidden="true" />
             </summary>
             <p>{item.a}</p>
+            {/* Price guide inside the cost answer, hidden until SHOW_PRICING is true. */}
+            {SHOW_PRICING && i === 0 && (
+              <div class="pricing">
+                <p>{f.pricing.lead}</p>
+                <dl>
+                  {f.pricing.items.map((row) => (
+                    <div>
+                      <dt>{row.label}</dt>
+                      <dd>{row.from}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            )}
           </details>
         ))
       }
@@ -85,6 +100,32 @@ const f = t.faq;
   }
   details[open] .icon::after {
     transform: rotate(0deg);
+  }
+  .pricing {
+    padding: 0 2.5rem 1.6rem 0;
+  }
+  .pricing p {
+    padding: 0 0 0.6rem;
+  }
+  .pricing dl {
+    margin: 0;
+    display: grid;
+    gap: 0.3rem;
+  }
+  .pricing dl div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    max-width: 30rem;
+  }
+  .pricing dt {
+    color: var(--text-2);
+  }
+  .pricing dd {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 500;
+    color: var(--moon);
   }
   details p {
     padding: 0 2.5rem 1.6rem 0;

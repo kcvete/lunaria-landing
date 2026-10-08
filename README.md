@@ -48,6 +48,11 @@ src/
   pages/sl/index.astro Slovenian -> /sl/
   pages/stars.svg.ts   generates the star-field tile at build time
   pages/robots.txt.ts  robots.txt, driven by PREVIEW_NOINDEX
+  pages/privacy.astro  privacy notice (EN); pages/sl/zasebnost.astro is the SL page
+  components/Cta.astro the one call to action: same label and destination everywhere
+  lib/fill.ts          fills {city} {days} {minutes} … in copy from config ([TODO] when empty)
+  data/testimonials.ts client quotes (section hidden while empty)
+  assets/work/         project screenshots (optimised to AVIF/WebP at build time)
   styles/global.css    design tokens (OKLCH) and shared styles
 public/
   .nojekyll            tells GitHub Pages not to run Jekyll
@@ -84,7 +89,7 @@ Append an object to `projects` in `src/data/projects.ts`:
   stack: ['Kotlin Multiplatform', 'NestJS'],
   links: [{ kind: 'appStore', href: 'https://…' }], // site | demo | appStore | playStore | github
   placeholderPhase: 0.4,          // moon phase on the placeholder art (0 new … 1 full)
-  image: 'work/my-app.webp',      // optional; ~1200×750 (16:10) in public/work/, no leading slash
+  image: myAppShot,               // optional; import a ~1200×750 (16:10) file from src/assets/work/ at the top of the file
 }
 ```
 
@@ -95,7 +100,7 @@ featured projects span the full width. The "Your project could be next" block al
 
 Change `SITE_NAME` in `src/config.ts`. The wordmark, page titles, meta tags, footer, JSON-LD and
 the mailto subject all read from it. Also update `SITE_URL` and `CONTACT_EMAIL`, regenerate
-`public/og.png`, and change `"name"` in `package.json` if you like.
+`public/og.png` and `public/og-sl.png`, and change `"name"` in `package.json` if you like.
 
 ## The moon made of code
 
@@ -140,10 +145,15 @@ Every placeholder is listed here. In code they are marked `TODO`
 - [ ] `PREVIEW_NOINDEX`: set to `false` so search engines may index the site.
 - [ ] `SITE_URL`: real domain (used for canonical, hreflang and OG URLs). Currently `https://kcvete.github.io`; with a custom domain also build with `BASE_PATH=''`.
 - [ ] `CONTACT_EMAIL`: real inbox. Currently `hello@lunaria.example`.
-- [ ] `BOOKING_URL`: Cal.com/Calendly link. Empty, so every "Book a call" button scrolls to the contact section.
-- [ ] `FORM_ACTION`: form backend (Formspree, Basin, own endpoint). Empty, so the form submits via `mailto:` and shows a note saying so.
+- [ ] `BOOKING_URL`: Cal.com/Calendly link. Empty, so every "Book a free consultation" button scrolls to the contact form (and the contact section shows no booking button).
+- [ ] `FORM_ACTION`: form backend (Formspree, Basin, own endpoint). Empty, so the form opens the visitor's email app with the message filled in and shows a "your email app should be open" state. With an endpoint the form posts via fetch, shows a thank-you state (plus a booking button when `BOOKING_URL` is set) and uses a `_gotcha` honeypot.
+- [ ] `CITY`: shown in the Services location line and JSON-LD (renders as `[TODO: city]`).
+- [ ] `QUOTE_WORKING_DAYS`: the "written spec and fixed quote within N working days" promise in the contact steps (renders as `[TODO: N]`).
+- [ ] `LEGAL`: company name and legal form (s.p./d.o.o.), address, matična številka, davčna številka/ID za DDV for the footer imprint (ZEPT Art. 5); retention period, email provider and date for the privacy notice (GDPR Art. 13). Each renders as `[TODO]` until filled. Have the privacy notice reviewed once the entity exists.
+- [ ] `SHOW_PRICING`: set to `true` after replacing every `€TODO` in `faq.pricing` (EN and SL).
+- [ ] Analytics (optional): wire a cookieless tool by defining `window.track` in `Base.astro`. The page already emits `booking_click` and `form_submit`. Update the privacy notice and the "no analytics" sentences if you do.
 - [ ] `SOCIAL.github` / `SOCIAL.linkedin`: optional studio profiles (hidden while empty).
-- [ ] `OG_IMAGE`: replace `public/og.png` (currently a 1200×630 capture of the hero) with a designed share image.
+- [ ] `OG_IMAGE`: replace `public/og.png` and `public/og-sl.png` (currently 1200×630 captures of each hero) with designed share images.
 
 **`src/data/projects.ts`**
 - [ ] Parrot: confirm status ("In development"); add App Store / Google Play links; add a screenshot to `public/work/`.
@@ -160,10 +170,13 @@ Every placeholder is listed here. In code they are marked `TODO`
 
 **Copy (`src/i18n/en.ts`, `src/i18n/sl.ts`)**
 - [ ] Confirm the job titles ("Backend engineer, co-founder", "Mobile engineer, co-founder", "Business process analyst", "Graphic designer") and whether Zane and Aneja should also be listed as co-founders.
-- [ ] Pricing FAQ: decide whether to publish price ranges (currently "fixed quote after a free scoping call").
+- [ ] Pricing FAQ: decide the price ranges (structure ready in `faq.pricing`, hidden by `SHOW_PRICING`).
+- [ ] Audience: confirm "startups and growing businesses" (`audience` constant at the top of `en.ts` / `sl.ts`).
+- [ ] AI data handling: confirm the sentence "Your code and data are never used to train AI models" matches the terms of the AI tools you use.
+- [ ] Testimonials: add real, attributed quotes to `src/data/testimonials.ts` (the section stays hidden while empty).
 - [ ] Timeline FAQ: confirm "4 to 12 weeks" for a typical first version.
 - [ ] Contact form budget options (under €10k / €10–25k / €25–50k / over €50k): confirm the brackets.
-- [ ] Confirm the promises "Replies within 24 hours", "free and non-binding consultation" and "Weekly demos" are ones you will keep.
+- [ ] Confirm the promises "We reply within 1 working day", "free 30-minute call, no obligation" and "Weekly demos" are ones you will keep.
 - [ ] Have a native speaker do a final read of `sl.ts`.
 
 **Other**

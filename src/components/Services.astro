@@ -1,5 +1,6 @@
 ---
 import type { Dict } from '../i18n';
+import { fill } from '../lib/fill';
 interface Props {
   t: Dict;
 }
@@ -11,7 +12,10 @@ const s = t.services;
   <div class="container">
     <div class="head">
       <h2 id="services-title">{s.title}</h2>
-      <p class="lede">{s.intro}</p>
+      <div class="intro">
+        <p class="lede">{s.intro}</p>
+        <p class="location">{fill(s.location)}</p>
+      </div>
     </div>
     <ul class="rows">
       {
@@ -37,6 +41,15 @@ const s = t.services;
     display: grid;
     gap: 1.25rem;
     margin-bottom: clamp(2.5rem, 2rem + 3vw, 4.5rem);
+  }
+  .intro {
+    display: grid;
+    gap: 0.9rem;
+  }
+  .location {
+    max-width: 38rem;
+    color: var(--muted);
+    font-size: 0.98rem;
   }
   .rows {
     list-style: none;
