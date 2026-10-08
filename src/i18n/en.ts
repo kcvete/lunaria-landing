@@ -8,7 +8,7 @@ export const en = {
   meta: {
     title: `${SITE_NAME}: software development studio for mobile apps and backends`,
     description:
-      `${SITE_NAME} is a software development studio from Slovenia. We build iOS and Android apps with Kotlin Multiplatform, backends and APIs with Node.js and NestJS, and custom software with AI integrations. Fixed quotes, weekly demos.`,
+      `${SITE_NAME} is a software development studio from Slovenia. We build iOS and Android apps with Kotlin Multiplatform, backends and APIs with Node.js and NestJS, and custom software with AI integrations. Requirements analysis and design in-house, fixed quotes, weekly demos.`,
     ogLocale: 'en_US',
   },
   a11y: {
@@ -30,7 +30,7 @@ export const en = {
   },
   hero: {
     title: 'We build mobile apps and backend systems for your business.',
-    sub: `${SITE_NAME} is a software development studio from Slovenia. Two senior engineers, fixed quotes, code you own.`,
+    sub: `${SITE_NAME} is a software development studio from Slovenia: two engineers, a business analyst and a designer. Fixed quotes, code you own.`,
     servicesLabel: 'What we build',
     services: [
       { name: 'Mobile apps', detail: 'iOS and Android from one Kotlin Multiplatform codebase' },
@@ -43,7 +43,7 @@ export const en = {
   },
   services: {
     title: 'Services',
-    intro: 'Mobile, backend and custom software from one team, so there are no handoffs between agencies. We are based in Slovenia and work with clients across the EU.',
+    intro: 'Requirements analysis, design, mobile, backend and custom software from one team, so nothing gets lost between agencies. We are based in Slovenia and work with clients across the EU.',
     items: [
       {
         title: 'Mobile apps',
@@ -96,7 +96,7 @@ export const en = {
       },
       {
         title: 'Every line is reviewed',
-        text: 'Nothing is merged until one of us has read it, understood it and is ready to answer for it. Generated code never goes straight to production.',
+        text: 'Nothing is merged until one of our engineers has read it, understood it and is ready to answer for it. Generated code never goes straight to production.',
       },
       {
         title: 'Code you own and can hand over',
@@ -108,15 +108,15 @@ export const en = {
     title: 'How we work',
     intro: 'A fixed price, a written plan and a working build every week. You always know what is being built, what it costs and when it ships.',
     steps: [
-      { name: 'Discover', when: 'Free consultation', text: 'We go through your goals, users, timeline and budget, and tell you honestly whether we are the right fit.' },
-      { name: 'Scope', when: 'Fixed quote', text: 'You get a written plan with milestones and a fixed quote, so the budget is settled before work starts.' },
+      { name: 'Discover', when: 'Free consultation', text: 'Our business analyst and an engineer go through your goals, users, processes and budget, and tell you honestly whether we are the right fit.' },
+      { name: 'Scope', when: 'Spec and fixed quote', text: 'Your requirements become a written spec with designs for the key screens, milestones and a fixed quote, so scope and budget are settled before any code is written.' },
       { name: 'Build', when: 'Weekly demos', text: 'Short sprints, and a working build to try every week. You can change direction early instead of late.' },
       { name: 'Launch and support', when: 'After release', text: 'We ship to the App Store, Google Play and production, then stay on for fixes, monitoring and what comes next.' },
     ],
   },
   team: {
-    title: 'Talk to the engineers, not a salesperson.',
-    intro: 'Two senior engineers. Rok builds the iOS and Android apps in Kotlin Multiplatform; Kevin builds the Node.js and NestJS backends behind them. You talk directly to the people who write your code.',
+    title: 'Talk to the people doing the work, not a salesperson.',
+    intro: 'Four people, and you talk to each of them directly. Kevin builds the Node.js and NestJS backends, Rok the iOS and Android apps in Kotlin Multiplatform, Zane turns your business needs into a clear spec, and Aneja designs how the product looks and works.',
     members: {
       kevin: {
         role: 'Backend engineer, co-founder',
@@ -125,6 +125,14 @@ export const en = {
       rok: {
         role: 'Mobile engineer, co-founder',
         bio: 'Android and Kotlin Multiplatform engineer who specialises in taking KMP apps to production on iOS. Works deep in Jetpack Compose and software architecture.',
+      },
+      zane: {
+        role: 'Business process analyst',
+        bio: 'Maps how your business actually works, adapts the product to each new customer’s needs, and writes the requirements the engineers build from: what to build, for whom, and how you will know it is done.',
+      },
+      aneja: {
+        role: 'Graphic designer',
+        bio: 'Designs visual identities, app and web interfaces, and marketing visuals, so the product looks finished and consistent from the first screen to the launch post.',
       },
     },
     linkLabels: { github: 'GitHub', linkedin: 'LinkedIn', site: 'Website' },
@@ -146,8 +154,8 @@ export const en = {
         a: 'You do, 100%. The code, the repositories and the infrastructure accounts are yours from day one.',
       },
       {
-        q: 'What if one of you is unavailable?',
-        a: 'Both of us know every codebase we work on. Shared ownership, a review on every change and written documentation keep the project moving.',
+        q: 'What if someone on the team is unavailable?',
+        a: 'Both engineers know every codebase we work on, and the spec and designs are written down rather than kept in one person’s head. Shared ownership and a review on every change keep the project moving.',
       },
       {
         q: 'Do you work with clients outside Slovenia?',

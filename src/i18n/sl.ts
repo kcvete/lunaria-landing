@@ -9,7 +9,7 @@ export const sl: Dict = {
   meta: {
     title: `${SITE_NAME}: razvoj programske opreme, mobilnih aplikacij in zalednih sistemov`,
     description:
-      `${SITE_NAME} je studio za razvoj programske opreme iz Slovenije. Razvijamo aplikacije za iOS in Android v Kotlin Multiplatform, zaledne sisteme in API-je v Node.js in NestJS ter programsko opremo po meri z integracijami umetne inteligence. Fiksne ponudbe, tedenske predstavitve.`,
+      `${SITE_NAME} je studio za razvoj programske opreme iz Slovenije. Razvijamo aplikacije za iOS in Android v Kotlin Multiplatform, zaledne sisteme in API-je v Node.js in NestJS ter programsko opremo po meri z integracijami umetne inteligence. Analiza zahtev in oblikovanje v hiši, fiksne ponudbe, tedenske predstavitve.`,
     ogLocale: 'sl_SI',
   },
   a11y: {
@@ -31,7 +31,7 @@ export const sl: Dict = {
   },
   hero: {
     title: 'Razvijamo mobilne aplikacije in zaledne sisteme za vaše podjetje.',
-    sub: `${SITE_NAME} je studio za razvoj programske opreme iz Slovenije. Dva izkušena inženirja, fiksne ponudbe in koda, ki je vaša.`,
+    sub: `${SITE_NAME} je studio za razvoj programske opreme iz Slovenije: dva inženirja, poslovna analitičarka in oblikovalka. Fiksne ponudbe in koda, ki je vaša.`,
     servicesLabel: 'Kaj razvijamo',
     services: [
       { name: 'Mobilne aplikacije', detail: 'iOS in Android iz ene kode v Kotlin Multiplatform' },
@@ -44,7 +44,7 @@ export const sl: Dict = {
   },
   services: {
     title: 'Storitve',
-    intro: 'Mobilni razvoj, zaledje in programska oprema po meri pri eni ekipi, brez predajanja dela med agencijami. Delamo iz Slovenije, s strankami po vsej EU.',
+    intro: 'Analiza zahtev, oblikovanje, mobilni razvoj, zaledje in programska oprema po meri pri eni ekipi, zato se med agencijami nič ne izgubi. Delamo iz Slovenije, s strankami po vsej EU.',
     items: [
       {
         title: 'Mobilne aplikacije',
@@ -97,7 +97,7 @@ export const sl: Dict = {
       },
       {
         title: 'Vsaka vrstica je pregledana',
-        text: 'Nič ne gre v kodo, dokler je eden od naju ne prebere, razume in zanjo prevzame odgovornost. Generirana koda nikoli ne gre naravnost v produkcijo.',
+        text: 'Nič ne gre v kodo, dokler je eden od naših inženirjev ne prebere, razume in zanjo prevzame odgovornost. Generirana koda nikoli ne gre naravnost v produkcijo.',
       },
       {
         title: 'Koda, ki je vaša in jo lahko predate',
@@ -109,15 +109,15 @@ export const sl: Dict = {
     title: 'Kako delamo',
     intro: 'Fiksna cena, pisni načrt in vsak teden delujoča različica. Vedno veste, kaj nastaja, koliko stane in kdaj bo nared.',
     steps: [
-      { name: 'Spoznavanje', when: 'Brezplačen posvet', text: 'Pregledamo vaše cilje, uporabnike, roke in proračun ter iskreno povemo, ali smo prava izbira za vas.' },
-      { name: 'Načrt', when: 'Fiksna ponudba', text: 'Dobite pisni načrt z mejniki in fiksno ponudbo, tako da je proračun dogovorjen, še preden začnemo.' },
+      { name: 'Spoznavanje', when: 'Brezplačen posvet', text: 'Naša poslovna analitičarka in inženir pregledata vaše cilje, uporabnike, procese in proračun ter iskreno povesta, ali smo prava izbira za vas.' },
+      { name: 'Načrt', when: 'Specifikacija in fiksna ponudba', text: 'Vaše zahteve pretvorimo v pisno specifikacijo z osnutki ključnih zaslonov, mejniki in fiksno ponudbo, tako da sta obseg in proračun dogovorjena, še preden napišemo prvo vrstico kode.' },
       { name: 'Razvoj', when: 'Tedenske predstavitve', text: 'Kratki cikli in vsak teden delujoča različica za preizkus. Smer lahko spremenite zgodaj, ne šele na koncu.' },
       { name: 'Objava in podpora', when: 'Po izidu', text: 'Objavimo v App Store, Google Play in produkcijo, nato pa ostanemo za popravke, nadzor in vse, kar sledi.' },
     ],
   },
   team: {
-    title: 'Pogovarjate se z inženirji, ne s prodajalci.',
-    intro: 'Dva izkušena inženirja. Rok razvija aplikacije za iOS in Android v Kotlin Multiplatform, Kevin pa zaledne sisteme v Node.js in NestJS, na katerih tečejo. Pogovarjate se neposredno z ljudmi, ki pišejo vašo kodo.',
+    title: 'Pogovarjate se z ljudmi, ki delajo na vašem projektu, ne s prodajalci.',
+    intro: 'Štirje ljudje, s katerimi se pogovarjate neposredno. Kevin razvija zaledne sisteme v Node.js in NestJS, Rok aplikacije za iOS in Android v Kotlin Multiplatform, Zane vaše poslovne potrebe pretvori v jasno specifikacijo, Aneja pa oblikuje, kakšen je izdelek na pogled in kako deluje.',
     members: {
       kevin: {
         role: 'Zaledni inženir, soustanovitelj',
@@ -126,6 +126,14 @@ export const sl: Dict = {
       rok: {
         role: 'Mobilni inženir, soustanovitelj',
         bio: 'Inženir za Android in Kotlin Multiplatform, specializiran za to, da aplikacije KMP pripelje do produkcije tudi na iOS. Doma je v Jetpack Compose in programski arhitekturi.',
+      },
+      zane: {
+        role: 'Analitičarka poslovnih procesov', // TODO: confirm form
+        bio: 'Preuči, kako vaše podjetje dejansko deluje, prilagodi izdelek potrebam vsake nove stranke in zapiše zahteve, po katerih razvijajo inženirji: kaj zgraditi, za koga in kako boste vedeli, da je narejeno.',
+      },
+      aneja: {
+        role: 'Grafična oblikovalka',
+        bio: 'Oblikuje celostne grafične podobe, vmesnike aplikacij in spletnih strani ter marketinške vizuale, da je izdelek dodelan in enoten od prvega zaslona do objave ob izidu.',
       },
     },
     linkLabels: { github: 'GitHub', linkedin: 'LinkedIn', site: 'Spletna stran' },
@@ -147,8 +155,8 @@ export const sl: Dict = {
         a: 'Vaša, v celoti. Koda, repozitoriji in računi za infrastrukturo so vaši od prvega dne.',
       },
       {
-        q: 'Kaj, če eden od vaju ni na voljo?',
-        a: 'Oba poznava vsako kodo, na kateri delava. Skupno lastništvo, pregled vsake spremembe in pisna dokumentacija poskrbijo, da projekt teče naprej.',
+        q: 'Kaj, če kdo iz ekipe ni na voljo?',
+        a: 'Oba inženirja poznata vsako kodo, na kateri delamo, specifikacija in oblikovanje pa sta zapisana, ne le v glavi enega človeka. Skupno lastništvo in pregled vsake spremembe poskrbita, da projekt teče naprej.',
       },
       {
         q: 'Delate tudi s strankami zunaj Slovenije?',

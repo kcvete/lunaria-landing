@@ -3,7 +3,7 @@
  * (`team.members.<id>` in src/i18n/en.ts and sl.ts); this file holds the rest.
  */
 export interface TeamMember {
-  id: 'kevin' | 'rok';
+  id: 'kevin' | 'rok' | 'zane' | 'aneja';
   name: string;
   /** Square portrait, path relative to /public (e.g. 'team/rok.jpg'). '' renders initials instead. */
   photo: string;
@@ -31,6 +31,23 @@ export const team: TeamMember[] = [
       github: 'https://github.com/RetRo99',
       linkedin: 'https://www.linkedin.com/in/rok-retar/',
       site: 'https://www.retar.app',
+    },
+  },
+  {
+    id: 'zane',
+    name: 'Zane Feodora', // TODO: confirm spelling
+    photo: '', // TODO: real portrait (initials "ZF" until then)
+    links: {
+      linkedin: '', // TODO: LinkedIn URL
+    },
+  },
+  {
+    id: 'aneja',
+    name: 'Aneja Fučka', // TODO: confirm spelling
+    photo: '', // TODO: real portrait (initials "AF" until then)
+    links: {
+      linkedin: '', // TODO: LinkedIn URL
+      site: '', // TODO: portfolio URL
     },
   },
 ];

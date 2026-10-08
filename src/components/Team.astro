@@ -32,6 +32,7 @@ const linkOrder = ['github', 'linkedin', 'site'] as const;
                 <h3>{m.name}</h3>
                 <p class="role">{copy.role}</p>
                 <p class="bio">{copy.bio}</p>
+                {links.length > 0 && (
                 <p class="links">
                   {links.map((l) => (
                     <a class="link" href={l.href} target="_blank" rel="noopener me">
@@ -40,6 +41,7 @@ const linkOrder = ['github', 'linkedin', 'site'] as const;
                     </a>
                   ))}
                 </p>
+                )}
               </div>
             </li>
           );
@@ -126,16 +128,23 @@ const linkOrder = ['github', 'linkedin', 'site'] as const;
     }
   }
   @media (min-width: 62rem) {
+    /* 2 × 2: engineers on the first row, analyst and designer below,
+       divided by hairlines rather than boxed into cards */
     .duo {
       grid-template-columns: 1fr 1fr;
       gap: 0;
     }
-    .person + .person {
+    .person:nth-child(odd) {
+      padding-right: 3rem;
+    }
+    .person:nth-child(even) {
       padding-left: 3rem;
       border-left: 1px solid var(--rule);
     }
-    .person:first-child {
-      padding-right: 3rem;
+    .person:nth-child(n + 3) {
+      margin-top: 3rem;
+      padding-top: 3rem;
+      border-top: 1px solid var(--rule);
     }
   }
 </style>

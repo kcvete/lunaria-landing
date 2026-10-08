@@ -155,9 +155,11 @@ Every placeholder is listed here. In code they are marked `TODO`
 - [ ] Kevin: add a real portrait. His GitHub avatar (`public/team/kevin.png`) is an auto-generated identicon rather than a photo, so the page shows initials ("KC") until `photo` is set.
 - [ ] Kevin: add a LinkedIn URL.
 - [ ] Rok: replace the GitHub avatar (`public/team/rok.jpg`) with a chosen portrait if you prefer.
+- [ ] Zane Feodora and Aneja Fučka: confirm name spellings; add portraits (initials "ZF" / "AF" until then); add LinkedIn (and Aneja's portfolio) URLs.
+- [ ] Zane's Slovenian title: confirm "Analitičarka poslovnih procesov" (feminine form).
 
 **Copy (`src/i18n/en.ts`, `src/i18n/sl.ts`)**
-- [ ] Confirm the job titles ("Backend engineer, co-founder" and "Mobile engineer, co-founder").
+- [ ] Confirm the job titles ("Backend engineer, co-founder", "Mobile engineer, co-founder", "Business process analyst", "Graphic designer") and whether Zane and Aneja should also be listed as co-founders.
 - [ ] Pricing FAQ: decide whether to publish price ranges (currently "fixed quote after a free scoping call").
 - [ ] Timeline FAQ: confirm "4 to 12 weeks" for a typical first version.
 - [ ] Contact form budget options (under €10k / €10–25k / €25–50k / over €50k): confirm the brackets.
