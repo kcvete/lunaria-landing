@@ -1,7 +1,7 @@
 ---
 import type { Dict } from '../i18n';
 import { team } from '../data/team';
-import { withBase } from '../lib/url';
+import { Image } from 'astro:assets';
 interface Props {
   t: Dict;
 }
@@ -22,7 +22,18 @@ const linkOrder = ['github', 'linkedin', 'site'] as const;
           return (
             <li class="person">
               {m.photo ? (
-                <img class="portrait" src={withBase(m.photo)} alt={`${tm.photoAlt} ${m.name}`} width="112" height="112" loading="lazy" decoding="async" />
+                <Image
+                  class="portrait"
+                  src={m.photo}
+                  alt={`${tm.photoAlt} ${m.name}`}
+                  width={112}
+                  height={112}
+                  densities={[1, 2]}
+                  format="webp"
+                  quality={82}
+                  loading="lazy"
+                  decoding="async"
+                />
               ) : (
                 <span class="portrait initials" aria-hidden="true">
                   {m.name.split(' ').map((n) => n[0]).join('')}
@@ -74,7 +85,7 @@ const linkOrder = ['github', 'linkedin', 'site'] as const;
     gap: 1.25rem;
     align-items: start;
   }
-  .portrait {
+  .person :global(.portrait) {
     width: 4.5rem;
     height: 4.5rem;
     border-radius: 50%;
@@ -121,7 +132,7 @@ const linkOrder = ['github', 'linkedin', 'site'] as const;
       grid-template-columns: 7rem 1fr;
       gap: 1.75rem;
     }
-    .portrait {
+    .person :global(.portrait) {
       width: 7rem;
       height: 7rem;
       font-size: 2.1rem;

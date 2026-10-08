@@ -4,7 +4,7 @@ import { SITE_NAME, SITE_URL, CONTACT_EMAIL, OG_IMAGE, PREVIEW_NOINDEX, CITY, LE
 import { withBase } from '../lib/url';
 import { languages, routes, defaultLang, useTranslations, type Lang, type RouteKey } from '../i18n';
 import { team } from '../data/team';
-import { Font } from 'astro:assets';
+import { Font, getImage } from 'astro:assets';
 
 interface Props {
   lang: Lang;
@@ -27,6 +27,11 @@ const otherOgLocales = langs.filter((code) => code !== lang).map((code) => useTr
 
 // Structured data: the studio as a ProfessionalService, plus each team member as a Person.
 const orgId = `${abs('')}#studio`;
+const photoUrls = Object.fromEntries(
+  await Promise.all(
+    team.map(async (m) => [m.id, m.photo ? new URL((await getImage({ src: m.photo, width: 224, format: 'webp' })).src, site).href : null]),
+  ),
+);
 const sameAs = (links: Record<string, string | undefined>) => Object.values(links).filter(Boolean) as string[];
 const jsonLd =
   route === 'home'
@@ -64,7 +69,7 @@ const jsonLd =
             name: m.name,
             jobTitle: t.team.members[m.id].role,
             worksFor: { '@id': orgId },
-            ...(m.photo ? { image: abs(m.photo) } : {}),
+            ...(photoUrls[m.id] ? { image: photoUrls[m.id] } : {}),
             ...(sameAs(m.links).length ? { sameAs: sameAs(m.links) } : {}),
           })),
         ],

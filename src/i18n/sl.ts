@@ -144,7 +144,7 @@ export const sl: Dict = {
         bio: 'Inženir za Android in Kotlin Multiplatform, specializiran za to, da aplikacije KMP pripelje do produkcije tudi na iOS. Doma je v Jetpack Compose in programski arhitekturi.',
       },
       zane: {
-        role: 'Analitičarka poslovnih procesov', // TODO: confirm form
+        role: 'Analitičarka poslovnih procesov',
         bio: 'Preuči, kako vaše podjetje dejansko deluje, prilagodi izdelek potrebam vsake nove stranke in zapiše zahteve, po katerih razvijajo inženirji: kaj zgraditi, za koga in kako boste vedeli, da je narejeno.',
       },
       aneja: {

@@ -53,10 +53,10 @@ src/
   lib/fill.ts          fills {city} {days} {minutes} … in copy from config ([TODO] when empty)
   data/testimonials.ts client quotes (section hidden while empty)
   assets/work/         project screenshots (optimised to AVIF/WebP at build time)
+  assets/team/         team portraits (optimised to WebP at build time)
   styles/global.css    design tokens (OKLCH) and shared styles
 public/
   .nojekyll            tells GitHub Pages not to run Jekyll
-  team/                portraits
   work/                project screenshots (empty for now)
   og.png               share image (placeholder: a capture of the hero)
 ```
@@ -162,11 +162,9 @@ Every placeholder is listed here. In code they are marked `TODO`
 - [ ] Product Trimmer: decide whether to feature it (`featured: false`). Its live demo link is already set.
 
 **`src/data/team.ts`**
-- [ ] Kevin: add a real portrait. His GitHub avatar (`public/team/kevin.png`) is an auto-generated identicon rather than a photo, so the page shows initials ("KC") until `photo` is set.
-- [ ] Kevin: add a LinkedIn URL.
-- [ ] Rok: replace the GitHub avatar (`public/team/rok.jpg`) with a chosen portrait if you prefer.
-- [ ] Zane Feodora and Aneja Fučka: confirm name spellings; add portraits (initials "ZF" / "AF" until then); add LinkedIn (and Aneja's portfolio) URLs.
-- [ ] Zane's Slovenian title: confirm "Analitičarka poslovnih procesov" (feminine form).
+- [x] Team photos and LinkedIn links for all four (photos in `src/assets/team/`, optimised to WebP; `photo: null` falls back to initials for future members).
+- [ ] Optional: higher-resolution originals for Kevin, Zane and Aneja (the current ones are cropped from 200×200 LinkedIn photos, slightly soft on 2× screens). Rok's is 460×460.
+- [ ] Aneja: portfolio URL (optional).
 
 **Copy (`src/i18n/en.ts`, `src/i18n/sl.ts`)**
 - [ ] Confirm the job titles ("Backend engineer, co-founder", "Mobile engineer, co-founder", "Business process analyst", "Graphic designer") and whether Zane and Aneja should also be listed as co-founders.
