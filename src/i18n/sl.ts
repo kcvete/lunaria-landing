@@ -7,9 +7,9 @@ import type { Dict } from './index';
  */
 export const sl: Dict = {
   meta: {
-    title: `${SITE_NAME} — mobilne aplikacije in zaledni sistemi po meri`,
+    title: `${SITE_NAME}: razvoj programske opreme, mobilnih aplikacij in zalednih sistemov`,
     description:
-      'Dva izkušena inženirja iz Slovenije. Razvijamo aplikacije za iOS in Android v Kotlin Multiplatform, zaledne sisteme v Node.js in NestJS ter programsko opremo po meri. Z orodji umetne inteligence, ročno pregledano, v nekaj tednih.',
+      `${SITE_NAME} je studio za razvoj programske opreme iz Slovenije. Razvijamo aplikacije za iOS in Android v Kotlin Multiplatform, zaledne sisteme in API-je v Node.js in NestJS ter programsko opremo po meri z integracijami umetne inteligence. Fiksne ponudbe, tedenske predstavitve.`,
     ogLocale: 'sl_SI',
   },
   a11y: {
@@ -27,39 +27,45 @@ export const sl: Dict = {
     process: 'Potek dela',
     team: 'Ekipa',
     faq: 'Vprašanja',
-    cta: 'Rezervirajte klic',
+    cta: 'Brezplačen posvet',
   },
   hero: {
-    title: 'Aplikacije in zaledni sistemi, razviti po meri.',
-    sub: 'Smo studio dveh izkušenih inženirjev iz Slovenije. Rok razvija aplikacije za iOS in Android v Kotlin Multiplatform, Kevin pa zaledne sisteme v Node.js in NestJS, na katerih te aplikacije tečejo. Rutinsko delo pospešimo z orodji umetne inteligence, zato je prva različica vašega izdelka nared v tednih, ne v mesecih.',
-    ctaPrimary: 'Rezervirajte klic',
-    ctaSecondary: 'Oglejte si projekte',
-    trust: 'Prvi pogovor je brezplačen in vas ne zavezuje k ničemur. Odgovorimo v 24 urah.',
+    title: 'Razvijamo mobilne aplikacije in zaledne sisteme za vaše podjetje.',
+    sub: `${SITE_NAME} je studio za razvoj programske opreme iz Slovenije. Dva izkušena inženirja, fiksne ponudbe in koda, ki je vaša.`,
+    servicesLabel: 'Kaj razvijamo',
+    services: [
+      { name: 'Mobilne aplikacije', detail: 'iOS in Android iz ene kode v Kotlin Multiplatform' },
+      { name: 'Zaledje in API-ji', detail: 'Node.js, NestJS in PostgreSQL na GCP ali DigitalOcean' },
+      { name: 'Programska oprema po meri', detail: 'Spletne aplikacije, interna orodja in integracije umetne inteligence' },
+    ],
+    ctaPrimary: 'Rezervirajte brezplačen posvet',
+    ctaSecondary: 'Pošljite povpraševanje',
+    trust: 'Posvet je brezplačen in nezavezujoč. Odgovorimo v 24 urah.',
   },
   services: {
-    title: 'Kaj razvijamo',
-    intro: 'Ena majhna ekipa pokrije vse plasti, od zaslona v rokah vaše stranke do baze podatkov v ozadju. Delamo iz Slovenije, s strankami po vsej EU.',
+    title: 'Storitve',
+    intro: 'Mobilni razvoj, zaledje in programska oprema po meri pri eni ekipi, brez predajanja dela med agencijami. Delamo iz Slovenije, s strankami po vsej EU.',
     items: [
       {
         title: 'Mobilne aplikacije',
-        text: 'Ena koda v Kotlin Multiplatform, iz katere nastaneta domorodni aplikaciji za iOS in Android. Skupna poslovna logika, domorodna zmogljivost in vmesnik v Compose Multiplatform ali Jetpack Compose. Poskrbimo tudi za sinhronizacijo brez povezave, plačila in objavo v trgovinah.',
+        text: 'Domorodni aplikaciji za iOS in Android iz ene kode v Kotlin Multiplatform, zato vsaka nova funkcija pride na obe platformi hkrati. Vmesnik v Compose Multiplatform ali Jetpack Compose. Poskrbimo tudi za sinhronizacijo brez povezave, plačila in objavo v App Store in Google Play.',
         stack: ['Kotlin Multiplatform', 'Compose Multiplatform', 'Jetpack Compose', 'Ktor', 'SQLDelight'],
       },
       {
         title: 'Zaledje in API-ji',
-        text: 'API-ji, podatkovni tokovi in infrastruktura pod njimi, zgrajeni tako, da delujejo tudi, ko število uporabnikov raste. Povežemo tudi storitve za plačila, e-pošto, analitiko in CRM, od katerih je odvisen vaš izdelek.',
+        text: 'API-ji, podatkovni tokovi in oblačna infrastruktura, ki delujejo tudi, ko število uporabnikov raste. Povežemo storitve za plačila, e-pošto, analitiko in CRM, od katerih je odvisen vaš izdelek, in prevzamemo ter stabiliziramo obstoječe zaledje.',
         stack: ['Node.js', 'TypeScript', 'NestJS', 'PostgreSQL', 'GCP', 'DigitalOcean'],
       },
       {
         title: 'Programska oprema po meri in umetna inteligenca',
-        text: 'Spletne aplikacije in interna orodja, prilagojena temu, kako vaša ekipa dejansko dela, funkcije z velikimi jezikovnimi modeli v obstoječih izdelkih in avtomatizacija opravil, ki jih nihče ne želi delati ročno.',
+        text: 'Spletne aplikacije in interna orodja, prilagojena načinu dela vaše ekipe, funkcije z velikimi jezikovnimi modeli v obstoječih izdelkih in avtomatizacija ponavljajočega se ročnega dela.',
         stack: ['Spletne aplikacije', 'Interna orodja', 'Integracija LLM', 'Avtomatizacija'],
       },
     ],
   },
   work: {
-    title: 'Naši lastni izdelki',
-    intro: 'Med projekti za stranke razvijamo tudi svoje izdelke. Delo za stranke ostaja zaupno, razen če želite, da ga pokažemo tukaj.',
+    title: 'Izdelki, ki smo jih razvili',
+    intro: 'Naši lastni izdelki, razviti od začetka do konca z enakimi tehnologijami in postopkom kot za stranke. Delo za stranke ostaja zaupno, razen če se strinjate, da ga pokažemo.',
     status: {
       'in-development': 'V razvoju',
       beta: 'V beta različici',
@@ -77,13 +83,13 @@ export const sl: Dict = {
     },
     more: {
       title: 'Naslednji je lahko vaš projekt.',
-      text: 'Potrebujete aplikacijo, API ali oboje? Povejte nam, kaj imate v mislih, in iskreno vam bomo povedali, kako bi se lotili.',
+      text: 'Potrebujete aplikacijo, API ali oboje? Pošljite kratek opis in odgovorili vam bomo, kako bi ga razvili, skupaj z okvirnim načrtom.',
       cta: 'Začnimo projekt',
     },
   },
   ai: {
     title: 'Umetna inteligenca nas pospeši, ne nadomesti.',
-    intro: 'Orodja umetne inteligence uporabljamo vsak dan. Tukaj so naše meje.',
+    intro: 'Orodja umetne inteligence uporabljamo vsak dan, da delo opravimo hitreje. Tole to pomeni za vaš projekt.',
     points: [
       {
         title: 'Hitreje pri rutinskem delu',
@@ -100,10 +106,10 @@ export const sl: Dict = {
     ],
   },
   process: {
-    title: 'Kako poteka projekt',
-    intro: 'Štiri faze, vsakič enake. Vedno veste, kaj nastaja, koliko stane in kdaj bo nared.',
+    title: 'Kako delamo',
+    intro: 'Fiksna cena, pisni načrt in vsak teden delujoča različica. Vedno veste, kaj nastaja, koliko stane in kdaj bo nared.',
     steps: [
-      { name: 'Spoznavanje', when: 'Brezplačen klic', text: 'Pogovorimo se o vaši ideji, uporabnikih in omejitvah. Brez prodajnih predstavitev in brez pritiska.' },
+      { name: 'Spoznavanje', when: 'Brezplačen posvet', text: 'Pregledamo vaše cilje, uporabnike, roke in proračun ter iskreno povemo, ali smo prava izbira za vas.' },
       { name: 'Načrt', when: 'Fiksna ponudba', text: 'Dobite pisni načrt z mejniki in fiksno ponudbo, tako da je proračun dogovorjen, še preden začnemo.' },
       { name: 'Razvoj', when: 'Tedenske predstavitve', text: 'Kratki cikli in vsak teden delujoča različica za preizkus. Smer lahko spremenite zgodaj, ne šele na koncu.' },
       { name: 'Objava in podpora', when: 'Po izidu', text: 'Objavimo v App Store, Google Play in produkcijo, nato pa ostanemo za popravke, nadzor in vse, kar sledi.' },
@@ -111,7 +117,7 @@ export const sl: Dict = {
   },
   team: {
     title: 'Pogovarjate se z inženirji, ne s prodajalci.',
-    intro: 'Majhna ekipa, izkušene roke. Pogovarjate se neposredno z ljudmi, ki pišejo vašo kodo.',
+    intro: 'Dva izkušena inženirja. Rok razvija aplikacije za iOS in Android v Kotlin Multiplatform, Kevin pa zaledne sisteme v Node.js in NestJS, na katerih tečejo. Pogovarjate se neposredno z ljudmi, ki pišejo vašo kodo.',
     members: {
       kevin: {
         role: 'Zaledni inženir, soustanovitelj',
@@ -126,7 +132,7 @@ export const sl: Dict = {
     photoAlt: 'Portret:',
   },
   faq: {
-    title: 'Kaj nas stranke vprašajo najprej',
+    title: 'Pogosta vprašanja',
     items: [
       {
         q: 'Koliko stane projekt?',
@@ -156,8 +162,8 @@ export const sl: Dict = {
   },
   contact: {
     title: 'Imate idejo? Zgradimo jo.',
-    sub: 'Rezervirajte brezplačen klic ali nam v nekaj vrsticah opišite svoj projekt. Odgovorimo v 24 urah.',
-    ctaBook: 'Rezervirajte klic',
+    sub: 'Rezervirajte brezplačen posvet ali pošljite kratek opis projekta. V 24 urah vam odgovorimo z naslednjimi koraki.',
+    ctaBook: 'Rezervirajte brezplačen posvet',
     orEmail: 'Vam je ljubša e-pošta? Pišite na',
     formTitle: 'Povejte nam o svojem projektu',
     fields: {

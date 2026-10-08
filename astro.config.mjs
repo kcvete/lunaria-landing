@@ -2,8 +2,13 @@
 import { defineConfig, fontProviders } from 'astro/config';
 import { SITE_URL } from './src/config.ts';
 
+// Hosting: GitHub Pages project site at https://kcvete.github.io/lunaria-landing/.
+// With a custom domain, build with BASE_PATH='' (and SITE_URL=https://your.domain).
+const base = process.env.BASE_PATH ?? '/lunaria-landing';
+
 export default defineConfig({
-  site: SITE_URL,
+  site: process.env.SITE_URL || SITE_URL,
+  base: base || '/',
   output: 'static',
   trailingSlash: 'ignore',
   // The whole stylesheet is small, so inline it: no render-blocking CSS request.

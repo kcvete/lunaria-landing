@@ -53,8 +53,9 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  /* the sky: one small, cached SVG tile (see src/pages/stars.svg.ts) */
-  background: var(--night-0) url('/stars.svg') 0 0 / 760px 760px repeat;
+  /* the sky: one small, cached SVG tile (src/pages/stars.svg.ts). --stars is set
+     on <html> in Base.astro so the URL respects the site base path. */
+  background: var(--night-0) var(--stars) 0 0 / 760px 760px repeat;
   color: var(--text);
   font-family: var(--font-text);
   font-size: var(--step-0);

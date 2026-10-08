@@ -1,6 +1,6 @@
 ---
 import type { Dict } from '../i18n';
-import Moon from './Moon.astro';
+import CodeMoon from './CodeMoon.astro';
 interface Props {
   t: Dict;
 }
@@ -20,7 +20,7 @@ const phases = [0, 0.22, 0.5, 1];
       {
         p.steps.map((s, i) => (
           <li class="step">
-            <Moon lit={phases[i] ?? 1} size={56} ring={i === 0} class="phase" />
+            <CodeMoon cols={20} lit={phases[i] ?? 1} seed={11 + i} class="phase" />
             <h3>{s.name}</h3>
             <p class="when">{s.when}</p>
             <p class="text">{s.text}</p>
@@ -49,9 +49,10 @@ const phases = [0, 0.22, 0.5, 1];
     position: relative;
   }
   .step {
+    --m: 72px;
     position: relative;
     display: grid;
-    grid-template-columns: 56px 1fr;
+    grid-template-columns: var(--m) 1fr;
     column-gap: 1.5rem;
     padding-bottom: 2.75rem;
   }
@@ -60,7 +61,7 @@ const phases = [0, 0.22, 0.5, 1];
   }
   .step :global(.phase) {
     grid-row: 1 / span 3;
-    color: var(--text-2);
+    width: var(--m);
     position: relative;
     z-index: 1;
   }
@@ -68,8 +69,8 @@ const phases = [0, 0.22, 0.5, 1];
   .step:not(:last-child)::before {
     content: '';
     position: absolute;
-    left: 27.5px;
-    top: 64px;
+    left: calc(var(--m) / 2 - 0.5px);
+    top: calc(var(--m) + 10px);
     bottom: 8px;
     width: 1px;
     background: var(--rule);
@@ -98,6 +99,7 @@ const phases = [0, 0.22, 0.5, 1];
       column-gap: 2.5rem;
     }
     .step {
+      --m: 104px;
       grid-row: span 4;
       grid-template-columns: 1fr;
       grid-template-rows: subgrid;
@@ -111,12 +113,18 @@ const phases = [0, 0.22, 0.5, 1];
       margin-bottom: 1.5rem;
     }
     .step:not(:last-child)::before {
-      left: 72px;
+      left: calc(var(--m) + 16px);
       right: -1.75rem;
-      top: 28px;
+      top: calc(var(--m) / 2);
       bottom: auto;
       width: auto;
       height: 1px;
     }
+  }
+  .step :global(.phase .l0) {
+    color: oklch(0.88 0.03 250 / 0.3);
+  }
+  .step :global(.phase .l1) {
+    color: oklch(0.9 0.03 88 / 0.38);
   }
 </style>

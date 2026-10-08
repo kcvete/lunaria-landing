@@ -6,9 +6,9 @@ import { SITE_NAME } from '../config';
  */
 export const en = {
   meta: {
-    title: `${SITE_NAME} — mobile apps and backend systems, built on demand`,
+    title: `${SITE_NAME}: software development studio for mobile apps and backends`,
     description:
-      'Two senior engineers from Slovenia building Kotlin Multiplatform apps for iOS and Android, Node.js and NestJS backends, and custom software. AI-assisted, reviewed by hand, shipped in weeks.',
+      `${SITE_NAME} is a software development studio from Slovenia. We build iOS and Android apps with Kotlin Multiplatform, backends and APIs with Node.js and NestJS, and custom software with AI integrations. Fixed quotes, weekly demos.`,
     ogLocale: 'en_US',
   },
   a11y: {
@@ -26,39 +26,45 @@ export const en = {
     process: 'Process',
     team: 'Team',
     faq: 'FAQ',
-    cta: 'Book a call',
+    cta: 'Book a consultation',
   },
   hero: {
-    title: 'Apps and backend systems, built on demand.',
-    sub: 'We are two senior engineers from Slovenia. Rok builds iOS and Android apps in Kotlin Multiplatform; Kevin builds the Node.js and NestJS backends behind them. AI tools take care of the routine parts, so your first version ships in weeks, not months.',
-    ctaPrimary: 'Book a call',
-    ctaSecondary: 'See our work',
-    trust: 'The first call is free and commits you to nothing. We reply within 24 hours.',
+    title: 'We build mobile apps and backend systems for your business.',
+    sub: `${SITE_NAME} is a software development studio from Slovenia. Two senior engineers, fixed quotes, code you own.`,
+    servicesLabel: 'What we build',
+    services: [
+      { name: 'Mobile apps', detail: 'iOS and Android from one Kotlin Multiplatform codebase' },
+      { name: 'Backend and APIs', detail: 'Node.js, NestJS and PostgreSQL on GCP or DigitalOcean' },
+      { name: 'Custom software', detail: 'Web apps, internal tools and AI integrations' },
+    ],
+    ctaPrimary: 'Book a free consultation',
+    ctaSecondary: 'Start a project',
+    trust: 'The consultation is free and non-binding. We reply within 24 hours.',
   },
   services: {
-    title: 'What we build',
-    intro: 'One small team covers every layer, from the screen in your customer’s hand to the database behind it. We are based in Slovenia and work with clients across the EU.',
+    title: 'Services',
+    intro: 'Mobile, backend and custom software from one team, so there are no handoffs between agencies. We are based in Slovenia and work with clients across the EU.',
     items: [
       {
         title: 'Mobile apps',
-        text: 'One Kotlin Multiplatform codebase that compiles to native iOS and Android apps. Shared business logic, native performance, and UI in Compose Multiplatform or Jetpack Compose. We handle offline sync, payments and store releases too.',
+        text: 'Native iOS and Android apps from one Kotlin Multiplatform codebase, so every feature ships to both platforms at once. UI in Compose Multiplatform or Jetpack Compose. We also handle offline sync, payments and App Store and Google Play releases.',
         stack: ['Kotlin Multiplatform', 'Compose Multiplatform', 'Jetpack Compose', 'Ktor', 'SQLDelight'],
       },
       {
         title: 'Backend and APIs',
-        text: 'APIs, data pipelines and the infrastructure underneath them, built to keep working as your user count grows. We also connect the payment, email, analytics and CRM services your product depends on.',
+        text: 'APIs, data pipelines and cloud infrastructure that keep working as your user count grows. We integrate the payment, email, analytics and CRM services your product depends on, and can take over and stabilise an existing backend.',
         stack: ['Node.js', 'TypeScript', 'NestJS', 'PostgreSQL', 'GCP', 'DigitalOcean'],
       },
       {
         title: 'Custom software and AI features',
-        text: 'Web apps and internal tools shaped around how your team actually works, LLM features built into existing products, and automation for the repetitive jobs nobody wants to do by hand.',
+        text: 'Web apps and internal tools built around how your team works, LLM features added to existing products, and automation that removes repetitive manual work.',
         stack: ['Web apps', 'Internal tools', 'LLM integration', 'Automation'],
       },
     ],
   },
   work: {
-    title: 'Our own products',
-    intro: 'Between client projects we build products of our own. Client work stays confidential unless you would like it shown here.',
+    title: 'Products we have built',
+    intro: 'Our own products, built end to end with the same stack and process we use for clients. Client work stays confidential unless you agree to show it.',
     status: {
       'in-development': 'In development',
       beta: 'In beta',
@@ -76,13 +82,13 @@ export const en = {
     },
     more: {
       title: 'Your project could be next.',
-      text: 'Need an app, an API or both? Tell us what you have in mind and we will tell you honestly how we would build it.',
+      text: 'Need an app, an API or both? Send a short brief and we will reply with how we would build it and a rough plan.',
       cta: 'Start a project',
     },
   },
   ai: {
     title: 'AI is our accelerator, not our engineer.',
-    intro: 'We use AI coding tools every day. Here is where they help and where we draw the line.',
+    intro: 'We use AI coding tools daily to deliver faster. Here is what that means for your project.',
     points: [
       {
         title: 'Faster on the routine work',
@@ -99,10 +105,10 @@ export const en = {
     ],
   },
   process: {
-    title: 'How a project runs',
-    intro: 'Four phases, the same every time. You always know what is being built, what it costs and when it lands.',
+    title: 'How we work',
+    intro: 'A fixed price, a written plan and a working build every week. You always know what is being built, what it costs and when it ships.',
     steps: [
-      { name: 'Discover', when: 'Free call', text: 'We talk through your idea, your users and your constraints. No pitch deck, no pressure.' },
+      { name: 'Discover', when: 'Free consultation', text: 'We go through your goals, users, timeline and budget, and tell you honestly whether we are the right fit.' },
       { name: 'Scope', when: 'Fixed quote', text: 'You get a written plan with milestones and a fixed quote, so the budget is settled before work starts.' },
       { name: 'Build', when: 'Weekly demos', text: 'Short sprints, and a working build to try every week. You can change direction early instead of late.' },
       { name: 'Launch and support', when: 'After release', text: 'We ship to the App Store, Google Play and production, then stay on for fixes, monitoring and what comes next.' },
@@ -110,7 +116,7 @@ export const en = {
   },
   team: {
     title: 'Talk to the engineers, not a salesperson.',
-    intro: 'Small team, senior hands. You talk directly to the people who write your code.',
+    intro: 'Two senior engineers. Rok builds the iOS and Android apps in Kotlin Multiplatform; Kevin builds the Node.js and NestJS backends behind them. You talk directly to the people who write your code.',
     members: {
       kevin: {
         role: 'Backend engineer, co-founder',
@@ -125,7 +131,7 @@ export const en = {
     photoAlt: 'Portrait of',
   },
   faq: {
-    title: 'Questions clients ask first',
+    title: 'Frequently asked questions',
     items: [
       {
         q: 'How much does a project cost?',
@@ -155,8 +161,8 @@ export const en = {
   },
   contact: {
     title: 'Have an idea? Let’s build it.',
-    sub: 'Book a free call, or send a few lines about your project. We reply within 24 hours.',
-    ctaBook: 'Book a call',
+    sub: 'Book a free consultation or send a short brief. We reply within 24 hours with next steps.',
+    ctaBook: 'Book a free consultation',
     orEmail: 'Prefer email? Write to',
     formTitle: 'Tell us about your project',
     fields: {

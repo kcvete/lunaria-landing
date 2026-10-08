@@ -1,5 +1,6 @@
 ---
 import { languages, type Lang } from '../i18n';
+import { withBase } from '../lib/url';
 interface Props {
   lang: Lang;
   label: string;
@@ -13,7 +14,7 @@ const entries = Object.entries(languages) as [Lang, (typeof languages)[Lang]][];
     entries.map(([code, l], i) => (
       <>
         {i > 0 && <span class="sep" aria-hidden="true">/</span>}
-        <a href={l.path} hreflang={code} lang={code} data-lang-link aria-current={code === lang ? 'page' : undefined}>
+        <a href={withBase(l.path)} hreflang={code} lang={code} data-lang-link aria-current={code === lang ? 'page' : undefined}>
           <span aria-hidden="true">{l.short}</span>
           <span class="visually-hidden">{l.label}</span>
         </a>

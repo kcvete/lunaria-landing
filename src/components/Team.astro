@@ -1,6 +1,7 @@
 ---
 import type { Dict } from '../i18n';
 import { team } from '../data/team';
+import { withBase } from '../lib/url';
 interface Props {
   t: Dict;
 }
@@ -21,7 +22,7 @@ const linkOrder = ['github', 'linkedin', 'site'] as const;
           return (
             <li class="person">
               {m.photo ? (
-                <img class="portrait" src={m.photo} alt={`${tm.photoAlt} ${m.name}`} width="112" height="112" loading="lazy" decoding="async" />
+                <img class="portrait" src={withBase(m.photo)} alt={`${tm.photoAlt} ${m.name}`} width="112" height="112" loading="lazy" decoding="async" />
               ) : (
                 <span class="portrait initials" aria-hidden="true">
                   {m.name.split(' ').map((n) => n[0]).join('')}

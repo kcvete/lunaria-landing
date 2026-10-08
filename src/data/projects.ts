@@ -6,7 +6,7 @@ import type { Lang } from '../i18n';
  * "Your project could be next" card.
  *
  * Screenshots: drop an image into /public/work/ (e.g. /public/work/parrot.webp,
- * ~1200x750, 16:10) and set `image: '/work/parrot.webp'`. Without `image`, a
+ * ~1200x750, 16:10) and set `image: 'work/parrot.webp'` (path relative to /public). Without `image`, a
  * generated placeholder (project name + a moon phase) is used.
  */
 
@@ -25,7 +25,7 @@ export interface Project {
   links: { kind: ProjectLinkKind; href: string }[];
   /** Moon phase (0 new, 0.5 half, 1 full) drawn on the placeholder art until a screenshot exists. */
   placeholderPhase: number;
-  /** Optional real screenshot under /public/work/. */
+  /** Optional real screenshot, path relative to /public (e.g. 'work/parrot.webp'). */
   image?: string;
 }
 
@@ -43,7 +43,7 @@ export const projects: Project[] = [
     stack: ['Kotlin Multiplatform', 'Compose Multiplatform', 'Ktor', 'SQLDelight'],
     links: [], // TODO: App Store / Google Play links when published
     placeholderPhase: 0.32,
-    // image: '/work/parrot.webp', // TODO: real screenshot
+    // image: 'work/parrot.webp', // TODO: real screenshot
   },
   {
     id: 'bardy',
@@ -58,7 +58,7 @@ export const projects: Project[] = [
     stack: ['Kotlin', 'React', 'NestJS', 'LLMs'],
     links: [], // TODO: store links / website
     placeholderPhase: 0.62,
-    // image: '/work/bardy.webp', // TODO: real screenshot
+    // image: 'work/bardy.webp', // TODO: real screenshot
   },
   {
     id: 'hestia',

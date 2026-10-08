@@ -2,7 +2,8 @@
 import type { Dict, Lang } from '../i18n';
 import { featuredProjects } from '../data/projects';
 import { BOOKING_HREF, bookingIsExternal } from '../config';
-import Moon from './Moon.astro';
+import CodeMoon from './CodeMoon.astro';
+import { withBase } from '../lib/url';
 
 interface Props {
   lang: Lang;
@@ -26,11 +27,11 @@ const ext = bookingIsExternal ? { target: '_blank', rel: 'noopener' } : {};
           <li class:list={['project', i === 0 && 'project--lead']}>
             <div class="visual">
               {p.image ? (
-                <img src={p.image} alt="" width="1200" height="750" loading="lazy" decoding="async" />
+                <img src={withBase(p.image)} alt="" width="1200" height="750" loading="lazy" decoding="async" />
               ) : (
                 <div class="placeholder" aria-hidden="true">
                   <span class="initial">{p.name}</span>
-                  <Moon lit={p.placeholderPhase} size="34%" class="ph-moon" />
+                  <CodeMoon cols={44} lit={p.placeholderPhase} seed={7 + i} class="ph-moon" />
                 </div>
               )}
             </div>
@@ -113,7 +114,7 @@ const ext = bookingIsExternal ? { target: '_blank', rel: 'noopener' } : {};
   }
   .placeholder {
     position: relative;
-    background: url('/stars.svg') 30% 40% / 380px 380px;
+    background: var(--stars) 30% 40% / 380px 380px;
     height: 100%;
     display: flex;
     align-items: flex-end;
@@ -129,8 +130,9 @@ const ext = bookingIsExternal ? { target: '_blank', rel: 'noopener' } : {};
   }
   .placeholder :global(.ph-moon) {
     position: absolute;
-    top: 14%;
-    right: 9%;
+    top: 12%;
+    right: 8%;
+    width: 36%;
   }
   .body {
     display: grid;

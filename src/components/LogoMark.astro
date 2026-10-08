@@ -1,10 +1,11 @@
 ---
-/** Wordmark crescent: a thin waxing crescent of the real disc. */
-import Moon from './Moon.astro';
+/** Wordmark crescent: flat, so it stays crisp at 20px. */
 interface Props {
   size?: number;
 }
 const { size = 22 } = Astro.props;
 ---
 
-<Moon lit={0.2} size={size} />
+<svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+  <path d="M15.5 3.2A9.5 9.5 0 1 0 20.8 16 7.6 7.6 0 0 1 15.5 3.2Z" fill="var(--moon)"></path>
+</svg>

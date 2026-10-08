@@ -3,6 +3,7 @@ import { SITE_NAME, BOOKING_HREF, bookingIsExternal } from '../config';
 import { languages, type Lang, type Dict } from '../i18n';
 import LogoMark from './LogoMark.astro';
 import LangSwitch from './LangSwitch.astro';
+import { withBase } from '../lib/url';
 
 interface Props {
   lang: Lang;
@@ -21,7 +22,7 @@ const ext = bookingIsExternal ? { target: '_blank', rel: 'noopener' } : {};
 
 <header class="site-header" data-nav>
   <div class="container bar">
-    <a class="brand" href={languages[lang].path} aria-label={t.a11y.home}>
+    <a class="brand" href={withBase(languages[lang].path)} aria-label={t.a11y.home}>
       <LogoMark />
       <span class="wordmark">{SITE_NAME}</span>
     </a>

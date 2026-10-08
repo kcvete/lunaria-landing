@@ -1,0 +1,79 @@
+---
+/**
+ * A moon drawn with 0s and 1s, computed at build time (see src/lib/codeMoon.ts).
+ * The text scales with its container (container query units), so it fits any width.
+ */
+import { renderCodeMoon } from '../lib/codeMoon';
+
+interface Props {
+  cols: number;
+  lit: number;
+  flips?: number;
+  seed?: number;
+  class?: string;
+}
+const { cols, lit, flips = 0, seed, class: className } = Astro.props;
+const moon = renderCodeMoon({ cols, lit, flips, seed });
+---
+
+<div class:list={['code-moon', className]} aria-hidden="true" style={`--cols:${moon.cols}`}>
+  <pre class={`l${moon.baseLevel}`} set:html={moon.html} />
+</div>
+
+<style>
+  .code-moon {
+    container-type: inline-size;
+    aspect-ratio: 1;
+    user-select: none;
+    -webkit-user-select: none;
+    pointer-events: none;
+  }
+  pre {
+    margin: 0;
+    /* a mono cell is ~0.6em wide and 1.2em tall: cols cells fill the width */
+    font: 400 calc(100cqi / var(--cols) / 0.6) / 1.2 ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, Consolas,
+      'Liberation Mono', monospace;
+    font-variant-ligatures: none;
+    letter-spacing: 0;
+    white-space: pre;
+    overflow: hidden;
+  }
+  pre:global(.l0),
+  pre :global(.l0) { color: oklch(0.88 0.03 250 / 0.14); }
+  pre:global(.l1),
+  pre :global(.l1) { color: oklch(0.9 0.03 88 / 0.24); }
+  pre:global(.l2),
+  pre :global(.l2) { color: oklch(0.9 0.035 88 / 0.36); }
+  pre:global(.l3),
+  pre :global(.l3) { color: oklch(0.91 0.04 88 / 0.5); }
+  pre:global(.l4),
+  pre :global(.l4) { color: oklch(0.93 0.05 88 / 0.74); }
+  pre:global(.l5),
+  pre :global(.l5) { color: oklch(0.95 0.045 88); }
+
+  /* a few digits slowly flip 0 <-> 1 (opacity only; off under reduced motion) */
+  pre :global(.f) {
+    position: relative;
+  }
+  pre :global(.f b) {
+    font-weight: inherit;
+    animation: flip-a var(--t) var(--d) infinite;
+  }
+  pre :global(.f b + b) {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    animation-name: flip-b;
+  }
+  @keyframes flip-a {
+    0%, 46% { opacity: 1; }
+    50%, 96% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  @keyframes flip-b {
+    0%, 46% { opacity: 0; }
+    50%, 96% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+</style>

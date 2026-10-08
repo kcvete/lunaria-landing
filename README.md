@@ -4,12 +4,14 @@ Bilingual (English + Slovenian) one-page site for a two-person software studio f
 "Lunaria" is a working name: see [Renaming the studio](#renaming-the-studio).
 
 Built with [Astro](https://astro.build) 7, static output, plain CSS, under 1 KB of inline JavaScript,
-self-hosted fonts and no third-party requests at runtime.
+self-hosted fonts and no third-party requests at runtime. Hosted as a GitHub Pages project site at
+<https://kcvete.github.io/lunaria-landing/> (see [Hosting](#hosting)).
 
-**Design direction.** Reading this as: a calm night-sky observing chart for two senior engineers.
-Deep blue-black tinted neutrals (one hue, OKLCH), a single moonlight accent, a hand-built SVG moon
-with real maria and phase geometry as the one memorable element, Familjen Grotesk for headings and
-Literata for reading, left-aligned asymmetric layouts and one load sequence.
+**Design direction.** Reading this as: a software development studio's site under a night sky,
+with a moon made of code. Deep blue-black tinted neutrals (one hue, OKLCH), a single moonlight
+accent, the moon drawn in 0s and 1s at build time (lit side, maria, terminator and earthshine all
+shaded by digit choice and tone), Familjen Grotesk for headings and Literata for reading,
+left-aligned asymmetric layouts and one load sequence.
 
 ## Commands
 
@@ -17,7 +19,7 @@ Node 22 and npm 10.
 
 ```sh
 npm install       # once
-npm run dev       # dev server at http://localhost:4321 (Slovenian at /sl/)
+npm run dev       # dev server at http://localhost:4321/lunaria-landing/ (Slovenian at …/sl/)
 npm run build     # static site in dist/
 npm run preview   # serve dist/ locally
 npm run check     # TypeScript and Astro diagnostics
@@ -38,13 +40,17 @@ src/
   data/
     projects.ts        showcase projects (typed; per-language summaries)
     team.ts            team members (photo, links; role/bio copy is in i18n)
-  components/          one component per section, plus Moon/MoonDefs (SVG moon) and LangSwitch
+  components/          one component per section, plus CodeMoon and LangSwitch
+  lib/codeMoon.ts      build-time renderer for the moon made of 0s and 1s
+  lib/url.ts           withBase(): every internal URL goes through it
   layouts/Base.astro   <head>: meta, hreflang, OG/Twitter, JSON-LD, fonts
   pages/index.astro    English  -> /
   pages/sl/index.astro Slovenian -> /sl/
   pages/stars.svg.ts   generates the star-field tile at build time
+  pages/robots.txt.ts  robots.txt, driven by PREVIEW_NOINDEX
   styles/global.css    design tokens (OKLCH) and shared styles
 public/
+  .nojekyll            tells GitHub Pages not to run Jekyll
   team/                portraits
   work/                project screenshots (empty for now)
   og.png               share image (placeholder: a capture of the hero)
@@ -78,7 +84,7 @@ Append an object to `projects` in `src/data/projects.ts`:
   stack: ['Kotlin Multiplatform', 'NestJS'],
   links: [{ kind: 'appStore', href: 'https://…' }], // site | demo | appStore | playStore | github
   placeholderPhase: 0.4,          // moon phase on the placeholder art (0 new … 1 full)
-  image: '/work/my-app.webp',     // optional; ~1200×750 (16:10) in public/work/
+  image: 'work/my-app.webp',      // optional; ~1200×750 (16:10) in public/work/, no leading slash
 }
 ```
 
@@ -91,6 +97,39 @@ Change `SITE_NAME` in `src/config.ts`. The wordmark, page titles, meta tags, foo
 the mailto subject all read from it. Also update `SITE_URL` and `CONTACT_EMAIL`, regenerate
 `public/og.png`, and change `"name"` in `package.json` if you like.
 
+## The moon made of code
+
+`src/lib/codeMoon.ts` lights each character cell like a point on a sphere (Lambert shading from a
+sun angle set by the phase), multiplies it by an albedo map of the near-side maria, and quantises
+the result into six shade levels. Bright cells lean towards `0` (more ink), dim ones towards `1`.
+Runs of the same level share one `<span>` and the most common level needs none, so the hero moon
+is about 12 KB of HTML (≈1.3 KB gzipped). A dozen digits flip 0↔1 with a CSS opacity animation,
+which stops under `prefers-reduced-motion`. The text uses the system monospace stack (no font file)
+and its size follows the container width (`cqi` units), so it never overflows.
+
+`<CodeMoon cols={84} lit={0.8} flips={14} />`: `cols` is the resolution, `lit` the phase
+(0 new … 0.5 half … 1 full).
+
+## Hosting
+
+The site is set up for GitHub Pages at `https://kcvete.github.io/lunaria-landing/`:
+
+- `astro.config.mjs` sets `site` (from `SITE_URL` in `src/config.ts`) and
+  `base: process.env.BASE_PATH ?? '/lunaria-landing'`.
+- All internal links and assets go through `withBase()` (`src/lib/url.ts`), and the star-field URL
+  is set as a CSS variable in `Base.astro`. Write new paths without a leading slash and wrap them in `withBase()`.
+- `.github/workflows/deploy.yml` builds with `withastro/action` and publishes with
+  `actions/deploy-pages` on every push to `main` (or by hand from the Actions tab).
+  One-time setup on GitHub: **Settings → Pages → Source: GitHub Actions**.
+
+**Moving to a custom domain:** set `SITE_URL` in `src/config.ts` to `https://your.domain` and build
+with `BASE_PATH=''` (in the workflow, uncomment the `env:` block). Then add the domain under Settings → Pages.
+
+**Preview mode:** while `PREVIEW_NOINDEX = true` in `src/config.ts`, every page carries
+`<meta name="robots" content="noindex, nofollow">` and `robots.txt` disallows everything.
+Crawlers only read `robots.txt` at a domain root, so on the github.io sub-path the meta tag does the work.
+Lighthouse's SEO score shows 66 in this mode because of the noindex; it is 100 with the flag off.
+
 ## Before launch
 
 Every placeholder is listed here. In code they are marked `TODO`
@@ -98,7 +137,8 @@ Every placeholder is listed here. In code they are marked `TODO`
 
 **`src/config.ts`**
 - [ ] `SITE_NAME`: confirm the final studio name (currently the working name "Lunaria").
-- [ ] `SITE_URL`: real domain (used for canonical, hreflang and OG URLs). Currently `https://lunaria.example`.
+- [ ] `PREVIEW_NOINDEX`: set to `false` so search engines may index the site.
+- [ ] `SITE_URL`: real domain (used for canonical, hreflang and OG URLs). Currently `https://kcvete.github.io`; with a custom domain also build with `BASE_PATH=''`.
 - [ ] `CONTACT_EMAIL`: real inbox. Currently `hello@lunaria.example`.
 - [ ] `BOOKING_URL`: Cal.com/Calendly link. Empty, so every "Book a call" button scrolls to the contact section.
 - [ ] `FORM_ACTION`: form backend (Formspree, Basin, own endpoint). Empty, so the form submits via `mailto:` and shows a note saying so.
@@ -121,9 +161,9 @@ Every placeholder is listed here. In code they are marked `TODO`
 - [ ] Pricing FAQ: decide whether to publish price ranges (currently "fixed quote after a free scoping call").
 - [ ] Timeline FAQ: confirm "4 to 12 weeks" for a typical first version.
 - [ ] Contact form budget options (under €10k / €10–25k / €25–50k / over €50k): confirm the brackets.
-- [ ] Confirm the promises "Replies within 24 hours" and "Weekly demos" are ones you will keep.
+- [ ] Confirm the promises "Replies within 24 hours", "free and non-binding consultation" and "Weekly demos" are ones you will keep.
 - [ ] Have a native speaker do a final read of `sl.ts`.
 
 **Other**
 - [ ] Add a privacy notice if the form backend stores submissions (GDPR).
-- [ ] Hosting: any static host works (`dist/`). Nothing is deployed yet.
+- [ ] Hosting: create the GitHub repo `kcvete/lunaria-landing`, push `main`, and set Pages → Source to GitHub Actions. Nothing is deployed yet.

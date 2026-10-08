@@ -1,9 +1,10 @@
 import { en } from './en';
 import { sl } from './sl';
 
+/** `path` is relative to the site base; resolve it with withBase() from src/lib/url. */
 export const languages = {
-  en: { label: 'English', short: 'EN', path: '/' },
-  sl: { label: 'Slovenščina', short: 'SL', path: '/sl/' },
+  en: { label: 'English', short: 'EN', path: '' },
+  sl: { label: 'Slovenščina', short: 'SL', path: 'sl/' },
 } as const;
 
 export type Lang = keyof typeof languages;
