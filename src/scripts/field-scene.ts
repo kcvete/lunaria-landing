@@ -1,10 +1,11 @@
 /**
- * Moonlit field of Lunaria (honesty) flowers, buds and silver seed pods on a 2D canvas.
+ * Moonlit field of Lunaria (honesty) flowers, buds and silver seed pods, drawn in code
+ * glyphs (0, 1, :, ·) on a 2D canvas.
  *
  * - Deterministic: everything comes from a seeded PRNG.
- * - Blooms, side views, buds and pods are pre-rendered once into sprites (obovate petals
- *   with a narrow claw, translucent gradient, faint veins, moon-side rim light, a glint),
- *   each with its own 3D tilt baked in, so frames are just drawImage + one stem stroke.
+ * - Blooms (petal outlines of 0/1 with dotted spines over a faint glowing body, each tilted
+ *   in 3D), pods (glyph ovals with seeds) and buds are pre-rendered once into sprites, so a
+ *   frame is just drawImage + one dotted stem per plant; glints flip 0 ↔ 1.
  * - Far rows and mist are painted once into a blurred backdrop; mid/near rows animate.
  * - Gentle sway per plant, plus gust waves that travel across the field.
  * - Pauses offscreen and in hidden tabs; reduced motion gets one static frame.
@@ -18,10 +19,7 @@ const mix = (a: RGB, b: RGB, t: number): RGB => [
   Math.round(a[2] + (b[2] - a[2]) * t),
 ];
 
-const WHITE: RGB = [246, 248, 255];
-const PEARL: RGB = [226, 233, 247];
 const LILAC: RGB = [196, 184, 232];
-const VEIN: RGB = [128, 118, 178];
 const HAZE: RGB = [112, 132, 172];
 const STEM: RGB = [28, 50, 54];
 const STEM_LIT: RGB = [96, 126, 134];
@@ -48,16 +46,6 @@ function canvas(w: number, h: number) {
   return c;
 }
 
-/** Obovate petal with a narrow claw, pointing up (-y) from the origin. */
-function petalPath(g: CanvasRenderingContext2D, len: number, wid: number, bend: number) {
-  g.beginPath();
-  g.moveTo(-wid * 0.12, 0);
-  g.bezierCurveTo(-wid * 0.3, -len * 0.16, -wid * 1.02 + bend, -len * 0.32, -wid * 0.98 + bend, -len * 0.7);
-  g.bezierCurveTo(-wid * 0.9 + bend, -len * 1.06, wid * 0.9 + bend, -len * 1.06, wid * 0.98 + bend, -len * 0.7);
-  g.bezierCurveTo(wid * 1.02 + bend, -len * 0.32, wid * 0.3, -len * 0.16, wid * 0.12, 0);
-  g.closePath();
-}
-
 /** Moon-side rim light: stroke the current path with a gradient fixed in screen space (light from above). */
 function rim(g: CanvasRenderingContext2D, a: number, w = 1.3) {
   g.save();
@@ -70,138 +58,6 @@ function rim(g: CanvasRenderingContext2D, a: number, w = 1.3) {
   g.lineWidth = w;
   g.stroke();
   g.restore();
-}
-
-/**
- * A four-petalled bloom, tilted in 3D: the flower plane is squashed by cos(pitch) along
- * an axis at `axis`, so blooms are seen face-on, at an angle or nearly side-on.
- * Petals near the viewer (lower in the sprite) are drawn last.
- */
-function bloomSprite(R: () => number, haze: number) {
-  const c = canvas(SPRITE, SPRITE);
-  const g = c.getContext('2d')!;
-  const pitch = Math.pow(R(), 1.1) * 1.05; // 0 face-on … ~60° tilted
-  const axis = R() * Math.PI;
-  const s = SPRITE * 0.42;
-  const spin = R() * TAU;
-  const petals = [0, 1, 2, 3].map((i) => {
-    const a = spin + (i * Math.PI) / 2 + (R() - 0.5) * 0.25;
-    return { a, len: s * (0.82 + R() * 0.14), wid: s * (0.44 + R() * 0.08), bend: (R() - 0.5) * s * 0.1 };
-  });
-  // depth order: petal tips that point "down" after tilt are nearer
-  const toScreenY = (a: number) => {
-    const x = Math.sin(a);
-    const y = -Math.cos(a);
-    const ca = Math.cos(axis);
-    const sa = Math.sin(axis);
-    const u = x * ca + y * sa;
-    const v = (-x * sa + y * ca) * Math.cos(pitch);
-    return u * sa + v * ca;
-  };
-  petals.sort((p, q) => toScreenY(p.a) - toScreenY(q.a));
-  const base = mix(WHITE, HAZE, haze * 0.7);
-  const edge = mix(PEARL, HAZE, haze * 0.75);
-  const claw = mix(LILAC, HAZE, haze * 0.5);
-  g.translate(C, C);
-  g.rotate(axis);
-  g.scale(1, Math.cos(pitch));
-  g.rotate(-axis);
-  for (const p of petals) {
-    g.save();
-    g.rotate(p.a);
-    petalPath(g, p.len, p.wid, p.bend);
-    const grad = g.createLinearGradient(0, 0, 0, -p.len);
-    grad.addColorStop(0, rgba(claw, 0.95));
-    grad.addColorStop(0.28, rgba(mix(claw, base, 0.6), 0.9));
-    grad.addColorStop(0.62, rgba(base, 0.88));
-    grad.addColorStop(1, rgba(edge, 0.78));
-    g.fillStyle = grad;
-    g.fill();
-    // cupping: a soft shadow down one side of the blade
-    const cup = g.createLinearGradient(-p.wid, 0, p.wid, 0);
-    cup.addColorStop(0, 'rgba(40,50,90,0.0)');
-    cup.addColorStop(0.75, 'rgba(40,50,90,0.0)');
-    cup.addColorStop(1, 'rgba(40,50,90,0.22)');
-    g.fillStyle = cup;
-    g.fill();
-    // veins
-    g.strokeStyle = rgba(VEIN, 0.2);
-    g.lineWidth = 0.7;
-    for (const k of [-0.35, 0, 0.35]) {
-      g.beginPath();
-      g.moveTo(0, -p.len * 0.12);
-      g.quadraticCurveTo(k * p.wid * 0.6 + p.bend * 0.5, -p.len * 0.5, k * p.wid * 0.9 + p.bend, -p.len * 0.86);
-      g.stroke();
-    }
-    petalPath(g, p.len, p.wid, p.bend);
-    g.strokeStyle = rgba(mix(HAZE, [44, 54, 92], 0.5), 0.35);
-    g.lineWidth = 0.8;
-    g.stroke();
-    rim(g, 0.9 - haze * 0.5);
-    g.restore();
-  }
-  // centre and stamens
-  g.fillStyle = rgba(mix([150, 128, 205], HAZE, haze * 0.4), 0.95);
-  g.beginPath();
-  g.arc(0, 0, s * 0.11, 0, TAU);
-  g.fill();
-  g.fillStyle = rgba(WHITE, 0.85);
-  for (let i = 0; i < 6; i++) {
-    const a = (i / 6) * TAU;
-    g.beginPath();
-    g.arc(Math.cos(a) * s * 0.07, Math.sin(a) * s * 0.07, s * 0.022, 0, TAU);
-    g.fill();
-  }
-  // specular glint near the top of the bloom
-  g.setTransform(1, 0, 0, 1, 0, 0);
-  const gx = C + (R() - 0.5) * s * 0.6;
-  const gy = C - s * (0.35 + R() * 0.3) * Math.cos(pitch * 0.6);
-  const spec = g.createRadialGradient(gx, gy, 0, gx, gy, s * 0.22);
-  spec.addColorStop(0, `rgba(255,255,255,${0.55 - haze * 0.4})`);
-  spec.addColorStop(1, 'rgba(255,255,255,0)');
-  g.globalCompositeOperation = 'source-atop';
-  g.fillStyle = spec;
-  g.fillRect(0, 0, SPRITE, SPRITE);
-  return c;
-}
-
-/** A bloom seen side-on: a cup of petals rising from a short calyx. */
-function sideSprite(R: () => number, haze: number) {
-  const c = canvas(SPRITE, SPRITE);
-  const g = c.getContext('2d')!;
-  g.translate(C, C * 1.2);
-  const s = SPRITE * 0.4;
-  const base = mix(WHITE, HAZE, haze * 0.7);
-  const claw = mix(LILAC, HAZE, haze * 0.5);
-  const fans = [-0.75, -0.25, 0.25, 0.75].map((k) => k * (0.9 + R() * 0.3));
-  // calyx
-  g.fillStyle = rgba(mix([60, 86, 84], HAZE, haze * 0.5), 0.95);
-  g.beginPath();
-  g.ellipse(0, 0, s * 0.09, s * 0.2, 0, 0, TAU);
-  g.fill();
-  fans.forEach((ang, i) => {
-    g.save();
-    g.rotate(ang);
-    const len = s * (0.95 + R() * 0.15);
-    const wid = s * (i === 1 || i === 2 ? 0.34 : 0.18); // outer petals are seen edge-on
-    petalPath(g, len, wid, 0);
-    const grad = g.createLinearGradient(0, 0, 0, -len);
-    grad.addColorStop(0, rgba(claw, 0.95));
-    grad.addColorStop(0.35, rgba(base, 0.9));
-    grad.addColorStop(1, rgba(mix(base, LILAC, 0.25), 0.8));
-    g.fillStyle = grad;
-    g.fill();
-    g.strokeStyle = rgba(VEIN, 0.18);
-    g.lineWidth = 0.7;
-    g.beginPath();
-    g.moveTo(0, -len * 0.15);
-    g.lineTo(0, -len * 0.85);
-    g.stroke();
-    petalPath(g, len, wid, 0);
-    rim(g, 0.85 - haze * 0.5);
-    g.restore();
-  });
-  return c;
 }
 
 /** A closed bud: two lilac-tinged sepals. */
@@ -227,59 +83,171 @@ function budSprite(R: () => number, haze: number) {
   return c;
 }
 
-/** A flat, translucent seed pod seen at an angle: bright rim, septum, seed silhouettes, sheen. */
-function podSprite(R: () => number, haze: number) {
+/**
+ * "Code" version of a sprite: sample the painted sprite on a coarse grid and redraw each
+ * cell as a monospace glyph whose choice and brightness follow the painted coverage.
+ * Bright cells become 1/0, dim cells : and ·, so the shape reads as a flower made of code.
+ */
+const GLYPH_FONT = 'ui-monospace, Menlo, Consolas, monospace';
+function glyphify(src: HTMLCanvasElement, cols: number, R: () => number, bright = 1) {
+  const d = src.getContext('2d')!.getImageData(0, 0, SPRITE, SPRITE).data;
   const c = canvas(SPRITE, SPRITE);
   const g = c.getContext('2d')!;
-  const rx = SPRITE * 0.36;
-  const ry = SPRITE * (0.33 + R() * 0.04);
-  const tilt = 0.25 + R() * 0.7; // foreshortening of the flat disc
-  const axis = R() * Math.PI;
-  g.translate(C, C);
-  g.rotate(axis);
-  g.scale(1, tilt);
-  g.rotate(-axis);
-  const tone = mix(PEARL, HAZE, haze * 0.7);
-  g.beginPath();
-  g.ellipse(0, 0, rx, ry, 0, 0, TAU);
-  g.fillStyle = rgba(tone, 0.13);
-  g.fill();
-  // sheen: one diagonal streak of moonlight across the membrane
-  g.save();
-  g.clip();
-  const sh = g.createLinearGradient(-rx, -ry, rx, ry);
-  sh.addColorStop(0.3, 'rgba(255,255,255,0)');
-  sh.addColorStop(0.42, `rgba(255,255,255,${0.2 - haze * 0.12})`);
-  sh.addColorStop(0.52, 'rgba(255,255,255,0)');
-  g.fillStyle = sh;
-  g.fillRect(-rx, -ry, rx * 2, ry * 2);
-  g.restore();
-  g.strokeStyle = rgba(tone, 0.3);
-  g.lineWidth = 1;
-  g.beginPath();
-  g.moveTo(0, -ry);
-  g.lineTo(0, ry);
-  g.stroke();
-  [-0.52, -0.18, 0.18, 0.52].forEach((k, i) => {
-    g.fillStyle = rgba([52, 62, 94], 0.42);
-    g.beginPath();
-    g.ellipse(i % 2 ? rx * 0.1 : -rx * 0.1, k * ry, rx * 0.13, ry * 0.12, 0, 0, TAU);
-    g.fill();
-  });
-  g.beginPath();
-  g.ellipse(0, 0, rx, ry, 0, 0, TAU);
-  g.strokeStyle = rgba(tone, 0.45);
-  g.lineWidth = 1.2;
-  g.stroke();
-  rim(g, 0.95 - haze * 0.5, 1.8);
+  const cell = SPRITE / cols;
+  // 1) coverage + luminance per cell
+  const cov = new Float32Array(cols * cols);
+  const lum = new Float32Array(cols * cols);
+  for (let gy = 0; gy < cols; gy++) {
+    for (let gx = 0; gx < cols; gx++) {
+      let a = 0;
+      let l = 0;
+      let n = 0;
+      for (let y = Math.floor(gy * cell); y < Math.floor((gy + 1) * cell); y += 2) {
+        for (let x = Math.floor(gx * cell); x < Math.floor((gx + 1) * cell); x += 2) {
+          const k = (y * SPRITE + x) * 4;
+          a += d[k + 3];
+          l += (d[k] * 0.3 + d[k + 1] * 0.55 + d[k + 2] * 0.15) * d[k + 3];
+          n++;
+        }
+      }
+      cov[gy * cols + gx] = n ? a / n / 255 : 0;
+      lum[gy * cols + gx] = a ? l / a / 255 : 0;
+    }
+  }
+  const at = (x: number, y: number) => (x < 0 || y < 0 || x >= cols || y >= cols ? 0 : cov[y * cols + x]);
+  g.font = `600 ${cell * 0.92}px ${GLYPH_FONT}`;
+  g.textAlign = 'center';
+  g.textBaseline = 'middle';
+  // 2) outline cells (coverage next to empty space) get bright 0/1, the inside gets
+  //    sparse, dim : and · so each petal reads as a shape drawn in code
+  for (let gy = 0; gy < cols; gy++) {
+    for (let gx = 0; gx < cols; gx++) {
+      const v = cov[gy * cols + gx];
+      if (v < 0.12) continue;
+      const edge = v - Math.min(at(gx - 1, gy), at(gx + 1, gy), at(gx, gy - 1), at(gx, gy + 1));
+      const L = lum[gy * cols + gx];
+      const isEdge = edge > 0.32;
+      if (!isEdge && R() < 0.38) continue;
+      const ch = isEdge ? (R() < 0.55 ? '0' : '1') : L > 0.78 && R() < 0.45 ? (R() < 0.5 ? '1' : '0') : R() < 0.55 ? ':' : '·';
+      const tint = L > 0.8 ? '246,249,255' : L > 0.64 ? '220,214,244' : '178,166,224';
+      const a = isEdge ? 0.62 + 0.38 * L : 0.18 + 0.42 * v * L;
+      g.fillStyle = `rgba(${tint},${Math.min(1, a * bright)})`;
+      g.fillText(ch, (gx + 0.5) * cell, (gy + 0.55) * cell);
+    }
+  }
   return c;
 }
 
-function soften(src: HTMLCanvasElement, px: number) {
+/** A bloom drawn directly in glyphs: each petal is an outline of 0/1 with a dotted spine. */
+function codeBloomSprite(R: () => number, haze: number, step: number) {
   const c = canvas(SPRITE, SPRITE);
   const g = c.getContext('2d')!;
-  g.filter = `blur(${px}px)`;
-  g.drawImage(src, 0, 0);
+  const pitch = Math.pow(R(), 1.1) * 1.0;
+  const axis = R() * Math.PI;
+  const spin = R() * TAU;
+  const s = SPRITE * 0.42;
+  const ca = Math.cos(axis);
+  const sa = Math.sin(axis);
+  const cp = Math.cos(pitch);
+  // tilt a point of the flower plane into screen space
+  const tilt = (x: number, y: number) => {
+    const u = x * ca + y * sa;
+    const v = (-x * sa + y * ca) * cp;
+    return [C + u * ca - v * sa, C + u * sa + v * ca];
+  };
+  g.font = `700 ${step * 1.05}px ${GLYPH_FONT}`;
+  g.textAlign = 'center';
+  g.textBaseline = 'middle';
+  const put = (x: number, y: number, ch: string, col: string, a: number) => {
+    const [px, py] = tilt(x, y);
+    g.fillStyle = `rgba(${col},${a})`;
+    g.fillText(ch, px, py);
+  };
+  const fade = 1 - haze * 0.45;
+  for (let k = 0; k < 4; k++) {
+    const a = spin + (k * Math.PI) / 2 + (R() - 0.5) * 0.2;
+    const len = s * (0.86 + R() * 0.12);
+    const wid = s * (0.36 + R() * 0.06);
+    const dx = Math.sin(a);
+    const dy = -Math.cos(a);
+    const cx = dx * len * 0.56;
+    const cy = dy * len * 0.56;
+    const ry = len * 0.44;
+    // outline: walk the petal ellipse at roughly one glyph per step
+    // a faint translucent petal body under the glyphs, so the bloom glows instead of looking wiry
+    g.save();
+    g.translate(C, C);
+    g.rotate(axis);
+    g.scale(1, cp);
+    g.rotate(-axis);
+    g.translate(cx, cy);
+    g.rotate(a);
+    const body = g.createRadialGradient(0, -ry * 0.2, 0, 0, 0, Math.max(wid, ry));
+    body.addColorStop(0, `rgba(226,230,250,${0.16 * fade})`);
+    body.addColorStop(1, `rgba(190,196,236,${0.04 * fade})`);
+    g.fillStyle = body;
+    g.beginPath();
+    g.ellipse(0, 0, wid, ry, 0, 0, TAU);
+    g.fill();
+    g.restore();
+    const per = Math.PI * (1.5 * (wid + ry) - Math.sqrt(wid * ry));
+    const n = Math.max(8, Math.round(per / (step * 0.95)));
+    for (let i = 0; i < n; i++) {
+      const t = (i / n) * TAU;
+      const ex = Math.cos(t) * wid;
+      const ey = Math.sin(t) * ry;
+      // petal frame: ex across the petal (perpendicular to its direction), ey along it
+      const x = cx + ex * Math.cos(a) + ey * dx;
+      const y = cy + ex * Math.sin(a) + ey * dy;
+      // skip the part of the outline tucked into the centre
+      if (Math.hypot(x, y) < s * 0.16) continue;
+      const lit = 0.5 - 0.5 * Math.sin(t + a); // the moon-facing side is brighter
+      put(x, y, R() < 0.5 ? '0' : '1', lit > 0.55 ? '248,250,255' : '214,208,242', (0.55 + 0.45 * lit) * fade);
+    }
+    // spine and a little fill
+    for (let r = s * 0.2; r < len * 0.92; r += step * 1.1) {
+      put(dx * r, dy * r, '·', '226,222,246', 0.55 * fade);
+    }
+    for (let j = 0; j < 4; j++) {
+      const r = len * (0.35 + R() * 0.45);
+      const off = (R() - 0.5) * wid * 1.1;
+      put(dx * r + Math.cos(a) * off, dy * r + Math.sin(a) * off, R() < 0.5 ? ':' : '·', '200,192,236', 0.4 * fade);
+    }
+  }
+  // centre: a small violet cluster
+  for (const [x, y] of [[0, 0], [step * 0.6, 0], [-step * 0.6, 0], [0, step * 0.6], [0, -step * 0.6]]) {
+    put(x, y, ':', '176,150,232', 0.95 * fade);
+  }
+  return c;
+}
+
+/** A seed pod drawn in glyphs: an oval outline, a septum column and four seed clusters. */
+function codePodSprite(R: () => number, haze: number, step: number) {
+  const c = canvas(SPRITE, SPRITE);
+  const g = c.getContext('2d')!;
+  const rx = SPRITE * 0.36;
+  const ry = SPRITE * 0.34;
+  const squash = 0.35 + R() * 0.6;
+  const rot = R() * Math.PI;
+  g.translate(C, C);
+  g.rotate(rot);
+  g.font = `700 ${step * 1.05}px ${GLYPH_FONT}`;
+  g.textAlign = 'center';
+  g.textBaseline = 'middle';
+  const fade = 1 - haze * 0.45;
+  const n = Math.round((Math.PI * (rx + ry * squash)) / (step * 0.9));
+  for (let i = 0; i < n; i++) {
+    const t = (i / n) * TAU;
+    const lit = 0.5 - 0.5 * Math.sin(t + rot);
+    g.fillStyle = `rgba(${lit > 0.5 ? '250,252,255' : '196,206,230'},${(0.5 + 0.5 * lit) * fade})`;
+    g.fillText(R() < 0.6 ? '0' : '1', Math.cos(t) * rx, Math.sin(t) * ry * squash);
+  }
+  g.fillStyle = `rgba(214,222,240,${0.4 * fade})`;
+  for (let x = -rx + step; x < rx - step * 0.5; x += step * 1.2) g.fillText('·', x, 0);
+  for (const k of [-0.55, -0.18, 0.18, 0.55]) {
+    g.fillStyle = `rgba(150,160,200,${0.75 * fade})`;
+    g.fillText(':', k * rx, (k > 0 ? 0.25 : -0.25) * ry * squash);
+  }
   return c;
 }
 
@@ -335,15 +303,16 @@ export function start(el: HTMLCanvasElement, moonX = 0.62) {
   const near = blank();
   const mid = blank();
   const far = blank();
-  const bokeh: HTMLCanvasElement[] = [];
   function* sprites() {
-    for (const [set, haze] of [[near, 0], [mid, 0.35], [far, 0.75]] as const) {
-      for (let i = 0; i < (haze ? 6 : 12); i++) { set.bloom.push(bloomSprite(R0, haze)); yield; }
-      for (let i = 0; i < (haze ? 2 : 4); i++) { set.side.push(sideSprite(R0, haze)); yield; }
-      for (let i = 0; i < 3; i++) { set.bud.push(budSprite(R0, haze)); yield; }
-      for (let i = 0; i < (haze ? 3 : 5); i++) { set.pod.push(podSprite(R0, haze)); yield; }
+    // every bloom, side view and pod is drawn directly in glyphs; buds are painted, then turned into glyphs
+    const RG = rng(4242);
+    for (const [set, cols, br, haze] of [[near, 26, 1, 0], [mid, 15, 0.95, 0.35], [far, 8, 0.85, 0.75]] as const) {
+      const step = SPRITE / cols;
+      for (let i = 0; i < (haze ? 6 : 12); i++) { set.bloom.push(codeBloomSprite(RG, haze, step)); yield; }
+      for (let i = 0; i < (haze ? 2 : 4); i++) { set.side.push(codeBloomSprite(RG, haze, step)); yield; }
+      for (let i = 0; i < 3; i++) { set.bud.push(glyphify(budSprite(R0, haze), cols - 6, RG, br)); yield; }
+      for (let i = 0; i < (haze ? 3 : 5); i++) { set.pod.push(codePodSprite(RG, haze, step)); yield; }
     }
-    for (let i = 0; i < 3; i++) { bokeh.push(soften(near.bloom[i], 2.2)); yield; }
   }
   const pick = <T,>(a: T[], R: () => number) => a[(R() * a.length) | 0];
 
@@ -457,7 +426,7 @@ export function start(el: HTMLCanvasElement, moonX = 0.62) {
     const pl: Plant[] = [];
     const clumps = Array.from({ length: Math.max(6, Math.round(W / 110)) }, () => [R() * W, 20 + R() * 90] as const);
     const nMid = Math.round((W / (small ? 5 : 6.5)) * Math.min(1, F / 380));
-    const nNear = Math.max(5, Math.round(W / 100));
+    const nNear = Math.max(5, Math.round(W / 130));
     const add = (z: number, isNear: boolean) => {
       const t = (z - 0.45) / 0.55;
       let x: number;
@@ -471,11 +440,9 @@ export function start(el: HTMLCanvasElement, moonX = 0.62) {
         ? roll < 0.55 ? 'bloom' : roll < 0.72 ? 'side' : roll < 0.86 ? 'bud' : 'pod'
         : roll < 0.62 ? 'bloom' : roll < 0.74 ? 'side' : roll < 0.84 ? 'bud' : 'pod';
       const set = isNear || t > 0.75 ? near : mid;
-      let sprite = pick(set[kind], R);
-      const nearest = isNear && R() < 0.12;
-      if (nearest && kind === 'bloom') sprite = pick(bokeh, R);
+      const sprite = pick(set[kind], R);
       const base = isNear ? (small ? 30 : 38) + R() * (small ? 26 : 40) : 4 + 26 * Math.pow(t, 2);
-      const size = base * scale * (kind === 'bud' ? 0.6 : kind === 'pod' ? 0.8 : kind === 'side' ? 0.9 : 1) * (nearest ? 1.15 : 1);
+      const size = base * scale * (kind === 'bud' ? 0.6 : kind === 'pod' ? 0.55 : kind === 'side' ? 0.9 : 1);
       pl.push({
         x,
         y,
@@ -502,27 +469,6 @@ export function start(el: HTMLCanvasElement, moonX = 0.62) {
     plants = pl;
   }
 
-  function star(x: number, y: number, r: number, a: number) {
-    if (!ctx || a < 0.03) return;
-    const g = ctx.createRadialGradient(x, y, 0, x, y, r * 0.9);
-    g.addColorStop(0, `rgba(255,255,255,${a * 0.6})`);
-    g.addColorStop(1, 'rgba(255,255,255,0)');
-    ctx.fillStyle = g;
-    ctx.fillRect(x - r, y - r, r * 2, r * 2);
-    ctx.fillStyle = `rgba(252,253,255,${a})`;
-    ctx.beginPath();
-    ctx.moveTo(x, y - r);
-    ctx.lineTo(x + r * 0.12, y - r * 0.12);
-    ctx.lineTo(x + r, y);
-    ctx.lineTo(x + r * 0.12, y + r * 0.12);
-    ctx.lineTo(x, y + r);
-    ctx.lineTo(x - r * 0.12, y + r * 0.12);
-    ctx.lineTo(x - r, y);
-    ctx.lineTo(x - r * 0.12, y - r * 0.12);
-    ctx.closePath();
-    ctx.fill();
-  }
-
   function draw(t: number) {
     if (!ctx || !backdrop) return;
     ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -546,8 +492,10 @@ export function start(el: HTMLCanvasElement, moonX = 0.62) {
       const by = p.y + p.stem;
       const hx = bx + Math.sin(ang) * p.stem;
       const hy = by - Math.cos(ang) * p.stem;
-      ctx.strokeStyle = rgba(mix(STEM, STEM_LIT, p.z * 0.6), 0.35 + p.z * 0.6);
-      ctx.lineWidth = Math.max(0.6, p.size * 0.035);
+      ctx.strokeStyle = rgba(mix(STEM, STEM_LIT, p.z), 0.3 + p.z * 0.5);
+      ctx.lineWidth = Math.max(0.6, p.size * 0.045);
+      // stems are dotted glyph columns
+      ctx.setLineDash([Math.max(1, p.size * 0.04), Math.max(2, p.size * 0.09)]);
       ctx.beginPath();
       ctx.moveTo(bx, by);
       ctx.quadraticCurveTo(bx + Math.sin(ang) * p.stem * 0.35, by - p.stem * 0.55, hx, hy);
@@ -571,6 +519,7 @@ export function start(el: HTMLCanvasElement, moonX = 0.62) {
         ctx.drawImage(near.bud[0], -bs, -bs * 1.2, bs * 2, bs * 2);
         ctx.restore();
       }
+      ctx.setLineDash([]);
       ctx.save();
       ctx.translate(hx, hy);
       ctx.rotate(p.rot + ang * 1.3);
@@ -581,7 +530,16 @@ export function start(el: HTMLCanvasElement, moonX = 0.62) {
       ctx.globalAlpha = 1;
       if (p.glint >= 0) {
         const tw = Math.pow(Math.max(0, Math.sin(t * 0.0008 * p.speed + p.glint)), 22);
-        star(hx + s * 0.25, hy - s * 0.4, s * 0.28, Math.min(1, tw * (0.75 + gust * 0.5)));
+        // glint: a bright glyph that flips 0 ↔ 1
+        if (tw > 0.05) {
+          ctx.font = `700 ${Math.min(15, Math.max(8, s * 0.22))}px ${GLYPH_FONT}`;
+          ctx.textAlign = 'center';
+          ctx.fillStyle = `rgba(252,253,255,${Math.min(1, tw * (0.8 + gust * 0.4))})`;
+          ctx.shadowColor = 'rgba(230,238,255,0.9)';
+          ctx.shadowBlur = 8;
+          ctx.fillText(Math.floor(t / 900 + p.glint * 3) % 2 ? '1' : '0', hx + s * 0.2, hy - s * 0.35);
+          ctx.shadowBlur = 0;
+        }
       }
     }
   }

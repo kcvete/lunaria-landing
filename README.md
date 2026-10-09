@@ -9,7 +9,7 @@ Built with [Astro](https://astro.build) 7, static output, plain CSS, a few KB of
 
 **Design direction.** Reading this as: a software studio named after the honesty plant (Lunaria
 annua), whose seed pods dry into small silver moons. A deep blue night with a glowing moon made
-of 0s and 1s over a moonlit field of Lunaria; one hue of blue-black neutrals (OKLCH) with a
+of 0s and 1s over a moonlit field of Lunaria whose flowers are drawn in code too; one hue of blue-black neutrals (OKLCH) with a
 single pearl-silver accent and violet only in the flower centres; a seed-pod logo; plant-growth
 stages as process markers; Montserrat for headings and Hanken Grotesk for reading; left-aligned,
 asymmetric layouts.
@@ -106,16 +106,18 @@ the mailto subject all read from it. Also update `SITE_URL` and `CONTACT_EMAIL`,
 
 ## The hero: a moonlit field of Lunaria
 
-`src/scripts/field-scene.ts` draws the field on a canvas behind the lower part of the hero:
+`src/scripts/field-scene.ts` draws the field on a canvas behind the lower part of the hero. Everything in it
+is made of monospace glyphs (`0`, `1`, `:`, `·`), so the whole scene, moon and flowers, is "made of code":
 
 - **Deterministic:** every flower, pod, bud and leaf comes from a seeded PRNG, so every visit sees the same field.
-- **Sprites, not per-frame drawing:** blooms (four obovate petals with a claw, translucent gradient,
-  veins, a moon-side rim and a glint, each tilted in 3D), side views, buds and flat seed pods are
-  drawn once into small offscreen canvases. A frame only stamps sprites and strokes one stem per plant.
+- **Sprites, not per-frame drawing:** blooms (four petal outlines of 0/1, brighter on the moon side,
+  dotted spines and a faint glowing petal body, each tilted in 3D), buds and flat seed pods (glyph
+  ovals with seed marks) are drawn once into small offscreen canvases. A frame only stamps sprites and
+  strokes one dotted stem per plant.
 - **Depth:** the far field and mist are painted once into a blurred backdrop; clumped middle rows and
   a few large foreground blooms animate; a band of moonlight runs towards the moon.
 - **Motion:** each plant sways with its own phase (near plants more), a gust wave crosses the field
-  about every 14 s, and glints twinkle. It pauses when the hero is off-screen or the tab is hidden;
+  about every 14 s, and glints appear as bright digits flipping 0 ↔ 1. It pauses when the hero is off-screen or the tab is hidden;
   with `prefers-reduced-motion` it renders one static frame.
 - **Performance:** the script loads when the page is idle (≈4.5 KB gzipped) and builds its sprites and
   backdrop in idle-time slices, so there are no long tasks; the headline stays the largest paint.
