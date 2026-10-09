@@ -1,13 +1,13 @@
 ---
 import type { Dict } from '../i18n';
-import CodeMoon from './CodeMoon.astro';
+import PodStage from './PodStage.astro';
 interface Props {
   t: Dict;
 }
 const { t } = Astro.props;
 const p = t.process;
-// new moon → waxing crescent → first quarter → full moon
-const phases = [0, 0.22, 0.5, 1];
+// the honesty plant growing: bud → flower → green pod → silver pod
+const stages = [0, 1, 2, 3] as const;
 ---
 
 <section id="process" class="process" aria-labelledby="process-title">
@@ -20,7 +20,7 @@ const phases = [0, 0.22, 0.5, 1];
       {
         p.steps.map((s, i) => (
           <li class="step">
-            <CodeMoon cols={20} lit={phases[i] ?? 1} seed={11 + i} class="phase" />
+            <PodStage stage={stages[i] ?? 3} class="phase" />
             <h3>{s.name}</h3>
             <p class="when">{s.when}</p>
             <p class="text">{s.text}</p>
@@ -81,9 +81,9 @@ const phases = [0, 0.22, 0.5, 1];
   }
   .when {
     margin-top: 0.3rem;
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: 0.95rem;
+    font-family: var(--ff-label);
+    font-weight: var(--w-medium, 500);
+    font-size: calc(0.95rem * var(--label-scale, 1));
     color: var(--moon);
   }
   .text {

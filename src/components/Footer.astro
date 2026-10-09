@@ -31,6 +31,7 @@ const imprint = [
         <span>{SITE_NAME}</span>
       </a>
       <p class="tagline">{t.footer.tagline}</p>
+      <p class="name-note">{t.footer.nameNote}</p>
     </div>
     <div class="meta">
       <a class="plain" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
@@ -81,14 +82,20 @@ const imprint = [
     display: inline-flex;
     align-items: center;
     gap: 0.55rem;
-    font-family: var(--font-display);
-    font-weight: 600;
+    font-family: var(--ff-display);
+    font-weight: var(--w-strong, 600);
     font-size: 1.25rem;
-    letter-spacing: -0.03em;
+    letter-spacing: calc(var(--track, 1) * -0.03em);
     text-decoration: none;
   }
   .tagline {
     margin-top: 0.6rem;
+    color: var(--muted);
+  }
+  .name-note {
+    margin-top: 0.4rem;
+    max-width: 36rem;
+    font-size: var(--step--1);
     color: var(--muted);
   }
   .meta {
@@ -119,8 +126,8 @@ const imprint = [
     gap: 0.1rem;
   }
   dt {
-    font-family: var(--font-display);
-    font-weight: 500;
+    font-family: var(--ff-display);
+    font-weight: var(--w-medium, 500);
     color: var(--muted);
   }
   dd {

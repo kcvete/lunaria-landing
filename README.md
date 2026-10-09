@@ -1,17 +1,18 @@
 # Lunaria landing page
 
-Bilingual (English + Slovenian) one-page site for a two-person software studio from Slovenia.
+Bilingual (English + Slovenian) one-page site for a four-person software studio from Slovenia.
 "Lunaria" is a working name: see [Renaming the studio](#renaming-the-studio).
 
-Built with [Astro](https://astro.build) 7, static output, plain CSS, under 1 KB of inline JavaScript,
-self-hosted fonts and no third-party requests at runtime. Hosted as a GitHub Pages project site at
+Built with [Astro](https://astro.build) 7, static output, plain CSS, a few KB of JavaScript
+(the hero scene loads lazily), self-hosted fonts and no third-party requests at runtime. Hosted as a GitHub Pages project site at
 <https://kcvete.github.io/lunaria-landing/> (see [Hosting](#hosting)).
 
-**Design direction.** Reading this as: a software development studio's site under a night sky,
-with a moon made of code. Deep blue-black tinted neutrals (one hue, OKLCH), a single moonlight
-accent, the moon drawn in 0s and 1s at build time (lit side, maria, terminator and earthshine all
-shaded by digit choice and tone), Familjen Grotesk for headings and Literata for reading,
-left-aligned asymmetric layouts and one load sequence.
+**Design direction.** Reading this as: a software studio named after the honesty plant (Lunaria
+annua), whose seed pods dry into small silver moons. A deep blue night with a glowing moon made
+of 0s and 1s over a moonlit field of Lunaria; one hue of blue-black neutrals (OKLCH) with a
+single pearl-silver accent and violet only in the flower centres; a seed-pod logo; plant-growth
+stages as process markers; Montserrat for headings and Hanken Grotesk for reading; left-aligned,
+asymmetric layouts.
 
 ## Commands
 
@@ -40,8 +41,9 @@ src/
   data/
     projects.ts        showcase projects (typed; per-language summaries)
     team.ts            team members (photo, links; role/bio copy is in i18n)
-  components/          one component per section, plus CodeMoon and LangSwitch
+  components/          one component per section, plus CodeMoon, PodStage, LogoMark and LangSwitch
   lib/codeMoon.ts      build-time renderer for the moon made of 0s and 1s
+  scripts/field-scene.ts  the hero's moonlit field of Lunaria (canvas, loaded lazily)
   lib/url.ts           withBase(): every internal URL goes through it
   layouts/Base.astro   <head>: meta, hreflang, OG/Twitter, JSON-LD, fonts
   pages/index.astro    English  -> /
@@ -58,7 +60,7 @@ src/
 public/
   .nojekyll            tells GitHub Pages not to run Jekyll
   work/                project screenshots (empty for now)
-  og.png               share image (placeholder: a capture of the hero)
+  og.jpg, og-sl.jpg    share images (captures of each hero)
 ```
 
 ## Editing copy and translations
@@ -100,9 +102,28 @@ featured projects span the full width. The "Your project could be next" block al
 
 Change `SITE_NAME` in `src/config.ts`. The wordmark, page titles, meta tags, footer, JSON-LD and
 the mailto subject all read from it. Also update `SITE_URL` and `CONTACT_EMAIL`, regenerate
-`public/og.png` and `public/og-sl.png`, and change `"name"` in `package.json` if you like.
+`public/og.jpg` and `public/og-sl.jpg`, and change `"name"` in `package.json` if you like.
 
-## The moon made of code
+## The hero: a moonlit field of Lunaria
+
+`src/scripts/field-scene.ts` draws the field on a canvas behind the lower part of the hero:
+
+- **Deterministic:** every flower, pod, bud and leaf comes from a seeded PRNG, so every visit sees the same field.
+- **Sprites, not per-frame drawing:** blooms (four obovate petals with a claw, translucent gradient,
+  veins, a moon-side rim and a glint, each tilted in 3D), side views, buds and flat seed pods are
+  drawn once into small offscreen canvases. A frame only stamps sprites and strokes one stem per plant.
+- **Depth:** the far field and mist are painted once into a blurred backdrop; clumped middle rows and
+  a few large foreground blooms animate; a band of moonlight runs towards the moon.
+- **Motion:** each plant sways with its own phase (near plants more), a gust wave crosses the field
+  about every 14 s, and glints twinkle. It pauses when the hero is off-screen or the tab is hidden;
+  with `prefers-reduced-motion` it renders one static frame.
+- **Performance:** the script loads when the page is idle (≈4.5 KB gzipped) and builds its sprites and
+  backdrop in idle-time slices, so there are no long tasks; the headline stays the largest paint.
+  Device pixel ratio is capped at 2 and phones get fewer plants.
+
+The moon above it is the build-time code moon described below, with a CSS glow and a soft disc behind it.
+
+### The moon made of code
 
 `src/lib/codeMoon.ts` lights each character cell like a point on a sphere (Lambert shading from a
 sun angle set by the phase), multiplies it by an albedo map of the near-side maria, and quantises
@@ -153,7 +174,7 @@ Every placeholder is listed here. In code they are marked `TODO`
 - [x] `SHOW_PRICING`: stays `false` (owner decision: no published prices; every project gets a fixed quote after the free call). The `faq.pricing` structure is kept for later.
 - [ ] Analytics (optional): wire a cookieless tool by defining `window.track` in `Base.astro`. The page already emits `booking_click` and `form_submit`. Update the privacy notice and the "no analytics" sentences if you do.
 - [ ] `SOCIAL.github` / `SOCIAL.linkedin`: optional studio profiles (hidden while empty).
-- [ ] `OG_IMAGE`: replace `public/og.png` and `public/og-sl.png` (currently 1200×630 captures of each hero) with designed share images.
+- [ ] `OG_IMAGE`: replace `public/og.jpg` and `public/og-sl.jpg` (currently 1200×630 captures of each hero) with designed share images.
 
 **`src/data/projects.ts`**
 - [ ] Parrot: confirm status ("In development"); add App Store / Google Play links; add a screenshot to `public/work/`.

@@ -235,6 +235,7 @@ export const sl: Dict = {
   },
   footer: {
     tagline: 'Narejeno v Sloveniji, pod luno.',
+    nameNote: 'Lunaria je enoletna srebrenka (Lunaria annua), rastlina, katere luščki se posušijo v majhne srebrne lune. V angleščini ji pravijo honesty, iskrenost, in po njej smo poimenovali studio, ker imamo radi jasne odgovore.',
     rights: 'Vse pravice pridržane.',
     language: 'Jezik (noga strani)',
     imprint: 'Podatki o podjetju',

@@ -133,11 +133,11 @@ const w = t.work;
     padding: clamp(1rem, 0.6rem + 2vw, 2rem);
   }
   .initial {
-    font-family: var(--font-display);
-    font-weight: 600;
+    font-family: var(--ff-display);
+    font-weight: var(--w-strong, 600);
     font-size: clamp(2.6rem, 1.5rem + 5vw, 5rem);
     line-height: 0.85;
-    letter-spacing: -0.05em;
+    letter-spacing: calc(var(--track, 1) * -0.05em);
     color: var(--rule);
   }
   .placeholder :global(.ph-moon) {
@@ -152,9 +152,9 @@ const w = t.work;
     max-width: 38rem;
   }
   .status {
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: 0.95rem;
+    font-family: var(--ff-label);
+    font-weight: var(--w-medium, 500);
+    font-size: calc(0.95rem * var(--label-scale, 1));
     color: var(--moon);
   }
   h3 {
@@ -175,8 +175,8 @@ const w = t.work;
     gap: 1rem;
   }
   dt {
-    font-family: var(--font-display);
-    font-weight: 500;
+    font-family: var(--ff-label);
+    font-weight: var(--w-medium, 500);
     color: var(--muted);
   }
   dd {
@@ -205,8 +205,8 @@ const w = t.work;
   }
   .next h3 {
     font-size: var(--step-3);
-    font-weight: 600;
-    letter-spacing: -0.035em;
+    font-weight: var(--w-strong, 600);
+    letter-spacing: calc(var(--track, 1) * -0.035em);
   }
   .next p {
     margin-top: 0.75rem;

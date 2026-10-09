@@ -38,7 +38,7 @@ export const SOCIAL = {
 };
 
 /** Open Graph share images in /public, per language (1200×630). */
-export const OG_IMAGE = { en: 'og.png', sl: 'og-sl.png' }; // TODO: replace captures with designed share images
+export const OG_IMAGE = { en: 'og.jpg', sl: 'og-sl.jpg' }; // TODO: replace captures with designed share images
 
 /** Location line (services intro, footer, JSON-LD). Empty city renders as a visible TODO. */
 export const CITY = 'Ljubljana'; // used in JSON-LD; the visible location line is copy in src/i18n

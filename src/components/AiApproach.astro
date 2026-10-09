@@ -32,7 +32,7 @@ const a = t.ai;
   }
   h2 {
     font-size: var(--step-4);
-    letter-spacing: -0.04em;
+    letter-spacing: calc(var(--track, 1) * -0.04em);
     line-height: 0.98;
     max-width: 16ch;
   }
@@ -54,7 +54,7 @@ const a = t.ai;
   }
   h3 {
     font-size: var(--step-1);
-    letter-spacing: -0.01em;
+    letter-spacing: calc(var(--track, 1) * -0.01em);
   }
   .points p {
     color: var(--text-2);

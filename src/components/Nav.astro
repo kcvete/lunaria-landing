@@ -97,10 +97,10 @@ const links = [
     text-decoration: none;
   }
   .wordmark {
-    font-family: var(--font-display);
-    font-weight: 600;
+    font-family: var(--ff-display);
+    font-weight: var(--w-strong, 600);
     font-size: 1.3rem;
-    letter-spacing: -0.03em;
+    letter-spacing: calc(var(--track, 1) * -0.03em);
   }
   .links {
     list-style: none;
@@ -110,8 +110,8 @@ const links = [
   }
   .links a {
     display: block;
-    font-family: var(--font-display);
-    font-weight: 500;
+    font-family: var(--ff-display);
+    font-weight: var(--w-medium, 500);
     color: var(--text-2);
     text-decoration: none;
   }

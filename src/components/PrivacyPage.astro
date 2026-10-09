@@ -64,7 +64,7 @@ const vars = {
   }
   h2 {
     font-size: var(--step-1);
-    letter-spacing: -0.01em;
+    letter-spacing: calc(var(--track, 1) * -0.01em);
     margin-bottom: 0.75rem;
   }
   section p + p {

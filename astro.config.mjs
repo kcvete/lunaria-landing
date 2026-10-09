@@ -49,21 +49,21 @@ export default defineConfig({
   fonts: [
     {
       provider: fontProviders.fontsource(),
-      name: 'Familjen Grotesk',
+      name: 'Montserrat',
       cssVariable: '--font-display',
-      weights: [500, 600],
+      weights: [700], // one weight keeps the payload small; 600 requests resolve to 700
       styles: ['normal'],
       subsets: ['latin', 'latin-ext'],
       fallbacks: ['Helvetica Neue', 'Arial', 'sans-serif'],
     },
     {
       provider: fontProviders.fontsource(),
-      name: 'Literata',
+      name: 'Hanken Grotesk',
       cssVariable: '--font-text',
-      weights: [400],
+      weights: [400, 600],
       styles: ['normal'],
       subsets: ['latin', 'latin-ext'],
-      fallbacks: ['Georgia', 'serif'],
+      fallbacks: ['Helvetica Neue', 'Arial', 'sans-serif'],
     },
   ],
 });

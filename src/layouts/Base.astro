@@ -111,8 +111,15 @@ const jsonLd =
     <meta name="twitter:image" content={ogImage} />
     <meta name="twitter:image:alt" content={t.meta.ogAlt} />
 
-    <Font cssVariable="--font-display" preload={[{ subset: 'latin', weight: '600' }]} />
-    <Font cssVariable="--font-text" preload={[{ subset: 'latin', weight: '400' }]} />
+    {/* Slovenian pages also need the latin-ext files (č, š, ž) right away */}
+    <Font
+      cssVariable="--font-display"
+      preload={lang === 'sl' ? [{ subset: 'latin', weight: '700' }, { subset: 'latin-ext', weight: '700' }] : [{ subset: 'latin', weight: '700' }]}
+    />
+    <Font
+      cssVariable="--font-text"
+      preload={lang === 'sl' ? [{ subset: 'latin', weight: '400' }, { subset: 'latin-ext', weight: '400' }] : [{ subset: 'latin', weight: '400' }]}
+    />
 
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
 

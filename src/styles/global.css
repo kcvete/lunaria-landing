@@ -11,20 +11,21 @@
   --rule-soft: oklch(0.27 0.032 var(--hue));
   --field-border: oklch(0.62 0.03 var(--hue)); /* form fields: ≥ 3:1 on --night-0 and --night-1 */
 
-  --text: oklch(0.94 0.012 85); /* moonlit paper, never #fff */
+  --text: oklch(0.94 0.008 250); /* pearl white, never #fff */
   --text-2: oklch(0.83 0.018 var(--hue));
   --muted: oklch(0.73 0.025 var(--hue)); /* ≥ 7:1 on --night-0 */
 
-  --moon: oklch(0.88 0.055 88); /* the single accent */
-  --moon-hi: oklch(0.93 0.045 88);
+  --moon: oklch(0.87 0.02 245); /* the single accent: honesty-pod silver / pearl */
+  --moon-hi: oklch(0.94 0.014 245);
+  --violet: oklch(0.72 0.07 305); /* rare: the flower's centre only */
   --on-moon: oklch(0.2 0.035 var(--hue));
 
   --step--1: 0.875rem;
   --step-0: 1.0625rem;
   --step-1: clamp(1.15rem, 1.1rem + 0.25vw, 1.3rem);
   --step-2: clamp(1.45rem, 1.3rem + 0.7vw, 1.9rem);
-  --step-3: clamp(2rem, 1.6rem + 2vw, 3.25rem);
-  --step-4: clamp(2.6rem, 1.7rem + 4.6vw, 5.6rem);
+  --step-3: calc(clamp(2rem, 1.6rem + 2vw, 3.25rem) * var(--display-scale, 1));
+  --step-4: calc(clamp(2.6rem, 1.7rem + 4.6vw, 5.6rem) * var(--display-scale, 1));
 
   --container: 76rem;
   --gutter: clamp(1rem, 0.5rem + 2.4vw, 2.5rem);
@@ -58,9 +59,9 @@ body {
      on <html> in Base.astro so the URL respects the site base path. */
   background: var(--night-0) var(--stars) 0 0 / 760px 760px repeat;
   color: var(--text);
-  font-family: var(--font-text);
+  font-family: var(--ff-text);
   font-size: var(--step-0);
-  line-height: 1.72;
+  line-height: var(--body-lh, 1.72);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
@@ -76,19 +77,19 @@ h1,
 h2,
 h3 {
   margin: 0;
-  font-family: var(--font-display);
-  font-weight: 600;
+  font-family: var(--ff-display);
+  font-weight: var(--w-strong, 600);
   line-height: 1.04;
-  letter-spacing: -0.028em;
+  letter-spacing: calc(var(--track, 1) * -0.028em);
   text-wrap: balance;
 }
 h2 {
   font-size: var(--step-3);
 }
 h3 {
-  font-weight: 500;
+  font-weight: var(--w-medium, 500);
   font-size: var(--step-2);
-  letter-spacing: -0.015em;
+  letter-spacing: calc(var(--track, 1) * -0.015em);
   line-height: 1.15;
 }
 
@@ -144,8 +145,8 @@ a {
   padding: 0.6rem 1rem;
   background: var(--moon);
   color: var(--on-moon);
-  font-family: var(--font-display);
-  font-weight: 600;
+  font-family: var(--ff-display);
+  font-weight: var(--w-strong, 600);
   text-decoration: none;
   border-radius: 4px;
 }
@@ -172,8 +173,8 @@ a {
   border-radius: 4px;
   background: var(--moon);
   color: var(--on-moon);
-  font: 600 1rem/1.2 var(--font-display);
-  letter-spacing: -0.005em;
+  font: var(--w-strong, 600) 1rem/1.2 var(--ff-display);
+  letter-spacing: calc(var(--track, 1) * -0.005em);
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
@@ -190,8 +191,8 @@ a {
 
 /* Quiet text link with a moonlit underline */
 .link {
-  font-family: var(--font-display);
-  font-weight: 500;
+  font-family: var(--ff-display);
+  font-weight: var(--w-medium, 500);
   color: var(--text);
   text-decoration: underline;
   text-decoration-color: var(--moon);
@@ -211,4 +212,16 @@ a {
     animation: none !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+/* Type: Montserrat for headings and UI, Hanken Grotesk for reading. */
+:root {
+  --ff-display: var(--font-display);
+  --ff-text: var(--font-text);
+  --ff-label: var(--font-text);
+  --w-strong: 700;
+  --w-medium: 600;
+  --track: 0.45; /* Montserrat runs wide: lighter negative tracking */
+  --display-scale: 0.88;
+  --body-lh: 1.62;
 }

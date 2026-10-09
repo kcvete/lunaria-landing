@@ -16,18 +16,26 @@ const demo = projects.find((p) => p.id === 'product-trimmer')?.links.find((l) =>
 ---
 
 <section class="hero" aria-labelledby="hero-title">
-  <div class="container grid">
-    <div class="copy">
-      <h1 id="hero-title">{h.title}</h1>
-      <p class="sub rise" style="--d:100ms">{h.sub}</p>
-      <div class="ctas rise" style="--d:260ms">
-        <Cta lang={lang} location="hero" />
-        <a class="link" href="#work">{h.ctaSecondary}</a>
-      </div>
-      <p class="trust rise" style="--d:320ms">{fill(h.trust)}</p>
+  {/* Night sky with a glowing code moon, and a moonlit field of Lunaria (canvas, src/scripts/field-scene.ts). */}
+  <div class="scene" aria-hidden="true">
+    <div class="scene-moon">
+      <div class="scene-glow"></div>
+      <CodeMoon cols={64} lit={1} flips={10} seed={77} class="field-moon" />
+    </div>
+    <canvas class="field"></canvas>
+  </div>
+  <div class="container copy">
+    <h1 id="hero-title">{h.title}</h1>
+    <p class="sub rise" style="--d:100ms">{h.sub}</p>
+    <div class="ctas rise" style="--d:260ms">
+      <Cta lang={lang} location="hero" />
+      <a class="link" href="#work">{h.ctaSecondary}</a>
+    </div>
+    <div class="hero-trust rise" style="--d:320ms">
+      <p class="trust">{fill(h.trust)}</p>
       {
         demo && (
-          <p class="proof rise" style="--d:360ms">
+          <p class="proof">
             {h.proof.lead}{' '}
             <a href={demo.href} target="_blank" rel="noopener">
               {h.proof.linkText}
@@ -37,40 +45,71 @@ const demo = projects.find((p) => p.id === 'product-trimmer')?.links.find((l) =>
           </p>
         )
       }
-      <ul class="offer rise" style="--d:400ms" aria-label={h.servicesLabel}>
-        {
-          h.services.map((s) => (
-            <li>
-              <a href="#services">
-                <span class="name">{s.name}</span>
-                <span class="detail">{s.detail}</span>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-    <div class="sky">
-      <CodeMoon cols={84} lit={0.8} flips={14} class="hero-moon" />
     </div>
   </div>
 </section>
 
+<div class="container below">
+  {/* On phones the trust lines sit here, under the field, so the flowers fit in the first screen. */}
+  <div class="below-trust">
+    <p class="trust">{fill(h.trust)}</p>
+    {
+      demo && (
+        <p class="proof">
+          {h.proof.lead}{' '}
+          <a href={demo.href} target="_blank" rel="noopener">
+            {h.proof.linkText}
+            <span class="visually-hidden"> ({t.a11y.externalLink})</span>
+          </a>{' '}
+          {h.proof.rest}
+        </p>
+      )
+    }
+  </div>
+  <ul class="offer" aria-label={h.servicesLabel}>
+    {
+      h.services.map((s) => (
+        <li>
+          <a href="#services">
+            <span class="name">{s.name}</span>
+            <span class="detail">{s.detail}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<script>
+  // Start the field scene once the page is idle (it then builds itself in idle slices).
+  const run = () => {
+    const c = document.querySelector<HTMLCanvasElement>('canvas.field');
+    if (c) import('../scripts/field-scene').then((m) => m.start(c, innerWidth < 960 ? 0.5 : 0.68));
+  };
+  if ('requestIdleCallback' in window) requestIdleCallback(run, { timeout: 1200 });
+  else setTimeout(run, 300);
+</script>
+
 <style>
   .hero {
+    --field-h: clamp(15rem, 37vh, 30rem);
+    --moon-w: clamp(11rem, 17vw, 17rem);
     position: relative;
     overflow: hidden;
-    padding-block: clamp(2rem, 0.5rem + 3.5vw, 4rem) var(--space-section);
+    min-height: calc(100svh - var(--nav-h));
+    padding-top: clamp(2.5rem, 1rem + 4vw, 5rem);
+    padding-bottom: calc(var(--field-h) + 1rem);
+    background: linear-gradient(180deg, #060a17 0%, #0a1229 40%, #14213f 78%, #1e2d4f 100%);
   }
-  .grid {
-    display: grid;
-    gap: 3rem;
+  .copy {
+    position: relative;
+    z-index: 1;
   }
   h1 {
-    font-size: clamp(2.2rem, 1.4rem + 3.1vw, 4rem);
-    letter-spacing: -0.036em;
+    font-size: clamp(1.85rem, 1.1rem + 2.9vw, 3.7rem);
+    letter-spacing: calc(var(--track, 1) * -0.036em);
     line-height: 1.02;
-    max-width: 18ch;
+    max-width: min(22ch, 46rem); /* four lines on desktop, clear of the moon */
     animation: settle 0.9s var(--ease) both;
   }
   .sub {
@@ -79,34 +118,6 @@ const demo = projects.find((p) => p.id === 'product-trimmer')?.links.find((l) =>
     font-size: var(--step-1);
     line-height: 1.55;
     color: var(--text-2);
-  }
-  .offer {
-    list-style: none;
-    margin: 2rem 0 0;
-    padding: 0;
-    max-width: 36rem;
-    border-top: 1px solid var(--rule);
-  }
-  .offer a {
-    display: grid;
-    gap: 0.1rem;
-    padding: 0.6rem 0;
-    border-bottom: 1px solid var(--rule);
-    text-decoration: none;
-  }
-  .name {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 1.05rem;
-    letter-spacing: -0.01em;
-  }
-  .detail {
-    font-size: 0.95rem;
-    line-height: 1.45;
-    color: var(--muted);
-  }
-  .offer a:hover .name {
-    color: var(--moon);
   }
   .ctas {
     display: flex;
@@ -126,24 +137,114 @@ const demo = projects.find((p) => p.id === 'product-trimmer')?.links.find((l) =>
     color: var(--muted);
   }
   .proof a {
-    font-family: var(--font-display);
-    font-weight: 500;
+    font-family: var(--ff-display);
+    font-weight: var(--w-medium, 500);
     color: var(--text);
     text-decoration-color: var(--moon);
   }
   .proof a:hover {
     color: var(--moon);
   }
-  .sky {
-    width: min(100%, 26rem);
-    justify-self: center;
-  }
   .rise {
     animation: rise 0.8s var(--ease) var(--d, 0ms) both;
   }
-  .sky :global(.hero-moon) {
-    animation: moonrise 1.8s var(--ease) 0.15s both;
+
+  /* ---- scene ---- */
+  .scene {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
   }
+  /* the moon sits fully in view below the nav, glowing */
+  .scene-moon {
+    position: absolute;
+    top: clamp(1.5rem, 1rem + 2vw, 3rem);
+    left: 64%;
+    width: var(--moon-w);
+    animation: moonrise 1.8s var(--ease) 0.1s both;
+  }
+  .scene-glow {
+    position: absolute;
+    inset: -95%;
+    border-radius: 50%;
+    background: radial-gradient(
+      closest-side,
+      rgba(236, 242, 255, 0.5) 0%,
+      rgba(206, 220, 250, 0.3) 22%,
+      rgba(150, 172, 222, 0.12) 46%,
+      rgba(120, 140, 200, 0.04) 70%,
+      transparent 100%
+    );
+  }
+  .scene-moon::after {
+    /* smooth luminous disc behind the code characters */
+    content: '';
+    position: absolute;
+    inset: 4%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 46% 42%, rgba(246, 249, 255, 0.34), rgba(214, 226, 250, 0.18) 60%, rgba(214, 226, 250, 0.06) 100%);
+    box-shadow: 0 0 2.5rem 0.6rem rgba(220, 232, 255, 0.22);
+  }
+  .scene-moon :global(.field-moon) {
+    position: relative;
+    z-index: 1;
+  }
+  .scene-moon :global(.field-moon pre) {
+    text-shadow: 0 0 6px rgba(230, 238, 255, 0.55);
+  }
+  .scene-moon :global(.field-moon .l3) { color: rgba(236, 242, 255, 0.72); }
+  .scene-moon :global(.field-moon .l4) { color: rgba(244, 248, 255, 0.9); }
+  .scene-moon :global(.field-moon .l5),
+  .scene-moon :global(.field-moon pre.l5) { color: #fbfcff; }
+  .field {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: calc(var(--field-h) * 1.25);
+    opacity: 0.001;
+    transition: opacity 1.2s var(--ease);
+  }
+  .field:global(.is-ready) {
+    opacity: 1;
+  }
+
+  /* ---- below the hero: services list (and, on phones, the trust lines) ---- */
+  .below {
+    padding-top: 2.5rem;
+  }
+  .below-trust {
+    display: none;
+  }
+  .offer {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: 36rem;
+    border-top: 1px solid var(--rule);
+  }
+  .offer a {
+    display: grid;
+    gap: 0.1rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--rule);
+    text-decoration: none;
+  }
+  .name {
+    font-family: var(--ff-display);
+    font-weight: var(--w-strong, 600);
+    font-size: 1.05rem;
+    letter-spacing: calc(var(--track, 1) * -0.01em);
+  }
+  .detail {
+    font-size: 0.95rem;
+    line-height: 1.45;
+    color: var(--muted);
+  }
+  .offer a:hover .name {
+    color: var(--moon);
+  }
+
   @keyframes settle {
     from {
       transform: translateY(12px);
@@ -169,16 +270,33 @@ const demo = projects.find((p) => p.id === 'product-trimmer')?.links.find((l) =>
       align-items: baseline;
     }
   }
-  @media (min-width: 60rem) {
-    .grid {
-      grid-template-columns: 7fr 5fr;
-      align-items: center;
-      gap: 3rem;
+  @media (max-width: 59.99rem) {
+    /* phones: small moon at the top, compact copy, field in the first screen */
+    .hero {
+      --moon-w: clamp(6.5rem, 26vw, 9rem);
+      --field-h: clamp(13rem, 30vh, 18rem);
+      min-height: 0;
+      padding-top: calc(var(--moon-w) + 2.2rem);
+      padding-bottom: calc(var(--field-h) * 0.95);
     }
-    .sky {
-      width: 100%;
-      max-width: 32rem;
-      justify-self: end;
+    .scene-moon {
+      top: 1.1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: none;
+    }
+    .hero-trust {
+      display: none;
+    }
+    .below-trust {
+      display: block;
+      margin-bottom: 1.5rem;
+    }
+    .sub {
+      margin-top: 1rem;
+    }
+    .ctas {
+      margin-top: 1.25rem;
     }
   }
 </style>

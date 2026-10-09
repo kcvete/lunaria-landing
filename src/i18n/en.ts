@@ -238,6 +238,7 @@ export const en = {
   },
   footer: {
     tagline: 'Made in Slovenia, under the moon.',
+    nameNote: 'Lunaria is the honesty plant (Lunaria annua). Its seed pods dry into small silver moons. We named the studio after it because we like straight answers.',
     rights: 'All rights reserved.',
     language: 'Language (footer)',
     imprint: 'Company details',
