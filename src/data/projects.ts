@@ -2,6 +2,7 @@ import type { ImageMetadata } from 'astro';
 import type { Lang } from '../i18n';
 import productTrimmerShot from '../assets/work/product-trimmer.jpg';
 import parrotShot from '../assets/work/parrot.jpg';
+import thinkTwiceShot from '../assets/work/think-twice.jpg';
 
 /**
  * Showcase projects. Add a project by appending an object to `projects`.
@@ -73,6 +74,21 @@ export const projects: Project[] = [
     ],
     placeholderPhase: 0.15,
     image: productTrimmerShot, // captured from the live demo
+  },
+  {
+    id: 'think-twice',
+    name: 'Think Twice',
+    featured: true,
+    status: 'in-development',
+    summary: {
+      en: 'Think Twice puts a calm pause between you and the apps you open on autopilot: it asks why now, for how long and how you feel, nudges you when time is up, and shows what usually pulls you in.',
+      sl: 'Think Twice postavi miren premor med vas in aplikacije, ki jih odpirate samodejno: vpraša, zakaj ravno zdaj, za koliko časa in kako se počutite, opozori, ko čas poteče, in pokaže, kaj vas najpogosteje potegne vanje.',
+    },
+    platforms: { en: ['Android'], sl: ['Android'] },
+    stack: ['Kotlin', 'Jetpack Compose', 'Material 3', 'Room', 'Accessibility service', 'Lottie'],
+    links: [], // private repository; no store link yet
+    placeholderPhase: 0.5,
+    image: thinkTwiceShot, // composed from the redesigned app screens (Oct 2026)
   },
   {
     id: 'bardy',

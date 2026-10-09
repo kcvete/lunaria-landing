@@ -215,17 +215,23 @@ const w = t.work;
   }
 
   @media (min-width: 54rem) {
+    /* two rows of asymmetric pairs on a 12-column grid: wide + narrow, then
+       narrow + wide; the second card in each row starts lower, so the work
+       reads as an offset composition rather than a grid of equal tiles */
     .mosaic {
-      grid-template-columns: 7fr 5fr;
+      grid-template-columns: repeat(12, 1fr);
       column-gap: clamp(2rem, 1rem + 3vw, 4rem);
     }
-    /* the second project starts lower: an offset, not a grid of equal tiles */
-    .project:nth-child(2) {
-      margin-top: clamp(4rem, 2rem + 6vw, 8rem);
+    .project:nth-child(4n + 1),
+    .project:nth-child(4n + 4) {
+      grid-column: span 7;
     }
-    .project:nth-child(n + 3) {
-      grid-column: 1 / -1;
-      grid-template-columns: 7fr 5fr;
+    .project:nth-child(4n + 2),
+    .project:nth-child(4n + 3) {
+      grid-column: span 5;
+    }
+    .project:nth-child(2n) {
+      margin-top: clamp(4rem, 2rem + 6vw, 8rem);
     }
     .next {
       grid-template-columns: 1fr auto;
