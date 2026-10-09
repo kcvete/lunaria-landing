@@ -42,12 +42,6 @@ export const en = {
     audience,
     title: `Mobile apps and backend systems for ${audience}.`,
     sub: `${SITE_NAME} is a software development studio from Slovenia: two engineers, a business analyst and a designer. Fixed quotes, code you own.`,
-    servicesLabel: 'What we build',
-    services: [
-      { name: 'Mobile apps', detail: 'iOS and Android apps from one shared codebase' },
-      { name: 'Backend and APIs', detail: 'The servers, databases and cloud setup behind your product' },
-      { name: 'Custom software', detail: 'Web apps, internal tools and AI features' },
-    ],
     ctaSecondary: 'See our work',
     trust: 'A free {minutes}-minute call, with no obligation. We reply within 1 working day.',
     proof: {

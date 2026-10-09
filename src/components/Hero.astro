@@ -66,18 +66,6 @@ const demo = projects.find((p) => p.id === 'product-trimmer')?.links.find((l) =>
       )
     }
   </div>
-  <ul class="offer" aria-label={h.servicesLabel}>
-    {
-      h.services.map((s) => (
-        <li>
-          <a href="#services">
-            <span class="name">{s.name}</span>
-            <span class="detail">{s.detail}</span>
-          </a>
-        </li>
-      ))
-    }
-  </ul>
 </div>
 
 <script>
@@ -209,40 +197,9 @@ const demo = projects.find((p) => p.id === 'product-trimmer')?.links.find((l) =>
     opacity: 1;
   }
 
-  /* ---- below the hero: services list (and, on phones, the trust lines) ---- */
+  /* ---- below the hero: on phones only, the trust lines ---- */
   .below {
-    padding-top: 2.5rem;
-  }
-  .below-trust {
     display: none;
-  }
-  .offer {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    max-width: 36rem;
-    border-top: 1px solid var(--rule);
-  }
-  .offer a {
-    display: grid;
-    gap: 0.1rem;
-    padding: 0.6rem 0;
-    border-bottom: 1px solid var(--rule);
-    text-decoration: none;
-  }
-  .name {
-    font-family: var(--ff-display);
-    font-weight: var(--w-strong, 600);
-    font-size: 1.05rem;
-    letter-spacing: calc(var(--track, 1) * -0.01em);
-  }
-  .detail {
-    font-size: 0.95rem;
-    line-height: 1.45;
-    color: var(--muted);
-  }
-  .offer a:hover .name {
-    color: var(--moon);
   }
 
   @keyframes settle {
@@ -263,13 +220,6 @@ const demo = projects.find((p) => p.id === 'product-trimmer')?.links.find((l) =>
     }
   }
 
-  @media (min-width: 40rem) {
-    .offer a {
-      grid-template-columns: 13rem 1fr;
-      gap: 1.25rem;
-      align-items: baseline;
-    }
-  }
   @media (max-width: 59.99rem) {
     /* phones: small moon at the top, compact copy, field in the first screen */
     .hero {
@@ -288,8 +238,11 @@ const demo = projects.find((p) => p.id === 'product-trimmer')?.links.find((l) =>
     .hero-trust {
       display: none;
     }
-    .below-trust {
+    .below {
       display: block;
+      padding-top: 2.5rem;
+    }
+    .below-trust {
       margin-bottom: 1.5rem;
     }
     .sub {

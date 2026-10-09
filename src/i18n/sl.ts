@@ -40,12 +40,6 @@ export const sl: Dict = {
     audience,
     title: `Mobilne aplikacije in zaledni sistemi za ${audience}.`,
     sub: `${SITE_NAME} je studio za razvoj programske opreme iz Slovenije: dva inženirja, poslovna analitičarka in oblikovalka. Fiksne ponudbe in koda, ki je vaša.`,
-    servicesLabel: 'Kaj razvijamo',
-    services: [
-      { name: 'Mobilne aplikacije', detail: 'Aplikaciji za iOS in Android iz ene skupne kode' },
-      { name: 'Zaledje in API-ji', detail: 'Strežniki, baze podatkov in oblak, na katerih teče vaš izdelek' },
-      { name: 'Programska oprema po meri', detail: 'Spletne aplikacije, interna orodja in funkcije z umetno inteligenco' },
-    ],
     ctaSecondary: 'Oglejte si projekte',
     trust: 'Brezplačen {minutes}-minutni pogovor, brez obveznosti. Odgovorimo v enem delovnem dnevu.',
     proof: {
