@@ -2,7 +2,7 @@ import type { ImageMetadata } from 'astro';
 import type { Lang } from '../i18n';
 import productTrimmerShot from '../assets/work/product-trimmer.jpg';
 import parrotShot from '../assets/work/parrot.jpg';
-import thinkTwiceShot from '../assets/work/think-twice.jpg';
+import knotlessShot from '../assets/work/knotless.jpg';
 
 /**
  * Showcase projects. Add a project by appending an object to `projects`.
@@ -16,7 +16,7 @@ import thinkTwiceShot from '../assets/work/think-twice.jpg';
  * a moon phase) is used.
  */
 
-export type ProjectStatus = 'in-development' | 'early-access' | 'beta' | 'live';
+export type ProjectStatus = 'in-development' | 'early-access' | 'coming-soon' | 'beta' | 'live';
 export type ProjectLinkKind = 'site' | 'demo' | 'appStore' | 'playStore' | 'github';
 
 export interface Project {
@@ -76,19 +76,19 @@ export const projects: Project[] = [
     image: productTrimmerShot, // captured from the live demo
   },
   {
-    id: 'think-twice',
-    name: 'Think Twice',
+    id: 'knotless',
+    name: 'Knotless',
     featured: true,
-    status: 'in-development',
+    status: 'coming-soon', // release 1.0.0 prepared, Play listing not yet published (2026-10)
     summary: {
-      en: 'Think Twice puts a calm pause between you and the apps you open on autopilot: it asks why now, for how long and how you feel, nudges you when time is up, and shows what usually pulls you in.',
-      sl: 'Think Twice postavi miren premor med vas in aplikacije, ki jih odpirate samodejno: vpraša, zakaj ravno zdaj, za koliko časa in kako se počutite, opozori, ko čas poteče, in pokaže, kaj vas najpogosteje potegne vanje.',
+      en: 'A calm pause before the apps that pull you in. Open one anyway and a small knot ties in your head; breathe for a minute or put the phone down to untie it. It never locks you out, and nothing leaves your phone.',
+      sl: 'Miren premor pred aplikacijami, ki vas vlečejo vase. Če katero vseeno odprete, se vam v glavi zaveže majhen vozel; razvozlate ga z minuto dihanja ali tako, da telefon odložite. Nikoli vas ne zaklene, nič pa ne zapusti vašega telefona.',
     },
     platforms: { en: ['Android'], sl: ['Android'] },
-    stack: ['Kotlin', 'Jetpack Compose', 'Material 3', 'Room', 'Accessibility service', 'Lottie'],
-    links: [], // private repository; no store link yet
+    stack: ['Kotlin', 'Jetpack Compose', 'Material 3', 'Room', 'Accessibility service'],
+    links: [], // private repository; add the Google Play link when the listing is live
     placeholderPhase: 0.5,
-    image: thinkTwiceShot, // composed from the redesigned app screens (Oct 2026)
+    image: knotlessShot, // composed from the app's screens (pause, home, breathing)
   },
   {
     id: 'bardy',

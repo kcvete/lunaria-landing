@@ -78,6 +78,7 @@ export const en = {
     status: {
       'in-development': 'In development',
       'early-access': 'Early access',
+      'coming-soon': 'Coming soon to Google Play',
       beta: 'In beta',
       live: 'Live',
     },

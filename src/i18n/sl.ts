@@ -76,6 +76,7 @@ export const sl: Dict = {
     status: {
       'in-development': 'V razvoju',
       'early-access': 'Zgodnji dostop',
+      'coming-soon': 'Kmalu na Google Play',
       beta: 'V beta različici',
       live: 'Na voljo',
     },
