@@ -4,8 +4,8 @@ Bilingual (English + Slovenian) one-page site for a four-person software studio 
 "Lunaria" is a working name: see [Renaming the studio](#renaming-the-studio).
 
 Built with [Astro](https://astro.build) 7, static output, plain CSS, a few KB of JavaScript
-(the hero scene loads lazily), self-hosted fonts and no third-party requests at runtime. Hosted as a GitHub Pages project site at
-<https://kcvete.github.io/lunaria-landing/> (see [Hosting](#hosting)).
+(the hero scene loads lazily), self-hosted fonts and no third-party requests at runtime. Hosted on GitHub Pages at
+<https://lunariastudios.dev/> (see [Hosting](#hosting)).
 
 **Design direction.** Reading this as: a software studio named after the honesty plant (Lunaria
 annua), whose seed pods dry into small silver moons. A deep blue night with a glowing moon made
@@ -140,18 +140,22 @@ and its size follows the container width (`cqi` units), so it never overflows.
 
 ## Hosting
 
-The site is set up for GitHub Pages at `https://kcvete.github.io/lunaria-landing/`:
+The site is on GitHub Pages (repo `kcvete/lunaria-landing`) at the custom domain
+`https://lunariastudios.dev/`. DNS is at Dynadot: apex `A`/`AAAA` records to GitHub Pages and
+`www` as a `CNAME` to `kcvete.github.io`.
 
 - `astro.config.mjs` sets `site` (from `SITE_URL` in `src/config.ts`) and
-  `base: process.env.BASE_PATH ?? '/lunaria-landing'`.
+  `base: process.env.BASE_PATH ?? '/lunaria-landing'`. The deploy workflow builds with
+  `BASE_PATH=''`, so production is served from the domain root; a local build without it
+  still uses the `/lunaria-landing` sub-path.
 - All internal links and assets go through `withBase()` (`src/lib/url.ts`), and the star-field URL
   is set as a CSS variable in `Base.astro`. Write new paths without a leading slash and wrap them in `withBase()`.
 - `.github/workflows/deploy.yml` builds with `withastro/action` and publishes with
   `actions/deploy-pages` on every push to `main` (or by hand from the Actions tab).
   One-time setup on GitHub: **Settings → Pages → Source: GitHub Actions**.
 
-**Moving to a custom domain:** set `SITE_URL` in `src/config.ts` to `https://your.domain` and build
-with `BASE_PATH=''` (in the workflow, uncomment the `env:` block). Then add the domain under Settings → Pages.
+**Changing the domain:** set `SITE_URL` in `src/config.ts`, point the new domain's DNS at GitHub
+Pages, and change the domain under Settings → Pages. The workflow's `BASE_PATH: ''` stays.
 
 **Preview mode:** while `PREVIEW_NOINDEX = true` in `src/config.ts`, every page carries
 `<meta name="robots" content="noindex, nofollow">` and `robots.txt` disallows everything.
@@ -166,7 +170,7 @@ Every placeholder is listed here. In code they are marked `TODO`
 **`src/config.ts`**
 - [ ] `SITE_NAME`: confirm the final studio name (currently the working name "Lunaria").
 - [ ] `PREVIEW_NOINDEX`: set to `false` so search engines may index the site.
-- [ ] `SITE_URL`: real domain (used for canonical, hreflang and OG URLs). Currently `https://kcvete.github.io`; with a custom domain also build with `BASE_PATH=''`.
+- [x] `SITE_URL`: real domain (used for canonical, hreflang and OG URLs). Set to `https://lunariastudios.dev`; the workflow builds with `BASE_PATH=''`.
 - [ ] `CONTACT_EMAIL`: real inbox. Currently `hello@lunaria.example`.
 - [ ] `BOOKING_URL`: Cal.com/Calendly link. Empty, so every "Book a free consultation" button scrolls to the contact form (and the contact section shows no booking button).
 - [ ] `FORM_ACTION`: form backend (Formspree, Basin, own endpoint). Empty, so the form opens the visitor's email app with the message filled in and shows a "your email app should be open" state. With an endpoint the form posts via fetch, shows a thank-you state (plus a booking button when `BOOKING_URL` is set) and uses a `_gotcha` honeypot.

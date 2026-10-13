@@ -1,5 +1,5 @@
 # Builds the site and publishes it to GitHub Pages
-# (https://kcvete.github.io/lunaria-landing/).
+# (https://lunariastudios.dev/, custom domain set under Settings → Pages).
 # One-time setup on GitHub: Settings → Pages → Source: "GitHub Actions".
 # Docs: https://docs.astro.build/en/guides/deploy/github/
 name: Deploy to GitHub Pages
@@ -28,10 +28,9 @@ jobs:
         uses: withastro/action@v6
         with:
           node-version: 22
-        # For a custom domain at the root, uncomment:
-        # env:
-        #   BASE_PATH: ''
-        #   SITE_URL: 'https://your.domain'
+        # Custom domain at the root: no sub-path. SITE_URL is in src/config.ts.
+        env:
+          BASE_PATH: ''
 
   deploy:
     needs: build

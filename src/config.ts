@@ -11,7 +11,7 @@ export const SITE_NAME = 'Lunaria'; // TODO: working name — confirm final stud
  * The sub-path (GitHub Pages project site) is `base` in astro.config.mjs, set via BASE_PATH.
  * Override at build time with the SITE_URL environment variable.
  */
-export const SITE_URL = 'https://kcvete.github.io'; // TODO: real domain at launch (then BASE_PATH='')
+export const SITE_URL = 'https://lunariastudios.dev'; // served at the root: build with BASE_PATH=''
 
 /**
  * Preview mode: while true, every page gets <meta name="robots" content="noindex, nofollow">
