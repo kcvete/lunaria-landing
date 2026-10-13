@@ -20,7 +20,7 @@ export const SITE_URL = 'https://lunariastudios.dev'; // served at the root: bui
 export const PREVIEW_NOINDEX = true; // TODO: false at launch
 
 /** Public contact email (footer, contact section, mailto fallback for the form). */
-export const CONTACT_EMAIL = 'hello@lunaria.example'; // TODO: real inbox
+export const CONTACT_EMAIL = 'hello@lunariastudios.dev'; // forwarded by Dynadot (receive-only)
 
 /** Booking link for "Book a call" buttons (Cal.com, Calendly, ...). '' = falls back to #contact. */
 export const BOOKING_URL = ''; // TODO: booking link

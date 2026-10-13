@@ -171,7 +171,7 @@ Every placeholder is listed here. In code they are marked `TODO`
 - [ ] `SITE_NAME`: confirm the final studio name (currently the working name "Lunaria").
 - [ ] `PREVIEW_NOINDEX`: set to `false` so search engines may index the site.
 - [x] `SITE_URL`: real domain (used for canonical, hreflang and OG URLs). Set to `https://lunariastudios.dev`; the workflow builds with `BASE_PATH=''`.
-- [ ] `CONTACT_EMAIL`: real inbox. Currently `hello@lunaria.example`.
+- [x] `CONTACT_EMAIL`: real inbox. Set to `hello@lunariastudios.dev`, a Dynadot email forward (receive-only; `info@` and `kevin@` forward too).
 - [ ] `BOOKING_URL`: Cal.com/Calendly link. Empty, so every "Book a free consultation" button scrolls to the contact form (and the contact section shows no booking button).
 - [ ] `FORM_ACTION`: form backend (Formspree, Basin, own endpoint). Empty, so the form opens the visitor's email app with the message filled in and shows a "your email app should be open" state. With an endpoint the form posts via fetch, shows a thank-you state (plus a booking button when `BOOKING_URL` is set) and uses a `_gotcha` honeypot.
 - [x] `CITY`: Ljubljana (JSON-LD). The visible location line is copy in `services.location` (EN/SL).
