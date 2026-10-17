@@ -96,6 +96,13 @@ const mail = (text: string) => splitEmail(text);
               data-label={f.message}></textarea>
             <p class="hint" id="f-message-hint">{f.messageHint}</p>
           </div>
+          <div class="field">
+            <label for="f-source">{f.source}</label>
+            <select id="f-source" name="source" data-label={f.source}>
+              <option value="">{f.choose}</option>
+              {c.sources.map((o) => <option>{o}</option>)}
+            </select>
+          </div>
           {
             mode === 'endpoint' && (
               <div class="hp" aria-hidden="true">

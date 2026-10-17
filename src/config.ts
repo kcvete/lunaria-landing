@@ -4,7 +4,7 @@
  */
 
 /** Studio name. Rename here and it changes everywhere (copy, meta, wordmark). */
-export const SITE_NAME = 'Lunaria'; // TODO: working name — confirm final studio name
+export const SITE_NAME = 'Lunaria Studios'; // decided Oct 13 2026 (matches lunariastudios.dev)
 
 /**
  * Production origin (no path, no trailing slash), used for canonical/hreflang/OG URLs.
@@ -62,7 +62,7 @@ export const LEGAL = {
   registrationNo: '', // TODO: matična številka
   taxNo: '', // TODO: davčna številka / ID za DDV (e.g. 'SI12345678')
   emailProvider: '', // optional: who hosts the inbox, e.g. 'Google Workspace (Google Ireland Ltd.)'; '' = generic wording
-  privacyUpdated: '2026-10-08', // ISO date of the privacy notice; shown formatted per language
+  privacyUpdated: '2026-10-17', // ISO date of the privacy notice; shown formatted per language
 };
 
 /** Show the price guide in the FAQ (figures live in src/i18n/*.ts → faq.pricing). */

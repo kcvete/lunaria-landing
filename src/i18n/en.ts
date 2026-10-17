@@ -40,8 +40,8 @@ export const en = {
   cta: 'Book a free consultation',
   hero: {
     audience,
-    title: `Mobile apps and backend systems for ${audience}.`,
-    sub: `${SITE_NAME} is a software development studio from Slovenia: two engineers, a business analyst and a designer. Fixed quotes, code you own.`,
+    title: 'iOS and Android apps from one codebase, and the backend behind them.',
+    sub: `${SITE_NAME} is a four-person studio from Ljubljana, building for ${audience}. You talk directly to the people doing the work. Fixed quotes, code you own.`,
     ctaSecondary: 'See our work',
     trust: 'A free {minutes}-minute call, with no obligation. We reply within 1 working day.',
     proof: {
@@ -70,11 +70,16 @@ export const en = {
         text: 'Web apps and internal tools that fit how your team works. We add AI features to products you already have and automate dull manual work.',
         stack: ['Web apps', 'Internal tools', 'LLM integration', 'Automation'],
       },
+      {
+        title: 'Rescues and takeovers',
+        text: 'A prototype built with AI tools that almost works, an app the last agency left half done, or a backend that keeps falling over. We review it, tell you plainly what we find, and make it safe to build on.',
+        stack: ['Code review', 'Tests', 'Security fixes', 'CI/CD'],
+      },
     ],
   },
   work: {
     title: 'Products we have built',
-    intro: 'Our own products, built end to end with the same stack and process we use for clients. Client work stays confidential unless you agree to show it.',
+    intro: 'Our own products, designed, built and shipped end to end with the same stack and process we would use for yours. Try them for yourself.',
     status: {
       'in-development': 'In development',
       'early-access': 'Early access',
@@ -82,6 +87,7 @@ export const en = {
       beta: 'In beta',
       live: 'Live',
     },
+    showsLabel: 'What it shows',
     platformsLabel: 'Platforms',
     stackLabel: 'Built with',
     linksSoon: 'Store links once it launches.',
@@ -169,16 +175,24 @@ export const en = {
         a: 'You do, 100%. The code, the repositories and the infrastructure accounts are yours from day one.',
       },
       {
+        q: 'Will you sign an NDA?',
+        a: 'Yes, before the first call if you like. What you tell us stays confidential either way.',
+      },
+      {
         q: 'What if someone on the team is unavailable?',
         a: 'Both engineers know every codebase we work on, and the spec and designs are written down rather than kept in one person’s head. Shared ownership and a review on every change keep the project moving.',
       },
       {
-        q: 'Do you work with clients outside Slovenia?',
-        a: 'Yes. We work with clients across the EU and beyond, in English or Slovenian, remotely or in person when it helps.',
+        q: 'Do you work with companies outside Slovenia?',
+        a: 'Yes. We work in English or Slovenian, remotely or in person when it helps.',
       },
       {
         q: 'Can you take over an existing project?',
         a: 'Yes. We start with a short review of the code and infrastructure, tell you plainly what we find, and propose a plan to stabilise it and move forward.',
+      },
+      {
+        q: 'When are we not the right fit?',
+        a: 'When you need a large team from day one: we are four people and take on a few projects at a time. Or when you want open-ended hourly work with no defined scope: we work from a written spec and a fixed quote. If that is you, we would rather say so on the first call.',
       },
     ],
     /** Shown inside the cost answer only when SHOW_PRICING is true. Replace every €TODO. */
@@ -214,9 +228,11 @@ export const en = {
       messageHint: 'A few lines is enough: what you want to build, for whom, and any deadline.',
       messagePlaceholder: 'For example: an iOS and Android app for booking appointments, with an admin panel. We would like to launch in spring.',
       choose: 'Choose one (optional)',
+      source: 'How did you hear about us?',
     },
-    projectTypes: ['A mobile app', 'A backend or API', 'A web app or internal tool', 'An AI feature', 'Help with an existing project', 'Not sure yet'],
+    projectTypes: ['A mobile app', 'A backend or API', 'A web app or internal tool', 'An AI feature', 'Help with an existing project or prototype', 'Not sure yet'],
     budgets: ['Under €10k', '€10k to €25k', '€25k to €50k', 'Over €50k', 'Not sure yet'],
+    sources: ['Search engine', 'AI assistant (ChatGPT, Claude, …)', 'LinkedIn', 'A recommendation', 'Something else'],
     submit: 'Send message',
     privacy: 'We use your details only to reply to your inquiry.',
     privacyLink: 'Privacy notice',
@@ -266,7 +282,7 @@ export const en = {
       {
         h: 'What we collect',
         p: [
-          'Only what you send us through the contact form or by email: your name, email address, the type of project, an optional budget range and your message.',
+          'Only what you send us through the contact form or by email: your name, email address, the type of project, an optional budget range, how you heard about us and your message.',
           'This website sets no cookies and runs no analytics or tracking scripts.',
         ],
       },

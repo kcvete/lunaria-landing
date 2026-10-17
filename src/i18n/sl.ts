@@ -38,8 +38,8 @@ export const sl: Dict = {
   cta: 'Rezervirajte brezplačen posvet',
   hero: {
     audience,
-    title: `Mobilne aplikacije in zaledni sistemi za ${audience}.`,
-    sub: `${SITE_NAME} je studio za razvoj programske opreme iz Slovenije: dva inženirja, poslovna analitičarka in oblikovalka. Fiksne ponudbe in koda, ki je vaša.`,
+    title: 'Aplikacije za iOS in Android iz ene kode in zaledje, ki jih poganja.',
+    sub: `${SITE_NAME} je štiričlanski studio iz Ljubljane, ki razvija programsko opremo za ${audience}. Pogovarjate se neposredno z ljudmi, ki delajo na vašem projektu. Fiksne ponudbe in koda, ki je vaša.`,
     ctaSecondary: 'Oglejte si projekte',
     trust: 'Brezplačen {minutes}-minutni pogovor, brez obveznosti. Odgovorimo v enem delovnem dnevu.',
     proof: {
@@ -68,11 +68,16 @@ export const sl: Dict = {
         text: 'Spletne aplikacije in interna orodja, ki se prilagodijo vašemu načinu dela. Obstoječim izdelkom dodamo funkcije umetne inteligence in avtomatiziramo dolgočasno ročno delo.',
         stack: ['Spletne aplikacije', 'Interna orodja', 'Integracija LLM', 'Avtomatizacija'],
       },
+      {
+        title: 'Prevzemi in reševanje projektov',
+        text: 'Prototip, narejen z orodji umetne inteligence, ki skoraj deluje, aplikacija, ki jo je prejšnja agencija pustila na pol, ali zaledje, ki se vedno znova sesuje. Pregledamo stanje, odkrito povemo, kaj smo našli, in projekt uredimo tako, da lahko nanj varno gradite naprej.',
+        stack: ['Pregled kode', 'Testi', 'Varnostni popravki', 'CI/CD'],
+      },
     ],
   },
   work: {
     title: 'Izdelki, ki smo jih razvili',
-    intro: 'Naši lastni izdelki, razviti od začetka do konca z enakimi tehnologijami in postopkom kot za stranke. Delo za stranke ostaja zaupno, razen če se strinjate, da ga pokažemo.',
+    intro: 'Naši lastni izdelki, ki smo jih od začetka do konca zasnovali, razvili in objavili z enakimi tehnologijami in postopkom, kot bi jih uporabili za vaš projekt. Preizkusite jih sami.',
     status: {
       'in-development': 'V razvoju',
       'early-access': 'Zgodnji dostop',
@@ -80,6 +85,7 @@ export const sl: Dict = {
       beta: 'V beta različici',
       live: 'Na voljo',
     },
+    showsLabel: 'Kaj dokazuje',
     platformsLabel: 'Platforme',
     stackLabel: 'Tehnologije',
     linksSoon: 'Povezave do trgovin ob izidu.',
@@ -167,16 +173,24 @@ export const sl: Dict = {
         a: 'Vaša, v celoti. Koda, repozitoriji in računi za infrastrukturo so vaši od prvega dne.',
       },
       {
+        q: 'Podpišete pogodbo o nerazkritju (NDA)?',
+        a: 'Da, če želite, še pred prvim pogovorom. Kar nam zaupate, v vsakem primeru ostane zaupno.',
+      },
+      {
         q: 'Kaj, če kdo iz ekipe ni na voljo?',
         a: 'Oba inženirja poznata vsako kodo, na kateri delamo, specifikacija in oblikovanje pa sta zapisana, ne le v glavi enega človeka. Skupno lastništvo in pregled vsake spremembe poskrbita, da projekt teče naprej.',
       },
       {
-        q: 'Delate tudi s strankami zunaj Slovenije?',
-        a: 'Da. Sodelujemo s strankami po vsej EU in širše, v slovenščini ali angleščini, na daljavo ali v živo, kadar to pomaga.',
+        q: 'Delate tudi s podjetji zunaj Slovenije?',
+        a: 'Da. Delamo v slovenščini ali angleščini, na daljavo ali v živo, kadar to pomaga.',
       },
       {
         q: 'Lahko prevzamete obstoječi projekt?',
         a: 'Lahko. Začnemo s kratkim pregledom kode in infrastrukture, odkrito povemo, kaj smo našli, in predlagamo načrt za stabilizacijo in nadaljnji razvoj.',
+      },
+      {
+        q: 'Kdaj nismo prava izbira?',
+        a: 'Kadar že prvi dan potrebujete veliko ekipo: smo štirje in hkrati sprejmemo le nekaj projektov. Ali kadar želite odprto delo po urah brez določenega obsega: delamo po pisni specifikaciji in fiksni ponudbi. Če je tako, vam to raje povemo že na prvem pogovoru.',
       },
     ],
     pricing: {
@@ -211,9 +225,11 @@ export const sl: Dict = {
       messageHint: 'Dovolj je nekaj vrstic: kaj bi radi zgradili, za koga in do kdaj.',
       messagePlaceholder: 'Na primer: aplikacija za iOS in Android za rezervacijo terminov, s skrbniško ploščo. Radi bi jo objavili spomladi.',
       choose: 'Izberite (neobvezno)',
+      source: 'Kako ste izvedeli za nas?',
     },
-    projectTypes: ['Mobilno aplikacijo', 'Zaledje ali API', 'Spletno aplikacijo ali interno orodje', 'Funkcijo z umetno inteligenco', 'Pomoč pri obstoječem projektu', 'Še ne vem'],
+    projectTypes: ['Mobilno aplikacijo', 'Zaledje ali API', 'Spletno aplikacijo ali interno orodje', 'Funkcijo z umetno inteligenco', 'Pomoč pri obstoječem projektu ali prototipu', 'Še ne vem'],
     budgets: ['Do 10.000 €', '10.000 do 25.000 €', '25.000 do 50.000 €', 'Nad 50.000 €', 'Še ne vem'],
+    sources: ['Spletni iskalnik', 'Pomočnik z umetno inteligenco (ChatGPT, Claude …)', 'LinkedIn', 'Priporočilo', 'Drugo'],
     submit: 'Pošljite sporočilo',
     privacy: 'Vaše podatke uporabimo samo za odgovor na vaše povpraševanje.',
     privacyLink: 'Obvestilo o zasebnosti',
@@ -262,7 +278,7 @@ export const sl: Dict = {
       {
         h: 'Katere podatke zbiramo',
         p: [
-          'Samo tiste, ki nam jih pošljete prek obrazca ali po e-pošti: ime, e-poštni naslov, vrsto projekta, neobvezni razpon proračuna in vaše sporočilo.',
+          'Samo tiste, ki nam jih pošljete prek obrazca ali po e-pošti: ime, e-poštni naslov, vrsto projekta, neobvezni razpon proračuna, kako ste izvedeli za nas, in vaše sporočilo.',
           'Ta spletna stran ne nastavlja piškotkov in ne uporablja analitike ali skript za sledenje.',
         ],
       },

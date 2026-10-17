@@ -46,6 +46,12 @@ const w = t.work;
               <p class="status">{w.status[p.status]}</p>
               <h3>{p.name}</h3>
               <p class="summary">{p.summary[lang]}</p>
+              {p.shows && (
+                <p class="shows">
+                  <span class="shows-label">{w.showsLabel}</span>
+                  {p.shows[lang]}
+                </p>
+              )}
               <dl class="facts">
                 <div>
                   <dt>{w.platformsLabel}</dt>
@@ -163,6 +169,20 @@ const w = t.work;
   .summary {
     color: var(--text-2);
   }
+  .shows {
+    margin-top: 0.25rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--moon);
+    color: var(--text);
+  }
+  .shows-label {
+    display: block;
+    margin-bottom: 0.2rem;
+    font-family: var(--ff-label);
+    font-weight: var(--w-medium, 500);
+    font-size: calc(0.95rem * var(--label-scale, 1));
+    color: var(--moon);
+  }
   .facts {
     display: grid;
     gap: 0.4rem;
@@ -232,6 +252,13 @@ const w = t.work;
     }
     .project:nth-child(2n) {
       margin-top: clamp(4rem, 2rem + 6vw, 8rem);
+    }
+    /* an odd one out at the end gets the full row, image beside the text */
+    .project:nth-child(odd):last-child {
+      grid-column: 1 / -1;
+      grid-template-columns: 7fr 5fr;
+      column-gap: clamp(2rem, 1rem + 3vw, 4rem);
+      align-items: center;
     }
     .next {
       grid-template-columns: 1fr auto;
