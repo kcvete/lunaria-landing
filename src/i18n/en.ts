@@ -5,7 +5,7 @@ import { SITE_NAME } from '../config';
  * (see `Dict` in ./index.ts) — add a key here and TypeScript will ask for it in sl.ts.
  *
  * Tokens in {braces} are filled from src/config.ts at render time (see lib/fill.ts):
- * {tz} {days} {minutes} {email} (privacy: {name} {retention} {emailProvider}).
+ * {tz} {days} {minutes} {email} (privacy: {name} {company} {address} {retention} {emailProvider}).
  */
 
 /** Who the studio is for. Owners: change this one string to retarget the hero. */
@@ -254,11 +254,12 @@ export const en = {
     rights: 'All rights reserved.',
     language: 'Language (footer)',
     imprint: 'Company details',
+    country: 'Slovenia',
     imprintLabels: {
       company: 'Company',
       address: 'Address',
       registrationNo: 'Registration no.',
-      taxNo: 'Tax / VAT no.',
+      taxNo: 'Tax no. (not VAT-registered)',
       email: 'Email',
     },
     privacy: 'Privacy notice',
@@ -278,7 +279,7 @@ export const en = {
     sections: [
       {
         h: 'Who is responsible for your data',
-        p: ['Your personal data is handled by the {name} team. You can reach us about it at any time at {email}.'],
+        p: ['The controller of your personal data is {company}, {address}, trading as {name}. You can reach us about it at any time at {email}.'],
       },
       {
         h: 'What we collect',

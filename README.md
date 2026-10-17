@@ -168,15 +168,15 @@ Every placeholder is listed here. In code they are marked `TODO`
 (`grep -rn TODO src`).
 
 **`src/config.ts`**
-- [ ] `SITE_NAME`: confirm the final studio name (currently the working name "Lunaria").
-- [ ] `PREVIEW_NOINDEX`: set to `false` so search engines may index the site.
+- [x] `SITE_NAME`: "Lunaria Studios" (decided Oct 13 2026, matches the domain).
+- [x] `PREVIEW_NOINDEX`: `false` since Oct 17 2026, so search engines may index the site.
 - [x] `SITE_URL`: real domain (used for canonical, hreflang and OG URLs). Set to `https://lunariastudios.dev`; the workflow builds with `BASE_PATH=''`.
 - [x] `CONTACT_EMAIL`: real inbox. Set to `hello@lunariastudios.dev`, a Dynadot email forward (receive-only; `info@` and `kevin@` forward too).
 - [ ] `BOOKING_URL`: Cal.com/Calendly link. Empty, so every "Book a free consultation" button scrolls to the contact form (and the contact section shows no booking button).
 - [ ] `FORM_ACTION`: form backend (Formspree, Basin, own endpoint). Empty, so the form opens the visitor's email app with the message filled in and shows a "your email app should be open" state. With an endpoint the form posts via fetch, shows a thank-you state (plus a booking button when `BOOKING_URL` is set) and uses a `_gotcha` honeypot.
 - [x] `CITY`: Ljubljana (JSON-LD). The visible location line is copy in `services.location` (EN/SL).
 - [x] `QUOTE_WORKING_DAYS`: 5 ("written spec and fixed quote within 5 working days").
-- [ ] **Required before the real launch:** `LEGAL` + `SHOW_IMPRINT`. Fill company name and legal form (s.p./d.o.o.), address, matična številka and davčna številka/ID za DDV, then set `SHOW_IMPRINT = true` to show the footer imprint (ZEPT Art. 5). The privacy notice currently names "the Lunaria team" as controller; GDPR Art. 13 needs the legal entity named there too (edit `privacy.sections[0]` in both languages). Optionally set `LEGAL.emailProvider`. Have the notice reviewed once the entity exists. Owner decision (2026-10): hidden until the entity is decided.
+- [x] `LEGAL` + `SHOW_IMPRINT`: the studio runs under Kevin Cvetežar s.p. for now (Oct 17 2026; not a VAT payer); the privacy notice names it as controller. If a d.o.o. replaces it, update `LEGAL` and re-date the notice. Original note: Fill company name and legal form (s.p./d.o.o.), address, matična številka and davčna številka/ID za DDV, then set `SHOW_IMPRINT = true` to show the footer imprint (ZEPT Art. 5). The privacy notice currently names "the Lunaria team" as controller; GDPR Art. 13 needs the legal entity named there too (edit `privacy.sections[0]` in both languages). Optionally set `LEGAL.emailProvider`. Have the notice reviewed once the entity exists. Owner decision (2026-10): hidden until the entity is decided.
 - [x] `SHOW_PRICING`: stays `false` (owner decision: no published prices; every project gets a fixed quote after the free call). The `faq.pricing` structure is kept for later.
 - [ ] Analytics (optional): wire a cookieless tool by defining `window.track` in `Base.astro`. The page already emits `booking_click` and `form_submit`. Update the privacy notice and the "no analytics" sentences if you do.
 - [ ] `SOCIAL.github` / `SOCIAL.linkedin`: optional studio profiles (hidden while empty).

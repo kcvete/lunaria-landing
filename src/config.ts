@@ -17,7 +17,7 @@ export const SITE_URL = 'https://lunariastudios.dev'; // served at the root: bui
  * Preview mode: while true, every page gets <meta name="robots" content="noindex, nofollow">
  * and robots.txt disallows everything. Set to false at launch.
  */
-export const PREVIEW_NOINDEX = true; // TODO: false at launch
+export const PREVIEW_NOINDEX = false; // indexing on since Oct 17 2026
 
 /** Public contact email (footer, contact section, mailto fallback for the form). */
 export const CONTACT_EMAIL = 'hello@lunariastudios.dev'; // forwarded by Dynadot (receive-only)
@@ -55,13 +55,13 @@ export const CALL_MINUTES = 30;
  * (GDPR Art. 13 controller). Not shown on the site while SHOW_IMPRINT is false.
  * REQUIRED before the real launch: fill these and set SHOW_IMPRINT = true.
  */
-export const SHOW_IMPRINT = false; // TODO: true once the legal entity (s.p. or d.o.o.) is decided
+export const SHOW_IMPRINT = true; // runs under Kevin's s.p. for now (decided Oct 17 2026)
 export const LEGAL = {
-  companyName: '', // TODO: e.g. 'Lunaria, Kevin Cvetežar s.p.' or 'Lunaria d.o.o.'
-  address: '', // TODO: registered address, e.g. 'Ulica 1, 1000 Ljubljana, Slovenia'
-  registrationNo: '', // TODO: matična številka
-  taxNo: '', // TODO: davčna številka / ID za DDV (e.g. 'SI12345678')
-  emailProvider: '', // optional: who hosts the inbox, e.g. 'Google Workspace (Google Ireland Ltd.)'; '' = generic wording
+  companyName: 'Računalniško programiranje, Kevin Cvetežar s.p.', // full name in the business register (AJPES)
+  address: 'Kidričeva cesta 8, 1270 Litija', // the country is appended per language (footer.country)
+  registrationNo: '9259791000', // matična številka
+  taxNo: '59123486', // davčna številka; not a VAT payer (ni zavezanec za DDV)
+  emailProvider: 'Dynadot, LLC and Google Ireland Ltd. (Gmail)', // optional: who hosts the inbox, e.g. 'Google Workspace (Google Ireland Ltd.)'; '' = generic wording
   privacyUpdated: '2026-10-17', // ISO date of the privacy notice; shown formatted per language
 };
 

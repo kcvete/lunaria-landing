@@ -17,7 +17,7 @@ const L = t.footer.imprintLabels;
 // Company details required by ZEPT Art. 5. Missing values show as [TODO].
 const imprint = [
   { label: L.company, value: orTodo(LEGAL.companyName) },
-  { label: L.address, value: orTodo(LEGAL.address) },
+  { label: L.address, value: orTodo(LEGAL.address && `${LEGAL.address}, ${t.footer.country}`) },
   { label: L.registrationNo, value: orTodo(LEGAL.registrationNo) },
   { label: L.taxNo, value: orTodo(LEGAL.taxNo) },
 ];

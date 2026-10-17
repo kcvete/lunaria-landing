@@ -250,11 +250,12 @@ export const sl: Dict = {
     rights: 'Vse pravice pridržane.',
     language: 'Jezik (noga strani)',
     imprint: 'Podatki o podjetju',
+    country: 'Slovenija',
     imprintLabels: {
       company: 'Podjetje',
       address: 'Naslov',
       registrationNo: 'Matična številka',
-      taxNo: 'Davčna številka / ID za DDV',
+      taxNo: 'Davčna številka (ni zavezanec za DDV)',
       email: 'E-pošta',
     },
     privacy: 'Obvestilo o zasebnosti',
@@ -273,7 +274,7 @@ export const sl: Dict = {
     sections: [
       {
         h: 'Kdo je odgovoren za vaše podatke',
-        p: ['Z vašimi osebnimi podatki ravna ekipa {name}. Glede njih nam lahko kadar koli pišete na {email}.'],
+        p: ['Upravljavec vaših osebnih podatkov je {company}, {address}, ki posluje pod imenom {name}. Glede njih nam lahko kadar koli pišete na {email}.'],
       },
       {
         h: 'Katere podatke zbiramo',

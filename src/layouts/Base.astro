@@ -43,7 +43,7 @@ const jsonLd =
             '@id': orgId,
             name: SITE_NAME,
             ...(LEGAL.companyName ? { legalName: LEGAL.companyName } : {}),
-            ...(LEGAL.taxNo ? { vatID: LEGAL.taxNo } : {}),
+            ...(LEGAL.taxNo ? { taxID: LEGAL.taxNo } : {}),
             url: canonical,
             logo: abs('favicon.svg'),
             image: ogImage,
@@ -53,7 +53,6 @@ const jsonLd =
               '@type': 'PostalAddress',
               addressCountry: 'SI',
               ...(CITY ? { addressLocality: CITY } : {}),
-              ...(LEGAL.address ? { streetAddress: LEGAL.address } : {}),
             },
             areaServed: [
               { '@type': 'Place', name: 'European Union' },

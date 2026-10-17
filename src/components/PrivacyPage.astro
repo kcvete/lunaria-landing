@@ -19,6 +19,8 @@ const updated = LEGAL.privacyUpdated
   : '';
 const vars = {
   name: SITE_NAME,
+  company: LEGAL.companyName,
+  address: `${LEGAL.address}, ${t.footer.country}`,
   retention: p.defaults.retention,
   emailProvider: LEGAL.emailProvider || p.defaults.emailProvider,
 };
