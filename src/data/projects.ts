@@ -83,7 +83,7 @@ export const projects: Project[] = [
       { kind: 'github', href: 'https://github.com/kcvete/product-trimmer' },
     ],
     placeholderPhase: 0.15,
-    image: productTrimmerShot, // captured from the live demo
+    image: productTrimmerShot, // split view after a cut, cropped from product-trimmer-web/out/ui_final.png
   },
   {
     id: 'knotless',

@@ -38,6 +38,8 @@ export const en = {
   },
   /** One call to action, same label and destination everywhere on the page. */
   cta: 'Book a free consultation',
+  /** Short form of the CTA for the phone header. */
+  ctaShort: 'Let’s talk',
   hero: {
     audience,
     title: 'iOS and Android apps from one codebase, and the backend behind them.',
@@ -90,7 +92,6 @@ export const en = {
     showsLabel: 'What it shows',
     platformsLabel: 'Platforms',
     stackLabel: 'Built with',
-    linksSoon: 'Store links once it launches.',
     linkLabels: {
       site: 'Visit website',
       demo: 'Try it live',

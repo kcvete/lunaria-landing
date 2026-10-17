@@ -36,6 +36,7 @@ export const sl: Dict = {
     faq: 'Vprašanja',
   },
   cta: 'Rezervirajte brezplačen posvet',
+  ctaShort: 'Pišite nam',
   hero: {
     audience,
     title: 'Aplikacije za iOS in Android iz ene kode in zaledje, ki jih poganja.',
@@ -88,7 +89,6 @@ export const sl: Dict = {
     showsLabel: 'Kaj dokazuje',
     platformsLabel: 'Platforme',
     stackLabel: 'Tehnologije',
-    linksSoon: 'Povezave do trgovin ob izidu.',
     linkLabels: {
       site: 'Obiščite spletno stran',
       demo: 'Preizkusite v živo',

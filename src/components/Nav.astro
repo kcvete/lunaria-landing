@@ -30,6 +30,8 @@ const links = [
       <span class="wordmark">{SITE_NAME}</span>
     </a>
 
+    <Cta lang={lang} route={route} location="nav-phone" small short class="bar-cta" />
+
     <button
       class="menu-toggle"
       type="button"
@@ -99,7 +101,8 @@ const links = [
   .wordmark {
     font-family: var(--ff-display);
     font-weight: var(--w-strong, 600);
-    font-size: 1.3rem;
+    font-size: clamp(1.1rem, 0.95rem + 0.6vw, 1.3rem);
+    white-space: nowrap;
     letter-spacing: calc(var(--track, 1) * -0.03em);
   }
   .links {
@@ -176,8 +179,24 @@ const links = [
     justify-content: space-between;
   }
 
+  /* phones and tablets: a short CTA beside the burger */
+  .bar :global(.bar-cta) {
+    margin-left: auto;
+    margin-right: 0.25rem;
+    min-height: 2.5rem;
+    padding: 0.45rem 0.8rem;
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+  @media (max-width: 23rem) {
+    .bar :global(.bar-cta) {
+      display: none;
+    }
+  }
+
   @media (min-width: 72rem) {
-    .menu-toggle {
+    .menu-toggle,
+    .bar :global(.bar-cta) {
       display: none;
     }
     .panel,

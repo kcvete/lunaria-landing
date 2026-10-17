@@ -13,13 +13,16 @@ interface Props {
   /** Where on the page this instance sits, for analytics (hero, nav, work, contact). */
   location: string;
   small?: boolean;
+  /** Use the short label (t.ctaShort), for tight spots like the phone header. */
+  short?: boolean;
+  class?: string;
 }
-const { lang, route = 'home', location, small = false } = Astro.props;
+const { lang, route = 'home', location, small = false, short = false, class: cls } = Astro.props;
 const t = useTranslations(lang);
 const href = BOOKING_URL || (route === 'home' ? '#contact' : `${withBase(routes.home[lang])}#contact`);
 const ext = bookingIsExternal ? { target: '_blank', rel: 'noopener' } : {};
 ---
 
-<a class:list={['btn', small && 'btn--sm']} href={href} data-track="booking_click" data-track-location={location} {...ext}>
-  {t.cta}
+<a class:list={['btn', small && 'btn--sm', cls]} href={href} data-track="booking_click" data-track-location={location} {...ext}>
+  {short ? t.ctaShort : t.cta}
 </a>

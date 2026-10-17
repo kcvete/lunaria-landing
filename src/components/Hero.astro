@@ -50,7 +50,7 @@ const demo = projects.find((p) => p.id === 'product-trimmer')?.links.find((l) =>
 </section>
 
 <div class="container below">
-  {/* On phones the trust lines sit here, under the field, so the flowers fit in the first screen. */}
+  {/* On phones the proof line sits here, under the field, so the flowers fit in the first screen. */}
   <div class="below-trust">
     <p class="trust">{fill(h.trust)}</p>
     {
@@ -123,6 +123,14 @@ const demo = projects.find((p) => p.id === 'product-trimmer')?.links.find((l) =>
     margin-top: 0.4rem;
     font-size: var(--step--1);
     color: var(--muted);
+  }
+  /* keeps the small lines legible where the field's glow rises behind them */
+  .hero-trust {
+    text-shadow: 0 0 0.6rem #0a1229, 0 0 0.25rem #0a1229;
+  }
+  .ctas .link {
+    display: inline-block;
+    padding-block: 0.6rem;
   }
   .proof a {
     font-family: var(--ff-display);
@@ -235,7 +243,9 @@ const demo = projects.find((p) => p.id === 'product-trimmer')?.links.find((l) =>
       transform: translateX(-50%);
       animation: none;
     }
-    .hero-trust {
+    /* phones: the trust line stays by the button; the proof line moves under the field */
+    .hero-trust .proof,
+    .below .trust {
       display: none;
     }
     .below {

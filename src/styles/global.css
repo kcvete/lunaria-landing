@@ -20,7 +20,7 @@
   --violet: oklch(0.72 0.07 305); /* rare: the flower's centre only */
   --on-moon: oklch(0.2 0.035 var(--hue));
 
-  --step--1: 0.875rem;
+  --step--1: 0.9375rem;
   --step-0: 1.0625rem;
   --step-1: clamp(1.15rem, 1.1rem + 0.25vw, 1.3rem);
   --step-2: clamp(1.45rem, 1.3rem + 0.7vw, 1.9rem);
